@@ -51,7 +51,7 @@ public class User {
         
     }
     
-    public void listProduct() {
+    public static void listProduct() {
         
     }
     

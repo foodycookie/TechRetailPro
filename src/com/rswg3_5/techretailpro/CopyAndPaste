@@ -1,0 +1,30 @@
+For copy and paste only, not for running
+    
+//Integer option input
+public static Scanner scanner = new Scanner(System.in);
+public static int optionInput;
+final int MAX_OPTION = 2;
+
+System.out.println("Please select an option");
+System.out.println("1. Option 1");
+System.out.println("2. Option 2");
+
+while(true) {
+    System.out.print("\nOption > ");
+
+    if (!scanner.hasNextInt()) {
+        System.out.println("Invalid input. Please enter number from 1 to " + MAX_OPTION);
+        scanner.next();
+        continue;
+    }
+
+    optionInput = scanner.nextInt();
+
+    if (optionInput < 1 || optionInput > MAX_OPTION) {
+        System.out.println("Invalid choice. Please enter number from 1 to " + MAX_OPTION);
+        continue;
+    }
+
+    break;
+
+//
