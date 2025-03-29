@@ -1,0 +1,16 @@
+I heard it is better to use parameterized method with return value
+
+public boolean login(String username, String password) {
+    if(xxx) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+than unparameterized void method
+
+public void login() {
+    System.out.println("Enter your ...");
+}
