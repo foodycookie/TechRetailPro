@@ -1,8 +1,11 @@
 package com.rswg3_5.techretailpro.main;
 
+import com.rswg3_5.techretailpro.models.Product;
 import java.util.Scanner;
 import com.rswg3_5.techretailpro.models.User;
 import com.rswg3_5.techretailpro.utils.Utility;
+import java.io.File;
+import java.util.List;
 
 public class TechRetailPro {
     public static Scanner scanner = new Scanner(System.in);
@@ -52,7 +55,6 @@ public class TechRetailPro {
     }
     
     public static void main(String[] args) {
-//        mainPage();
-        User.listProduct();
+        mainPage();
     }    
 }

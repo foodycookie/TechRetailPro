@@ -2,7 +2,7 @@ package com.rswg3_5.techretailpro.utils;
 
 public class Utility {
     public static void border() {
-        System.out.println("------------------------------");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------");
     }
     
     public static void clearConsole() {

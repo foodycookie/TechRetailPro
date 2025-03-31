@@ -1,3 +1,4 @@
-Keyboard A, Keyboard, 25.50, 100, A basic keyboard
-Mouse A, Mouse, 20.80, 100, A basic mouse
-Printer A, Printer, 90.50, 50, A basic printer
+productName,productCategory,productPrice,productStockQuantity,productDescription
+Keyboard A,Keyboard,25.50,100,A basic keyboard
+Mouse A,Mouse,20.80,100,A basic mouse
+Printer A,Printer,90.50,50,A basic printer
