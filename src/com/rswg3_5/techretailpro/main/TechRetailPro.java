@@ -1,7 +1,8 @@
-package com.rswg3_5.techretailpro;
+package com.rswg3_5.techretailpro.main;
 
 import java.util.Scanner;
-import com.rswg3_5.techretailpro.model.User;
+import com.rswg3_5.techretailpro.models.User;
+import com.rswg3_5.techretailpro.utils.Utility;
 
 public class TechRetailPro {
     public static Scanner scanner = new Scanner(System.in);
@@ -36,8 +37,11 @@ public class TechRetailPro {
         }
 
         switch (optionInput) {
-            case 1 -> User.listProduct();
-                
+            case 1 -> {
+                Utility.clearConsole();
+                User.listProduct();
+            }
+
             case 2 -> {
                 System.out.println("Thank you for choosing TechRetailPro!");
                 System.exit(0);
@@ -45,10 +49,10 @@ public class TechRetailPro {
                 
             default -> throw new AssertionError();
         }
-        
     }
     
     public static void main(String[] args) {
-        mainPage();
+//        mainPage();
+        User.listProduct();
     }    
 }

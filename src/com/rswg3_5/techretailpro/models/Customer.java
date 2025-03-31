@@ -1,4 +1,4 @@
-package com.rswg3_5.techretailpro.model;
+package com.rswg3_5.techretailpro.models;
 
 public class Customer extends User {
     private int customerPhoneNumber;
@@ -32,10 +32,6 @@ public class Customer extends User {
     @Override
     public String toString() {
         return "Customer{" + "customerPhoneNumber=" + customerPhoneNumber + ", customerAddress=" + customerAddress + '}';
-    }
-    
-    public void register() {
-        
     }
     
     public void viewProfile() {

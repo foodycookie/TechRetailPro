@@ -1,4 +1,4 @@
-package com.rswg3_5.techretailpro.model;
+package com.rswg3_5.techretailpro.models;
 
 public class Cart {
     private Customer customer;

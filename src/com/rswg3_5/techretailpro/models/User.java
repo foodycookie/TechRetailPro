@@ -1,4 +1,10 @@
-package com.rswg3_5.techretailpro.model;
+package com.rswg3_5.techretailpro.models;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class User {
     private String username;
@@ -43,6 +49,10 @@ public class User {
         return "User{" + "username=" + username + ", userEmail=" + userEmail + ", userPassword=" + userPassword + '}';
     }
     
+    public void register() {
+        
+    }
+    
     public void login() {
         
     }
@@ -52,7 +62,20 @@ public class User {
     }
     
     public static void listProduct() {
-        
+//        try {
+//            FileReader reader = new FileReader("../product.txt");
+//            
+//            int data = reader.read();
+//            while (data != -1) {                
+//                System.out.print((char)data);
+//                data = reader.read();
+//            }
+//            reader.close();
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
     
     public void viewProduct() {
