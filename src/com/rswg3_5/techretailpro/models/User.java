@@ -1,14 +1,9 @@
 package com.rswg3_5.techretailpro.models;
 
-import com.rswg3_5.techretailpro.pages.MainPage;
 import com.rswg3_5.techretailpro.utils.Utility;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class User {
     private String username;
@@ -64,69 +59,7 @@ public class User {
     public void logout() {
         
     }
-    
-    public static void listProduct(List<Product> productList) {     
-        Scanner scanner = new Scanner(System.in);
-        final int MAX_OPTION = productList.size();
         
-        Utility.clearConsole();
-        Utility.border();
-        Product.displayProduct(productList);
-         
-        System.out.println("\nPlease select a product by number to view its details (Type 0 to go back)");
-        System.out.println("For more commands, type /help");
-        
-        while(true) {
-            System.out.print("\nOption > ");
-            String[] input = scanner.nextLine().trim().split(" ");
-            
-//            for (String string : input) {
-//                System.out.println(string);
-//            }
-                        
-            if (input[0].equalsIgnoreCase("/help") && input.length == 1) {
-                Product.displayCommand();
-            }
-            
-            else if (input[0].equalsIgnoreCase("/sort") && input.length == 3) {
-                listProduct(sortProduct(input, productList));
-            }
-            
-            else if (input[0].equalsIgnoreCase("/search") && input.length == 2) {
-                listProduct(searchProduct(input, productList));
-            }
-            
-            else if (input[0].equalsIgnoreCase("/filter") && input.length == 3) {
-                listProduct(filterProduct(input, productList));
-            }
-            
-            else if (input[0].equalsIgnoreCase("/restore") && input.length == 1) {
-                listProduct(Product.fetchProduct());
-            }
-            
-            else if (input[0].equalsIgnoreCase("0") && input.length == 1) {
-                MainPage.display();
-            }
-            
-            else if ((isInteger(input[0])) && input.length == 1) {
-                if ((Integer.parseInt(input[0]) < 1 || Integer.parseInt(input[0]) > MAX_OPTION)) {
-                    System.out.println("\nInvalid input");
-                    continue;
-                }
-                
-                viewProduct(productList.get((Integer.parseInt(input[0]))-1));
-            }
-              
-            else {
-                System.out.println("\nInvalid input");
-            }
-        }
-    }
-    
-    public static void viewProduct(Product product) {    
-        System.out.println(product.toString());
-    }
-    
     public static List<Product> sortProduct(String[] input, List<Product> productList) {           
         if (input[1].equalsIgnoreCase("name")) {
             if (input[2].equalsIgnoreCase("asc")) {
@@ -139,13 +72,7 @@ public class User {
 
             else {
                 System.out.println("\nInvalid input");
-                System.out.println("Returning to the previous list...");
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return productList;
+                Utility.displayReturnToPreviousProductList();
             }
         }
 
@@ -160,13 +87,7 @@ public class User {
 
             else {
                 System.out.println("\nInvalid input");
-                System.out.println("Returning to the previous list...");
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return productList;
+                Utility.displayReturnToPreviousProductList();
             }
         }
 
@@ -181,25 +102,13 @@ public class User {
 
             else {
                 System.out.println("\nInvalid input");
-                System.out.println("Returning to the previous list...");
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return productList;
+                Utility.displayReturnToPreviousProductList();
             }
         }
 
         else {
             System.out.println("\nInvalid input");
-            System.out.println("Returning to the previous list...");
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return productList;
+            Utility.displayReturnToPreviousProductList();
         }
         
         return productList;
@@ -207,25 +116,27 @@ public class User {
     
     public static List<Product> searchProduct(String[] input, List<Product> productList) {
         List<Product> newProductList = new ArrayList<>();
+        String query = "";
+        
+        for (int i = 1; i < input.length; i++) {
+            if (input[i] != null) {
+                query += input[i] + " ";
+            }
+        }
+        
+        query = query.trim();
         
         for (Product product : productList) {
-            if (product.getProductName().toLowerCase().contains(input[1].toLowerCase())) {
+            if (product.getProductName().toLowerCase().contains(query.toLowerCase())) {
                 newProductList.add(product);
             }
         }
         
         if (newProductList.isEmpty()) {
             System.out.println("\nNo search result");
-            System.out.println("Returning to the previous list...");
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Utility.displayReturnToPreviousProductList();
             return productList;
-        }
-        
-        newProductList.sort(Comparator.comparing(Product::getProductName));
+        }        
         
         return newProductList;
     }
@@ -236,50 +147,28 @@ public class User {
         
         if (input[1].equalsIgnoreCase("category")) {
             for (String argument : arguments) {
-                if (argument != null) {
-                    for (Product product : productList) {
-                        if (product.getProductCategory().toLowerCase().equalsIgnoreCase(argument)) {
-                            newProductList.add(product);
-                        }
+                for (Product product : productList) {
+                    if (argument != null && product.getProductCategory().equalsIgnoreCase(argument)) {
+                        newProductList.add(product);
                     }
                 }
             }
-            
-        newProductList.sort(Comparator.comparing(Product::getProductName));
-        
         }
 
-        else if (input[1].equalsIgnoreCase("price") && arguments.length == 2) {
+        else if (input[1].equalsIgnoreCase("price") && arguments.length == 2 && Utility.isDouble(arguments[0]) && Utility.isDouble(arguments[1])) {
             for (Product product : productList) {
                 if (product.getProductPrice() >= Double.parseDouble(arguments[0]) && product.getProductPrice() <= Double.parseDouble(arguments[1])) {
                     newProductList.add(product);
                 }
             }
-        
-        newProductList.sort(Comparator.comparing(Product::getProductPrice));
-        
         }
 
         else {
             System.out.println("\nInvalid input");
-            System.out.println("Returning to the previous list...");
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Utility.displayReturnToPreviousProductList();
             return productList;
         }
         
         return newProductList;
-    }
-
-    public static boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 }

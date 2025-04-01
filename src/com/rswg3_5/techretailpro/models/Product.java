@@ -71,7 +71,11 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" + "productName=" + productName + ", productCategory=" + productCategory + ", productPrice=" + productPrice + ", productStockQuantity=" + productStockQuantity + ", productDescription=" + productDescription + '}';
+        return "Name: " + productName + 
+               "\nCategory: " + productCategory +
+               "\nPrice: " + productPrice + 
+               "\nCurrent Stock Quantity: " + productStockQuantity + 
+               "\nDescription: " + productDescription;
     }
     
     public static List<Product> fetchProduct() {
@@ -95,7 +99,6 @@ public class Product {
             }
             
             reader.close();
-            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -105,7 +108,7 @@ public class Product {
         return productList;
     }
     
-    public static void displayProduct(List<Product> productList) {
+    public static void displayProductList(List<Product> productList) {
         System.out.printf("%-10s %-35s %-15s %-10s %-10s\n", "No", "Name", "Category", "Price", "Stock");
         
         for (int i = 0; i < productList.size(); i++) {
@@ -114,7 +117,7 @@ public class Product {
     }
     
     public static void displayCommand() {
-        System.out.println("Type [/sort {name/category/price} {asc/desc}] to sort the product");
+        System.out.println("\nType [/sort {name/category/price} {asc/desc}] to sort the product");
         System.out.println("[/sort name asc] will sort every product alphabetically in ascending order\n");
         
         System.out.println("Type [/search {query}] to search product");

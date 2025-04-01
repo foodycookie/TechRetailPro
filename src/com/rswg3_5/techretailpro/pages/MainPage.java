@@ -1,7 +1,6 @@
 package com.rswg3_5.techretailpro.pages;
 
 import com.rswg3_5.techretailpro.models.Product;
-import com.rswg3_5.techretailpro.models.User;
 import com.rswg3_5.techretailpro.utils.Utility;
 import java.util.Scanner;
 
@@ -39,7 +38,7 @@ public class MainPage {
 
         switch (optionInput) {
             case 1 -> {
-                User.listProduct(Product.fetchProduct());
+                ProductListPage.display(Product.fetchProduct());
             }
 
             case 2 -> {
