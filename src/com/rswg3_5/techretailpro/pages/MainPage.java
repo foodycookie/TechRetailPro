@@ -1,5 +1,6 @@
 package com.rswg3_5.techretailpro.pages;
 
+import com.rswg3_5.techretailpro.models.Product;
 import com.rswg3_5.techretailpro.models.User;
 import com.rswg3_5.techretailpro.utils.Utility;
 import java.util.Scanner;
@@ -10,6 +11,7 @@ public class MainPage {
         int optionInput;
         final int MAX_OPTION = 2;
         
+        Utility.clearConsole();
         Utility.border();
         System.out.println("Welcome to TechRetailPro");
         System.out.println("Please select an option");
@@ -37,7 +39,7 @@ public class MainPage {
 
         switch (optionInput) {
             case 1 -> {
-                User.listProduct();
+                User.listProduct(Product.fetchProduct());
             }
 
             case 2 -> {
