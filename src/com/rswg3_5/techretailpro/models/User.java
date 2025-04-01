@@ -1,20 +1,12 @@
 package com.rswg3_5.techretailpro.models;
 
-import static com.rswg3_5.techretailpro.main.TechRetailPro.optionInput;
-import static com.rswg3_5.techretailpro.main.TechRetailPro.scanner;
 import com.rswg3_5.techretailpro.utils.Utility;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Scanner;
 
 public class User {
-    final static String PRODUCT_DATABASE = "src/com/rswg3_5/techretailpro/databases/product.csv";
-    
     private String username;
     private String userEmail;
     private String userPassword;
@@ -69,39 +61,55 @@ public class User {
         
     }
     
-    public static void listProduct() {        
-        final int MAX_OPTION = fetchProduct().size() + 1;
+    public static void listProduct() {     
+        Scanner scanner = new Scanner(System.in);
         
+        Utility.clearConsole();
         Utility.border();
-        displayProduct();
+        Product.displayProduct(Product.fetchProduct());
          
         System.out.println("\nPlease select a product by number to view its details (Type 0 to go back)");
         System.out.println("For more commands, type /help");
         
         while(true) {
             System.out.print("\nOption > ");
+            String[] input = scanner.nextLine().trim().split(" ");
             
-            // /help /sort /search /filter 0 number
-            if (true) {
-                displayCommand();
+            for (String string : input) {
+                System.out.println(string);
+            }
+                        
+            //help
+            if (input[0].equalsIgnoreCase("/help") && input.length == 1) {
+                Product.displayCommand();
             }
             
+            //sort
+            else if (input[0].equalsIgnoreCase("/sort") && input.length == 3) {
+                Product.displayProduct(sortProduct(input, Product.fetchProduct()));
+            }
+            
+            //search
+            else if (input[0].equalsIgnoreCase("/search") && input.length == 2) {
+                Product.displayProduct(searchProduct(input, Product.fetchProduct()));
+            }
+            
+            //filter
+            else if (input[0].equalsIgnoreCase("/filter") && input.length == 3) {
+                Product.displayProduct(filterProduct(input, Product.fetchProduct()));
+            }
+            
+            //restore
+            else if (input[0].equalsIgnoreCase("/restore") && input.length == 1) {
+                listProduct();
+            }
+            
+            //0
             else if (true) {
                 
             }
             
-            else if (true) {
-                
-            }
-            
-            else if (true) {
-                
-            }
-            
-            else if (true) {
-                
-            }
-            
+            //number
             else if (true) {
                 
             }
@@ -109,91 +117,111 @@ public class User {
             else {
                 
             }
-            
-            if (!scanner.hasNextInt()) {
-                System.out.println("Invalid input. Please enter number from 1 to " + MAX_OPTION);
-                scanner.next();
-                continue;
-            }
-            
-            optionInput = scanner.nextInt();
-            
-            if (optionInput < 1 || optionInput > MAX_OPTION) {
-                System.out.println("Invalid choice. Please enter number from 1 to " + MAX_OPTION);
-                continue;
-            }
-            
-            break;
         }
     }
     
-    public void viewProduct() {
+    public static void viewProduct() {
         
     }
     
-    public void sortProduct() {
-        
-    }
-    
-    public void searchProduct() {
-        
-    }
-    
-    public void filterProduct() {
-        
-    }
-    
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static List<Product> fetchProduct() {
-        List<Product> productList = new ArrayList<>();
-        
-        String row;
-        boolean firstRow = true;
-        
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(PRODUCT_DATABASE));
-            
-            while ((row = reader.readLine()) != null) {                
-                if (firstRow) {
-                    firstRow = false;
-                    continue;
-                }
-                
-                String[] separatedRow = row.split(",");
-                
-                productList.add(new Product(separatedRow[0], separatedRow[1], Double.parseDouble(separatedRow[2]), Integer.parseInt(separatedRow[3]), separatedRow[4]));
+    public static List<Product> sortProduct(String[] input, List<Product> productList) {           
+        if (input[1].equalsIgnoreCase("name")) {
+            if (input[2].equalsIgnoreCase("asc")) {
+                productList.sort(Comparator.comparing(Product::getProductName));
             }
-            
-            reader.close();
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+
+            else if (input[2].equalsIgnoreCase("desc")) {
+                productList.sort(Comparator.comparing(Product::getProductName).reversed());
+            }
+
+            else {
+                System.out.println("Invalid input");
+            }
+        }
+
+        else if (input[1].equalsIgnoreCase("category")) {
+            if (input[2].equalsIgnoreCase("asc")) {
+                productList.sort(Comparator.comparing(Product::getProductCategory));
+            }
+
+            else if (input[2].equalsIgnoreCase("desc")) {
+                productList.sort(Comparator.comparing(Product::getProductCategory).reversed());
+            }
+
+            else {
+                System.out.println("Invalid input");
+            }
+        }
+
+        else if (input[1].equalsIgnoreCase("price")) {
+            if (input[2].equalsIgnoreCase("asc")) {
+                productList.sort(Comparator.comparing(Product::getProductPrice));
+            }
+
+            else if (input[2].equalsIgnoreCase("desc")) {
+                productList.sort(Comparator.comparing(Product::getProductPrice).reversed());
+            }
+
+            else {
+                System.out.println("Invalid input");
+            }
+        }
+
+        else {
+            System.out.println("Invalid input");
         }
         
         return productList;
     }
     
-    public static void displayProduct() {
-        List<Product> productList = fetchProduct();
+    public static List<Product> searchProduct(String[] input, List<Product> productList) {
+        List<Product> newProductList = new ArrayList<>();
         
-        System.out.printf("%-10s %-35s %-15s %-10s %-10s\n", "No", "Name", "Category", "Price", "Stock");
-        
-        for (int i = 0; i < productList.size(); i++) {
-            System.out.printf("%-10d %-35s %-15s %-10.2f %-10d\n", (i+1), productList.get(i).getProductName(), productList.get(i).getProductCategory(), productList.get(i).getProductPrice(), productList.get(i).getProductStockQuantity());
+        for (Product product : productList) {
+            if (product.getProductName().toLowerCase().contains(input[1].toLowerCase())) {
+                newProductList.add(product);
+            }
         }
+        
+        newProductList.sort(Comparator.comparing(Product::getProductName));
+        
+        return newProductList;
     }
     
-    public static void displayCommand() {
-        System.out.println("Type [/sort {name/category/price/quantity} {asc/desc}] to sort the product");
-        System.out.println("[/sort name asc] will sort the product alphabetically in ascending order\n");
+    public static List<Product> filterProduct(String[] input, List<Product> productList) {
+        List<Product> newProductList = new ArrayList<>();
+        String[] arguments = input[2].split(",");
         
-        System.out.println("Type /search {itemName} to search product");
-        System.out.println("[/search keyboard a] will return product that contains [keyboard a] in its name (Not case sensitive)\n");
+        if (input[1].equalsIgnoreCase("category")) {
+            for (String argument : arguments) {
+                if (argument != null) {
+                    for (Product product : productList) {
+                        if (product.getProductCategory().toLowerCase().equalsIgnoreCase(argument)) {
+                            newProductList.add(product);
+                        }
+                    }
+                }
+            }
+            
+        newProductList.sort(Comparator.comparing(Product::getProductName));
         
-//        System.out.println("Type /filter {name/category/price/quantity} to enter filter menu");
-//        System.out.println("Type /filter {name/category/price/quantity} to enter filter menu");
-//        name category price quantity
+        }
+
+        else if (input[1].equalsIgnoreCase("price")) {
+            for (Product product : productList) {
+                if (product.getProductPrice() >= Double.parseDouble(arguments[0]) && product.getProductPrice() <= Double.parseDouble(arguments[1])) {
+                    newProductList.add(product);
+                }
+            }
+        
+        newProductList.sort(Comparator.comparing(Product::getProductPrice));
+        
+        }
+
+        else {
+            System.out.println("Invalid input");
+        }
+        
+        return newProductList;
     }
 }

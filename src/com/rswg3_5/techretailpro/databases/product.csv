@@ -2,3 +2,12 @@ productName,productCategory,productPrice,productStockQuantity,productDescription
 Keyboard A,Keyboard,25.50,100,A basic keyboard
 Mouse A,Mouse,20.80,100,A basic mouse
 Printer A,Printer,90.50,50,A basic printer
+Keyboard B,Keyboard,50.50,100,A good keyboard
+Mouse B,Mouse,40.80,100,A good mouse
+Printer B,Printer,180.50,50,A good printer
+Keyboard C,Keyboard,75.50,100,The best keyboard
+Mouse C,Mouse,60.80,100,The best mouse
+Printer C,Printer,270.50,50,The best printer
+Red Keyboard,Keyboard,20.50,100,A red keyboard
+Red Mouse,Mouse,20.80,100,A red mouse
+Red Printer,Printer,90.50,50,A red printer
