@@ -5,18 +5,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class User {
+public abstract class User {
     private String username;
-    private String userEmail;
-    private String userPassword;
 
     public User() {
     }
 
-    public User(String username, String userEmail, String userPassword) {
+    public User(String username) {
         this.username = username;
-        this.userEmail = userEmail;
-        this.userPassword = userPassword;
     }
 
     public String getUsername() {
@@ -27,32 +23,16 @@ public class User {
         this.username = username;
     }
 
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
     @Override
     public String toString() {
-        return "User{" + "username=" + username + ", userEmail=" + userEmail + ", userPassword=" + userPassword + '}';
+        return "User{" + "username=" + username + '}';
     }
     
+    public abstract void login();
+    
+    public abstract void displayRole();
+
     public void register() {
-        
-    }
-    
-    public void login() {
         
     }
     
