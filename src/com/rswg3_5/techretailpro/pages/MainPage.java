@@ -5,13 +5,15 @@ import com.rswg3_5.techretailpro.utils.Utility;
 import java.util.Scanner;
 
 public class MainPage {
-    public static void display() {
-        Scanner scanner = new Scanner(System.in);
-        int optionInput;
+    public static void display() { 
         final int MAX_OPTION = 2;
+        
+        Scanner scanner = new Scanner(System.in);
+        int input;
         
         Utility.clearConsole();
         Utility.border();
+        //Add more option here like login and register and update the MAX_OPTION
         System.out.println("Welcome to TechRetailPro");
         System.out.println("Please select an option");
         System.out.println("1. View all the products");
@@ -26,9 +28,9 @@ public class MainPage {
                 continue;
             }
 
-            optionInput = scanner.nextInt();
+            input = scanner.nextInt();
 
-            if (optionInput < 1 || optionInput > MAX_OPTION) {
+            if (input < 1 || input > MAX_OPTION) {
                 System.out.println("Invalid choice. Please enter number from 1 to " + MAX_OPTION);
                 continue;
             }
@@ -36,7 +38,7 @@ public class MainPage {
             break;
         }
 
-        switch (optionInput) {
+        switch (input) {
             case 1 -> {
                 ProductListPage.display(Product.fetchProduct(), 1);
             }

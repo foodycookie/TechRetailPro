@@ -53,6 +53,14 @@ public class Cart {
         return "Cart{" + "customer=" + customer + ", cartItems=" + cartItems + ", totalItem=" + totalItem + ", totalPrice=" + totalPrice + '}';
     }
     
+    public void addToCart() {
+        
+    }
+    
+    public void directOrder() {
+        
+    }
+    
     public void viewCart() {
         
     }

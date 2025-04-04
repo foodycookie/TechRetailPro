@@ -1,9 +1,5 @@
 package com.rswg3_5.techretailpro.utils;
 
-import com.rswg3_5.techretailpro.models.User;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class Utility {
     public static void border() {
         System.out.println("------------------------------------------------------------------------------------------------------------------------");
@@ -32,15 +28,6 @@ public class Utility {
             return true;
         } catch (NumberFormatException e) {
             return false;
-        }
-    }
-    
-    public static void displayReturnToPreviousProductList() {
-        System.out.println("Returning to the previous list...");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
