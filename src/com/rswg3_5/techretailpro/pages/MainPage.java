@@ -38,7 +38,7 @@ public class MainPage {
 
         switch (optionInput) {
             case 1 -> {
-                ProductListPage.display(Product.fetchProduct());
+                ProductListPage.display(Product.fetchProduct(), 1);
             }
 
             case 2 -> {

@@ -1,8 +1,10 @@
 package com.rswg3_5.techretailpro.models;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.logging.Logger;
 
 public class Product {
     final static String PRODUCT_DATABASE = "src/com/rswg3_5/techretailpro/databases/product.csv";
+    public final static int DATA_PER_PAGE = 50;
     
     private String productName;
     private String productCategory;
@@ -78,6 +81,20 @@ public class Product {
                "\nDescription: " + productDescription;
     }
     
+    public static void writeProduct(Product product) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(PRODUCT_DATABASE, true));
+            
+            writer.append(product.getProductName() + "," + product.getProductCategory() + "," + product.getProductPrice() + "," + product.getProductStockQuantity() + "," + product.getProductDescription() + "\n");
+
+            writer.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public static List<Product> fetchProduct() {
         List<Product> productList = new ArrayList<>();
         
@@ -108,16 +125,26 @@ public class Product {
         return productList;
     }
     
-    public static void displayProductList(List<Product> productList) {
+    public static void displayProductList(List<Product> productList, int currentPage) {
+        int dataPerPage = DATA_PER_PAGE;
+        int totalPage = (int) Math.ceil(productList.size() / dataPerPage);        
+        int start = (currentPage - 1) * dataPerPage;
+        int end = start + dataPerPage;
+
         System.out.printf("%-10s %-35s %-15s %-10s %-10s\n", "No", "Name", "Category", "Price", "Stock");
         
-        for (int i = 0; i < productList.size(); i++) {
+        for (int i = start; i < end; i++) {
             System.out.printf("%-10d %-35s %-15s %-10.2f %-10d\n", (i+1), productList.get(i).getProductName(), productList.get(i).getProductCategory(), productList.get(i).getProductPrice(), productList.get(i).getProductStockQuantity());
         }
+        
+        System.out.println("Page " + currentPage + "/" + totalPage);
     }
     
     public static void displayCommand() {
-        System.out.println("\nType [/sort {name/category/price} {asc/desc}] to sort the product");
+        System.out.println("\nType [/page {page number}] to go to the desire page");
+        System.out.println("[/page 1] will go to the first page\n");
+        
+        System.out.println("Type [/sort {name/category/price} {asc/desc}] to sort the product");
         System.out.println("[/sort name asc] will sort every product alphabetically in ascending order\n");
         
         System.out.println("Type [/search {query}] to search product");

@@ -133,6 +133,12 @@ public abstract class User {
                     }
                 }
             }
+            
+            if (newProductList.isEmpty()) {
+                System.out.println("\nNo search result");
+                Utility.displayReturnToPreviousProductList();
+                return productList;
+            }
         }
 
         else if (input[1].equalsIgnoreCase("price") && arguments.length == 2 && Utility.isDouble(arguments[0]) && Utility.isDouble(arguments[1])) {
@@ -140,6 +146,12 @@ public abstract class User {
                 if (product.getProductPrice() >= Double.parseDouble(arguments[0]) && product.getProductPrice() <= Double.parseDouble(arguments[1])) {
                     newProductList.add(product);
                 }
+            }
+            
+            if (newProductList.isEmpty()) {
+                System.out.println("\nNo search result");
+                Utility.displayReturnToPreviousProductList();
+                return productList;
             }
         }
 
