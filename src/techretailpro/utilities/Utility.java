@@ -1,0 +1,212 @@
+package techretailpro.utilities;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import techretailpro.functions.DatabaseManager;
+import techretailpro.objects.Headphone;
+import techretailpro.objects.Keyboard;
+import techretailpro.objects.Laptop;
+import techretailpro.objects.Mouse;
+import techretailpro.objects.Printer;
+import techretailpro.objects.Product;
+
+public class Utility {
+    public final static String KEYBOARDS_DATABASE = "src/techretailpro/databases/keyboards.csv";
+    public final static String MICE_DATABASE = "src/techretailpro/databases/mice.csv";
+    public final static String LAPTOPS_DATABASE = "src/techretailpro/databases/laptops.csv";
+    public final static String HEADPHONES_DATABASE = "src/techretailpro/databases/headphones.csv";
+    public final static String PRINTERS_DATABASE = "src/techretailpro/databases/printers.csv";
+    
+    public final static String TEMP_KEYBOARDS_DATABASE = "src/techretailpro/databases/temp_keyboards.csv";
+    public final static String TEMP_MICE_DATABASE = "src/techretailpro/databases/temp_mice.csv";
+    public final static String TEMP_LAPTOPS_DATABASE = "src/techretailpro/databases/temp_laptops.csv";
+    public final static String TEMP_HEADPHONES_DATABASE = "src/techretailpro/databases/temp_headphones.csv";
+    public final static String TEMP_PRINTERS_DATABASE = "src/techretailpro/databases/temp_printers.csv";
+    
+    public final static int DATA_PER_PAGE = 20;
+    
+    public final static Scanner SCANNER = new Scanner(System.in);
+    
+    public static void closeScanner() {
+        SCANNER.close();
+    }
+    
+    public static void clearConsole() {
+        for (int i = 0; i < 10; i++) {
+            System.out.println("");
+        }
+        
+//        System.out.print("\033[H\033[2J");
+    }
+    
+    public static Integer numberOptionChooser(int minOption, int maxOption) {     
+        String input;
+        Integer numberInput;
+        
+        while(true) {
+            System.out.print("Option > ");
+            
+            input = SCANNER.nextLine().trim();
+            
+            if (input.equalsIgnoreCase("exit")) {
+                return null;
+            }
+            
+            numberInput = stringToInteger(input);
+            
+            if (numberInput == null) {
+                System.err.println("\nInvalid input. Please enter either {exit} or a whole number");
+                continue;
+            }
+
+            if (numberInput < minOption || numberInput > maxOption) {
+                System.err.println("\nInvalid choice. Please enter number from " + minOption + " to " + maxOption);
+                continue;
+            }
+
+            break;
+        }
+        
+        return numberInput;
+    }
+    
+    public static boolean isInteger(String string) {
+        try {
+            Integer.valueOf(string);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    public static Integer stringToInteger(String string) {
+        String s = string.trim();
+        
+        if (isInteger(s)) {
+            return Integer.valueOf(s);
+        }
+        
+        return null;
+    }
+    
+    public static boolean isDouble(String string) {
+        try {
+            Double.valueOf(string);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    public static Double stringToDouble(String string) {
+        String s = string.trim();
+        
+        if (isDouble(s)) {
+            return Double.valueOf(s);
+        }
+        
+        return null;
+    }
+    
+    public static boolean isBoolean(String string) {
+        if (string == null) {
+            return false;
+        }
+        
+        String s = string.trim().toLowerCase();
+        
+        return s.equals("true") || s.equals("false") || s.equals("yes") || s.equals("no");
+    }
+    
+    public static Boolean stringToBoolean(String string) {
+        if (string == null) {
+            return null;
+        }
+        
+        String s = string.trim().toLowerCase();
+        
+        if (s.equals("true") || s.equals("yes")) {
+            return true;
+        }
+        
+        else if (s.equals("false") || s.equals("no")) {
+            return false;
+        }
+        
+        return null;
+    }
+    
+    //WILL OVERRIDE PRODUCT DB FILE, USE WITH CAUTION
+    public static void generateDummyProduct() {
+        List<Product> list = new ArrayList<>();
+        Keyboard keyboard;
+        Mouse mouse;
+        Laptop laptop;
+        Headphone headphone;
+        Printer printer;
+
+        for (int i = 1; i < 201; i++) {
+            if (i % 2 != 0) {
+                keyboard = new Keyboard(("Keyboard " + i), (i+20), 100, "A basic keyboard", false, "Scissor switch", false);
+            }
+            
+            else {
+                keyboard = new Keyboard(("Keyboard " + i), (i+50), 50, "A slightly better keyboard", true, "Mechanical", true);    
+            }
+            
+            list.add(keyboard);
+        }
+        
+        for (int i = 1; i < 201; i++) {
+            if (i % 2 != 0) {
+                mouse = new Mouse(("Mouse " + i), (i+20), 100, "A basic mouse", false, "Optical", 1000);
+            }
+            
+            else {
+                mouse = new Mouse(("Mouse " + i), (i+40), 50, "A slightly better mouse", true, "Laser", 2500);    
+            }
+            
+            list.add(mouse);
+        }
+        
+        for (int i = 1; i < 201; i++) {
+            if (i % 2 != 0) {
+                laptop = new Laptop(("Laptop " + i), (i+1000), 100, "A basic laptop", "AMD Ryzen 3 3100", 8, 128);
+            }
+            
+            else {
+                laptop = new Laptop(("Laptop " + i), (i+2000), 50, "A slightly better laptop", "AMD Ryzen 5 3600", 16, 256);    
+            }
+            
+            list.add(laptop);
+        }
+        
+        for (int i = 1; i < 201; i++) {
+            if (i % 2 != 0) {
+                headphone = new Headphone(("Headphone " + i), (i+80), 100, "A basic headphone", false, false, false);
+            }
+            
+            else {
+                headphone = new Headphone(("Headphone " + i), (i+160), 50, "A slightly better headphone", true, true, true);    
+            }
+            
+            list.add(headphone);
+        }
+        
+        for (int i = 1; i < 201; i++) {
+            if (i % 2 != 0) {
+                printer = new Printer(("Printer " + i), (i+80), 100, "A basic printer", false, 15, "Dye based");
+            }
+            
+            else {
+                printer = new Printer(("Printer " + i), (i+160), 50, "A slightly better printer", true, 30, "Pigment");    
+            }
+            
+            list.add(printer);
+        }
+        
+        
+        DatabaseManager.rewriteAllProducts(list);
+    }
+}
