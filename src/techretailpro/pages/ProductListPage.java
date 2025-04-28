@@ -1,5 +1,6 @@
 package techretailpro.pages;
 
+import java.util.ArrayList;
 import java.util.List;
 import techretailpro.functions.ProductListHelper;
 import techretailpro.objects.LocalData;
@@ -25,6 +26,7 @@ public class ProductListPage {
         int start = (currentPage - 1) * dataPerPage;
         int end = Math.min(start + dataPerPage, list.size());
         
+        List<String> options = new ArrayList<>();
         String input;
         Integer numberInput;
         boolean allSameCategory = true;
@@ -67,25 +69,39 @@ public class ProductListPage {
         }
         
         else if (currentPage == 1) {
-            System.out.println("CP. Choose a page   NP. Next Page"); 
+            System.out.println("cp. Choose a page   np. Next Page"); 
         }
         
         else if (currentPage == totalPage) {
-            System.out.println("PP. Previous Page   CP. Choose a page"); 
+            System.out.println("pp. Previous Page   cp. Choose a page"); 
         }
         
         else {
-            System.out.println("PP. Previous Page   CP. Choose a page   NP. Next Page"); 
+            System.out.println("pp. Previous Page   cp. Choose a page   np. Next Page"); 
         }
         
         System.out.println("\nPlease select a product by number to view its details");
         System.out.println("Type {exit} at anytime to go back");
-        System.out.println("Or select an option by alphabet(s)");    
-        System.out.println("A. Sort list");
-        System.out.println("B. Search product");
-        System.out.println("C. Filter product");
-        System.out.println("D. Reset list");
+        System.out.println("Or select an option");    
         
+        options.add("so. Sort list");
+        options.add("se. Search product");
+        options.add("fi. Filter product");
+        options.add("re. Reset list");
+        
+        if (LoginPage.getCurrentUser().isAdmin()) {
+        }
+        
+        else if (LoginPage.getCurrentUser().isCustomer()) {
+        }
+        
+        else {
+        }
+        
+        for (int i = 0; i < options.size(); i++) {
+            System.out.println(options.get(i));
+        }
+
         while(true) {
             System.out.print("Option > ");
             
@@ -143,13 +159,13 @@ public class ProductListPage {
                         display(list, (currentPage + 1), null);
                     }
                     
-                    case "a" -> display(ProductListHelper.sortProductListUI(list), 1, null);
+                    case "so" -> display(ProductListHelper.sortProductListUI(list), 1, null);
                     
-                    case "b" -> display(ProductListHelper.searchProductUI(list), 1, null);
+                    case "se" -> display(ProductListHelper.searchProductUI(list), 1, null);
                     
-                    case "c" -> display(ProductListHelper.filterProductUI(list), 1, null);
+                    case "fi" -> display(ProductListHelper.filterProductUI(list), 1, null);
 
-                    case "d" -> display(LocalData.getPreviousList(), 1, null); 
+                    case "re" -> display(LocalData.getPreviousList(), 1, null); 
 
                     default -> System.err.println("\nInvalid input");
                 }

@@ -1,5 +1,7 @@
 package techretailpro.pages;
 
+import java.util.ArrayList;
+import java.util.List;
 import techretailpro.functions.ProductManager;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
@@ -12,8 +14,8 @@ public class ProductDetailsPage {
             return;
         }
         
-        String input;
-        Integer numberInput;
+        List<String> options = new ArrayList<>();
+        Integer input;
         
         Utility.clearConsole();
         
@@ -23,25 +25,41 @@ public class ProductDetailsPage {
         
         System.out.println("\n" + product.toString());
         
-        System.out.println("\nPlease select an option by alphabet(s)");
+        System.out.println("\nPlease select an option");
         System.out.println("Type {exit} at anytime to go back");
-        //Admin functions   
-        System.out.println("AA. Restock");
-        System.out.println("AB. Update product");
-        System.out.println("AC. Delete product");
+                
+        
+        if (LoginPage.getCurrentUser().isAdmin()) {
+            options.add("Restock");
+            options.add("Update product");
+            options.add("Delete product");
+        }
+        
+        else if (LoginPage.getCurrentUser().isCustomer()) {
+            options.add("Add to cart");
+            options.add("Direct order");
+        }
+        
+        else {
+        }
+        
+        for (int i = 0; i < options.size(); i++) {
+            System.out.println((i + 1) + ". " + options.get(i));
+        }
         
         while(true) {
             System.out.print("Option > ");
             
-            input = Utility.SCANNER.nextLine().trim();
+            input = Utility.numberOptionChooser(1, options.size());
             
-            switch (input.toLowerCase()) {
-                case "exit" -> ProductListPage.display(LocalData.getPreviousList(), 1, null);
-                
-                /// Admin commands ///
-                //Add a condition at else if to detect if user is admin     
-                
-                case "aa" -> {
+            if (input == null) {
+                ProductListPage.display(LocalData.getPreviousList(), 1, null);
+            }
+            
+            String selectedOption = options.get(input - 1);
+            
+            switch (selectedOption) {
+                case "Restock" -> {
                     Boolean action = ProductManager.updateStockUI(product);
                     
                     if (action == null) {
@@ -57,7 +75,7 @@ public class ProductDetailsPage {
                     }
                 }
 
-                case "ab" -> {
+                case "Update product" -> {
                     Boolean action = ProductManager.updateProductUI(product.getCategory(), product.getName());
                     
                     if (action == null) {
@@ -73,19 +91,19 @@ public class ProductDetailsPage {
                     } 
                 }
 
-                case "ac" -> {
+                case "Delete product" -> {
                     System.err.println("\nAre you sure?");
                     System.err.println("1. Yes");
                     System.err.println("2. No");
                     
-                    numberInput = Utility.numberOptionChooser(1, 2);
+                    input = Utility.numberOptionChooser(1, 2);
                     
-                    if (numberInput == null) {
+                    if (input == null) {
                         display(product, null);
                         return;
                     }
                     
-                    switch (numberInput) {
+                    switch (input) {
                         case 1 -> {
                             Boolean action = ProductManager.deleteProduct(product.getName());
                     
@@ -107,6 +125,10 @@ public class ProductDetailsPage {
                         default -> System.err.println("\nInvalid input");
                     }    
                 }
+                
+                case "Add to cart" -> {}
+                
+                case "Direct order" -> {}
 
                 default -> System.err.println("\nInvalid input");
             }
