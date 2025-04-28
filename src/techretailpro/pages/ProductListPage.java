@@ -44,6 +44,7 @@ public class ProductListPage {
         
         System.out.println();
         
+        //Will check if customer, then cannot see product with 0 stock
         if (allSameCategory) {
             System.out.println(list.get(0).detailedListHeader());
             
@@ -142,11 +143,11 @@ public class ProductListPage {
                         display(list, (currentPage + 1), null);
                     }
                     
-                    case "a" -> display(ProductListHelper.sortProductList(list), 1, null);
+                    case "a" -> display(ProductListHelper.sortProductListUI(list), 1, null);
                     
-                    case "b" -> display(ProductListHelper.searchProduct(list), 1, null);
+                    case "b" -> display(ProductListHelper.searchProductUI(list), 1, null);
                     
-                    case "c" -> display(ProductListHelper.filterProduct(list), 1, null);
+                    case "c" -> display(ProductListHelper.filterProductUI(list), 1, null);
 
                     case "d" -> display(LocalData.getPreviousList(), 1, null); 
 

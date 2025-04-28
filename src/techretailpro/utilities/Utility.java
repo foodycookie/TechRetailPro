@@ -138,7 +138,7 @@ public class Utility {
     }
     
     //WILL OVERRIDE PRODUCT DB FILE, USE WITH CAUTION
-    public static void generateDummyProduct() {
+    public static void 我这边打中文会怎样这是生成测试数据的() {
         List<Product> list = new ArrayList<>();
         Keyboard keyboard;
         Mouse mouse;

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 import techretailpro.functions.ProductCategoryHelper;
 import techretailpro.functions.DatabaseManager;
+import techretailpro.functions.InputValidator;
 import techretailpro.functions.ProductManager;
 import techretailpro.functions.ProductListHelper;
 import techretailpro.objects.LocalData;
@@ -60,7 +61,16 @@ public class MainPage {
 
                 case "b" -> displayProductInList(LocalData.getProducts());
 
-                case "c" -> displayProductInList(ProductListHelper.searchProduct(LocalData.getProducts()));
+                case "c" -> {
+                    System.out.println("\nEnter a search query");
+                    String validQuery = InputValidator.getString();
+                    if (validQuery == null) {
+                        display(null);
+                    }
+                    
+                    ProductListHelper.searchProduct(LocalData.getProducts(), validQuery);
+                }
+                    
                 
                 case "d" -> {
                     System.out.println("\nThank you for choosing TechRetailPro!");

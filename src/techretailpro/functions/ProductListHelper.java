@@ -77,7 +77,7 @@ public class ProductListHelper {
         List<Product> lowStockList = new ArrayList<>();
 
         for (Product product : LocalData.getProducts()) {
-            if (product.getStock() < 5) {
+            if (product.isLowStock()) {
                 lowStockList.add(product);
             }
         }
@@ -85,21 +85,30 @@ public class ProductListHelper {
         return lowStockList;
     }
     
-    public static List<Product> searchProduct(List<Product> list) {
-        List<Product> newList = new ArrayList<>();
-        
+    
+    public static List<Product> searchProductUI(List<Product> list) {
         System.out.println("\nEnter a search query");
         String validQuery = InputValidator.getString();
         if (validQuery == null) {
-            return null;
+            return list;
         }
         
+        return searchProduct(list, validQuery);
+    }
+    
+    public static List<Product> searchProduct(List<Product> list, String query) {
+        List<Product> newList = new ArrayList<>();
+        
         for (Product product : list) {
-            if (product.getName().toLowerCase().contains(validQuery.toLowerCase())) {
+            if (product.getName().toLowerCase().contains(query.toLowerCase())) {
                 newList.add(product);
             }
             
-            else if (product.getCategory().toLowerCase().contains(validQuery.toLowerCase())) {
+            else if (product.getCategory().toLowerCase().contains(query.toLowerCase())) {
+                newList.add(product);
+            }
+            
+            else if (product.getDescription().toLowerCase().contains(query.toLowerCase())) {
                 newList.add(product);
             }
         }     
@@ -107,10 +116,7 @@ public class ProductListHelper {
         return newList;
     }
     
-    //Good luck explaining sort
-    public static List<Product> sortProductList(List<Product> list) {
-        List<Product> sortedList = new ArrayList<>(list);
-        
+    public static List<Product> sortProductListUI(List<Product> list) {
         System.out.println("\nSort by?");
         System.out.println("1. Name, ascending order");
         System.out.println("2. Name, descending order");
@@ -124,8 +130,15 @@ public class ProductListHelper {
         if (input == null) {
             return list;
         }
-
-        switch (input) {
+        
+        return sortProductList(list, input);
+    }
+    
+    //Good luck explaining sort
+    public static List<Product> sortProductList(List<Product> list, int option) {
+        List<Product> sortedList = new ArrayList<>(list);
+        
+        switch (option) {
             case 1 -> sortedList.sort(Comparator.comparing(Product::getName));
 
             case 2 -> sortedList.sort(Comparator.comparing(Product::getName).reversed());
@@ -146,53 +159,66 @@ public class ProductListHelper {
         return sortedList;
     }
     
-    public static List<Product> filterProductByCategory(List<Product> list) { 
-        List<Product> newList = new ArrayList<>();
+    public static List<Product> filterProductByCategoryUI(List<Product> list) { 
+        List<String> selectedCategories = new ArrayList<>();
+        List<String> categoriesToRemove = new ArrayList<>();
         boolean chooseMoreCategory = true;
         
-        List<String> categoriesToRemove = new ArrayList<>();
-                
-        while (chooseMoreCategory) {        
-            String chosenCategory = ProductCategoryHelper.chooseCategoryForFilterList(categoriesToRemove);
+        while (chooseMoreCategory) {
+            String selectedCategory = ProductCategoryHelper.chooseCategoryForFilterList(categoriesToRemove);
             
-            if (chosenCategory == null) {
-                return newList;
+            if (selectedCategory == null && selectedCategories.isEmpty()) {
+                return list;
             }
-
-            for (Product product : list) {
-                if (product.getCategory().equalsIgnoreCase(chosenCategory) && !newList.contains(product)) {
-                    newList.add(product);
-                }
+            
+            if (selectedCategory == null) {
+                return filterProductByCategory(list, selectedCategories);
             }
-
-            categoriesToRemove.add(chosenCategory);
+            
+            selectedCategories.add(selectedCategory);
+            categoriesToRemove.add(selectedCategory);
 
             System.out.println("\nAdd more category?");
             System.out.println("1. Yes");
             System.out.println("2. No");
-
+            
             Integer input = Utility.numberOptionChooser(1, 2);
             
             if (input == null) {
-                return list;
+                return filterProductByCategory(list, selectedCategories);
             }
-
+            
             switch (input) {
                 case 1 -> chooseMoreCategory = true;
 
                 case 2 -> chooseMoreCategory = false;
 
                 default -> {
-                    return newList;
+                    return filterProductByCategory(list, selectedCategories);
                 }
             }
         }
         
-        return newList;
-    }  
+        return filterProductByCategory(list, selectedCategories);
+    }
     
-    public static List<Product> filterProductByPrice(List<Product> list) {
+    public static List<Product> filterProductByCategory(List<Product> list, List<String> categories) { 
         List<Product> newList = new ArrayList<>();
+        
+        for (Product product : list) {
+            for (String category : categories) {
+                if (product.getCategory().equalsIgnoreCase(category) && !newList.contains(product)) {
+                    newList.add(product);
+                    break;
+                }
+            }
+            
+        }
+        
+        return newList;
+    }
+    
+    public static List<Product> filterProductByPriceUI(List<Product> list) {
         Double validMinPrice;
         Double validMaxPrice;
         
@@ -217,8 +243,14 @@ public class ProductListHelper {
             break;
         }
         
+        return filterProductByPrice(list, validMinPrice, validMaxPrice);
+    }
+    
+    public static List<Product> filterProductByPrice(List<Product> list, double minPrice, double maxPrice) {
+        List<Product> newList = new ArrayList<>();
+        
         for (Product product : list) {
-            if (product.getPrice() >= validMinPrice && product.getPrice() <= validMaxPrice) {
+            if (product.getPrice() >= minPrice && product.getPrice() <= maxPrice) {
                 newList.add(product);
             }
         }
@@ -226,7 +258,7 @@ public class ProductListHelper {
         return newList;
     }   
     
-    public static List<Product> filterProduct(List<Product> list) {   
+    public static List<Product> filterProductUI(List<Product> list) {   
         System.out.println("\nFilter by?");
         System.out.println("1. Category");
         System.out.println("2. Price");
@@ -238,9 +270,9 @@ public class ProductListHelper {
         }
         
         return switch (input) {
-            case 1 -> filterProductByCategory(list);
+            case 1 -> filterProductByCategoryUI(list);
 
-            case 2 -> filterProductByPrice(list);
+            case 2 -> filterProductByPriceUI(list);
 
             default -> list;
         };

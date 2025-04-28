@@ -50,6 +50,14 @@ public abstract class Product {
     }
 
     public abstract String getCategory();
+    
+    public boolean isAvailable() {
+        return stock > 0;
+    }
+    
+    public boolean isLowStock() {
+        return stock < 5;
+    }
 
     @Override
     public String toString() {
