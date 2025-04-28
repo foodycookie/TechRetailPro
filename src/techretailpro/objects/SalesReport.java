@@ -1,10 +1,13 @@
-package techretailpro.objects;
-
-import java.util.ArrayList;
-import java.util.List;
-
-
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.paymentmodule;
+import java.util.*;
+/**
+ *
+ * @author TAY TIAN YOU
+ */
 public class SalesReport {
     private List<Order> orderHistory = new ArrayList<>();
     private List<Item> allSoldItems = new ArrayList<>();

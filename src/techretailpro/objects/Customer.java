@@ -28,6 +28,11 @@ public class Customer extends User {
     public boolean isAdmin() {
         return false;
     }
+    
+    @Override
+    public boolean isCustomer() {
+        return true;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;

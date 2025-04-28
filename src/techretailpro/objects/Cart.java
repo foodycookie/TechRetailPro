@@ -1,12 +1,19 @@
-package techretailpro.objects;
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.assg;
 import java.util.ArrayList;
-
+import java.util.List;
+/**
+ *
+ * @author TAY TIAN YOU
+ */
 public class Cart {
-    private final ArrayList<CartItem> items;
+    private final List<CartItem> items;
 
     public Cart() {
-        items = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
 
     public void addItem(Product product, int quantity) {
@@ -20,58 +27,49 @@ public class Cart {
     }
 
     public void removeItem(String productId, int quantityToRemove) {
-        for (CartItem item : items) {
+        for (CartItem item : new ArrayList<>(items)) {
             if (item.getProduct().getId().equals(productId)) {
                 int currentQty = item.getQuantity();
                 if (quantityToRemove > currentQty) {
-                    // let user able to delete the exact amount they want only
-                    System.out.println("Cannot remove more than existing quantity (" + currentQty + ").\n");
+                    throw new IllegalArgumentException(
+                        "Cannot remove more than existing quantity (" + currentQty + ")");
                 } else if (quantityToRemove == currentQty) {
                     items.remove(item);
-                    System.out.println("Removed all quantity of product " + productId + ".\n");
                 } else {
                     item.updateQuantity(currentQty - quantityToRemove);
-                    System.out.println("Removed " + quantityToRemove + " of product " + productId + ".\n");
                 }
                 return;
             }
         }
-        System.out.println("Item with ID " + productId + " not found in the cart.\n");
+        throw new IllegalArgumentException("Item with ID " + productId + " not found");
     }
 
-    public void displayCart() {
-        if (items.isEmpty()) {
-            System.out.println("\nYour cart is empty.\n");
-            return;
-        }
-
-        System.out.println("\n=== YOUR CART ===");
-        System.out.printf("%-10s %-15s %-10s %-8s %-10s%n", "Product ID", "Product", "Price", "Qty", "Subtotal");
-        for (CartItem item : items) {
-            System.out.printf("%-10s %-15s RM%-9.2f %-8d RM%-9.2f%n",
-                item.getProduct().getId(),
-                item.getProduct().getName(),
-                item.getProduct().getPrice(),
-                item.getQuantity(),
-                item.getSubtotal());
-        }
-        System.out.println("----------------------------");
-        System.out.printf("TOTAL: RM%.2f%n%n", calculateTotal());
+    public List<CartItem> getItems() {
+        return new ArrayList<>(items);
     }
 
     public boolean isEmpty() {
         return items.isEmpty();
     }
 
-    public ArrayList<CartItem> getItems() {
-        return items;
-    }
-
     public double calculateTotal() {
         return items.stream().mapToDouble(CartItem::getSubtotal).sum();
     }
-
+    
     public void clear() {
         items.clear();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== YOUR CART ===\n");
+        sb.append(String.format("%-10s %-15s %-10s %-7s %-10s\n", "Product ID", "Product", "Price", "Qty", "Subtotal"));
+        for (CartItem item : items) {
+            sb.append(item).append("\n");
+        }
+        sb.append(String.format("TOTAL: RM%.2f\n", calculateTotal()));
+        return sb.toString();
+    }
+
 }

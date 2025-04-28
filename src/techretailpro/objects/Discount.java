@@ -17,6 +17,5 @@ public class Discount {
 
     public double getAmount() {
         return amount;
-    }
-    
+    }   
 }

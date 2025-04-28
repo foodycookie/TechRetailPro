@@ -51,6 +51,8 @@ public abstract class User {
     
     public abstract boolean isAdmin();
     
+    public abstract boolean isCustomer();
+    
     public void logout() {
         
     }
