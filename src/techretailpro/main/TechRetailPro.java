@@ -14,7 +14,5 @@ public class TechRetailPro {
         LocalData.setProducts(DatabaseManager.fetchAllProducts());
          
         MainPage.display(null);
-
-//        MainPage.lyhMainPage();
     }    
 }

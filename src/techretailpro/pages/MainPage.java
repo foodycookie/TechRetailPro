@@ -9,8 +9,6 @@ import techretailpro.functions.ProductManager;
 import techretailpro.functions.ProductListHelper;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
-import static techretailpro.pages.LoginPage.login;
-import static techretailpro.pages.LoginPage.register;
 import techretailpro.utilities.Utility;
 
 public class MainPage {
@@ -43,12 +41,17 @@ public class MainPage {
         System.out.println("A. Browse products via category");
         System.out.println("B. View all the products");
         System.out.println("C. Search something");
-        System.out.println("D. Exit program");
-        //Admin functions
-        System.out.println("AA. Check all low stock");
-        System.out.println("AB. Create new product");
+        System.out.println("------------------------------");
+        System.out.println("D. Register");
+        System.out.println("E. Login");
+        System.out.println("------------------------------");
+        System.out.println("F. Exit program");
+        if (LoginPage.getCurrentUser().isAdmin()) {
+            System.out.println("------------------------------");
+            System.out.println("AA. Check all low stock");
+            System.out.println("AB. Create new product");
+        }
         
-
         while(true) {
             System.out.print("Option > ");
             
@@ -70,10 +73,13 @@ public class MainPage {
                     
                     ProductListHelper.searchProduct(LocalData.getProducts(), validQuery);
                 }
-                    
                 
-                case "d" -> {
-                    System.out.println("\nThank you for choosing TechRetailPro!");
+                case "d" -> LoginPage.register(Utility.SCANNER);
+                    
+                case "e" -> LoginPage.login(Utility.SCANNER);
+                
+                case "f" -> {
+                    System.out.println("\nBye! Thank you for choosing TechRetailPro!");
                     
                     DatabaseManager.rewriteAllProducts(LocalData.getProducts());
                     
@@ -85,9 +91,22 @@ public class MainPage {
                 /// Admin commands ///
                 //Add a condition at else if to detect if user is admin
                 
-                case "aa" -> displayProductInList(ProductListHelper.getLowStockList());
+                case "aa" -> {
+                    if (!LoginPage.getCurrentUser().isAdmin()) {
+                        System.err.println("\nInvalid input");
+                        continue;
+                    }
+                    
+                    displayProductInList(ProductListHelper.getLowStockList());
+                }
+                    
                 
                 case "ab" -> {
+                    if (!LoginPage.getCurrentUser().isAdmin()) {
+                        System.err.println("\nInvalid input");
+                        continue;
+                    }
+                    
                     Boolean action = ProductManager.createProductUI();
                     
                     if (action == null) {
@@ -104,30 +123,6 @@ public class MainPage {
                 }
                 
                 default -> System.err.println("\nInvalid input");
-            }
-        }
-    }
-
-    public static void lyhMainPage() {
-        LoginPage.loadUsers();
-
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            System.out.println("\n--- Login System ---");
-            System.out.println("1. Register");
-            System.out.println("2. Login");
-            System.out.println("3. Exit");
-            System.out.print("Choose: ");
-            String choice = sc.nextLine();
-
-            switch (choice) {
-                case "1" -> register(sc);
-                case "2" -> login(sc);
-                case "3" -> {
-                    System.out.println("Bye!");
-                    return;
-                }
-                default -> System.out.println("Invalid choice.");
             }
         }
     }
