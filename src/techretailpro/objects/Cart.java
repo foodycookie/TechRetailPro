@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cart {
-    private final List<CartItem> items;
+    private final List<CartItem> items = new ArrayList<>();
 
-    public Cart() {
-        this.items = new ArrayList<>();
-    }
+//    public Cart() {
+//        this.items = new ArrayList<>();
+//    }
 
     public void addItem(Product product, int quantity) {
         for (CartItem item : items) {
@@ -17,6 +17,7 @@ public class Cart {
                 return;
             }
         }
+        
         items.add(new CartItem(product, quantity));
     }
 

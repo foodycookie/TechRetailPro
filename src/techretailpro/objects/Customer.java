@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import techretailpro.pages.LoginPage;
+import techretailpro.utilities.Utility;
 
 
 
@@ -125,8 +126,8 @@ public class Customer extends User {
     }
    
     public static void saveUpdateProfile(String editTerm, String newUsername, String newPassword, String newEmail, String newPhone, String newAddress) {
-        String filepath = "src\\com\\rswg3_5\\techretailpro\\databases\\users.csv";
-        String tempFile = "src\\com\\rswg3_5\\techretailpro\\databases\\temp.csv";
+        String filepath = Utility.USERS_DATABASE;
+        String tempFile = Utility.TEMP_USERS_DATABASE;
         File oldFile = new File(filepath);
         File newFile = new File(tempFile);
         

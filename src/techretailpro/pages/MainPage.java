@@ -10,6 +10,7 @@ import techretailpro.functions.OrderManager;
 import techretailpro.functions.ProductManager;
 import techretailpro.functions.ProductListHelper;
 import techretailpro.objects.CartOrder;
+import techretailpro.objects.Customer;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Payment;
 import techretailpro.objects.Product;
@@ -17,15 +18,13 @@ import techretailpro.objects.Transaction;
 import techretailpro.utilities.Utility;
 
 public class MainPage {
-    /*
-    List<CartOrder> orderHistory = new ArrayList<>();
-    Transaction trans = new Transaction();
-    Payment[] payments = {
+    static List<CartOrder> orderHistory = new ArrayList<>();
+    static Transaction trans = new Transaction();
+    static Payment[] payments = {
         new Payment("Touch N Go"),
         new Payment("Credit / Debit"),
         new Payment("Online Banking")
     };
-*/
                 
     public static void displayProductInList(List<Product> list) {
         if (list == null) {
@@ -56,8 +55,6 @@ public class MainPage {
         System.out.println("\nPlease select an option");
         System.out.println("Type {exit} at anytime to go back");
         
-        options.add("Register");
-        options.add("Login");
         options.add("Browse products via category");
         options.add("View all the products");
         options.add("Search something");
@@ -66,19 +63,32 @@ public class MainPage {
             options.add("Check all low stock");
             options.add("Create new product");
             options.add("View order history");
-            options.add("Exit program");
         }
         
         else if (LoginPage.getCurrentUser().isCustomer()) {
             options.add("View cart");
             options.add("Remove item from cart");
             options.add("Checkout");
-            options.add("Exit program");
         }
         
         else {
-            options.add("Exit program");
         }
+        
+        options.add("Register");
+        options.add("Login");
+        
+        if (LocalData.getCurrentUser().isAdmin() || LocalData.getCurrentUser().isCustomer()) {
+            options.remove("Register");
+            options.remove("Login");
+            
+            if (LocalData.getCurrentUser().isCustomer()) {
+                options.add("View profile");
+            }
+            
+            options.add("Logout");
+        }
+        
+        options.add("Exit program");
         
         for (int i = 0; i < options.size(); i++) {
             System.out.println((i + 1) + ". " + options.get(i));
@@ -94,10 +104,6 @@ public class MainPage {
             String selectedOption = options.get(input - 1);
             
             switch (selectedOption) {               
-                case "Register" -> LoginPage.register(Utility.SCANNER);
-                    
-                case "Login" -> LoginPage.login(Utility.SCANNER);
-                
                 case "Browse products via category" -> displayProductInList(ProductCategoryHelper.getListByCategory());
 
                 case "View all the products" -> displayProductInList(LocalData.getCurrentProductsAvailable());
@@ -175,8 +181,16 @@ public class MainPage {
                         continue;
                     }
                         
-//                    OrderManager.checkoutAndPay(orderHistory, payments, trans);
+                    OrderManager.checkoutAndPay(orderHistory, payments, trans);
                 }
+                
+                case "Register" -> LoginPage.register(Utility.SCANNER);
+                    
+                case "Login" -> LoginPage.login(Utility.SCANNER);
+                
+                case "Logout" -> LoginPage.logout();
+                
+                case "View profile" -> Customer.viewProfile(Utility.SCANNER);
                 
                 case "Exit program" -> {
                     System.out.println("\nBye! Thank you for choosing TechRetailPro!");

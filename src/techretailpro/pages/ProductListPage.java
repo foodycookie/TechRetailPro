@@ -5,11 +5,22 @@ import java.util.List;
 import techretailpro.functions.CartManager;
 import techretailpro.functions.OrderManager;
 import techretailpro.functions.ProductListHelper;
+import techretailpro.objects.CartOrder;
 import techretailpro.objects.LocalData;
+import techretailpro.objects.Payment;
 import techretailpro.objects.Product;
+import techretailpro.objects.Transaction;
 import techretailpro.utilities.Utility;
 
 public class ProductListPage {
+    static List<CartOrder> orderHistory = new ArrayList<>();
+    static Transaction trans = new Transaction();
+    static Payment[] payments = {
+        new Payment("Touch N Go"),
+        new Payment("Credit / Debit"),
+        new Payment("Online Banking")
+    };
+    
     public static void display(List<Product> list, int currentPage, String message) {
         if (list == null) {
             display(LocalData.getPreviousList(), 1, null);
@@ -219,7 +230,7 @@ public class ProductListPage {
                             continue;
                         }
                         
-//                        OrderManager.checkoutAndPay(orderHistory, payments, trans);
+                        OrderManager.checkoutAndPay(orderHistory, payments, trans);
                     }
 
                     default -> System.err.println("\nInvalid input");

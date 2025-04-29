@@ -6,19 +6,21 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import techretailpro.objects.Admin;
 import techretailpro.objects.Customer;
+import techretailpro.objects.LocalData;
 import techretailpro.objects.User;
+import techretailpro.utilities.Utility;
 
 
 
 public class LoginPage {
     
-    private static final String FILE_PATH = "src\\com\\rswg3_5\\techretailpro\\databases\\users.csv";
-    private static User currentUser = null;
     public static List<User> users = new ArrayList<>();
 
     
@@ -74,8 +76,8 @@ public class LoginPage {
 
     
     public static void login(Scanner sc) {
-        if (currentUser != null) {
-            System.out.println("Already logged in as " + currentUser.getUsername());
+        if (LocalData.getCurrentUser().isAdmin() || LocalData.getCurrentUser().isCustomer()) {
+            System.out.println("Already logged in as " + LocalData.getCurrentUser().getUsername());
             return;
         }
 
@@ -85,27 +87,30 @@ public class LoginPage {
         String password = sc.nextLine();
         
 
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",", -1);
-                String type = data[0];
-                String uname = data[1];
-                String pwd = data[2];
-                String email = data[3];
-                String phone = data.length > 4 ? data[4] : "";
-                String address = data.length > 5 ? data[5] : "";
+        try{
+             List<String> lines = Files.readAllLines(Paths.get(Utility.USERS_DATABASE));
+        for (String line : lines) {
+            String[] data = line.split(",", -1);
+            String type = data[0];
+            String uname = data[1];
+            String pwd = data[2];
+            String email = data[3];
+            String phone = data.length > 4 ? data[4] : "";
+            String address = data.length > 5 ? data[5] : "";
 
                 if (uname.equals(username) && pwd.equals(password)) {
                     if (type.equals("admin")) {
-                        currentUser = new Admin(uname, pwd, email);
-                        showUserMenu(sc);
+                        LocalData.setCurrentUser(new Admin(uname, pwd, email));
+//                        showUserMenu(sc);
+                        MainPage.display(null);
+
                     } else {
-                        currentUser = new Customer(uname, pwd, email, phone, address);
+                        LocalData.setCurrentUser(new Customer(uname, pwd, email, phone, address));
                     }
                     try{
-                    System.out.println("Login successful. Welcome, " + currentUser.getUsername());
-                    showUserMenu(sc);
+                    System.out.println("Login successful. Welcome, " + LocalData.getCurrentUser().getUsername());
+//                    showUserMenu(sc);
+                    MainPage.display(null);
                     return;
                     }
                     catch(Exception ex){
@@ -121,15 +126,17 @@ public class LoginPage {
     }
     
     public static void logout() {
-    if (currentUser != null) {
-        System.out.println("Logged out: " + currentUser.getUsername());
-        currentUser = null;
+    if (LocalData.getCurrentUser().isAdmin() || LocalData.getCurrentUser().isCustomer()) {
+        System.out.println("Logged out: " + LocalData.getCurrentUser().getUsername());
+        LocalData.setCurrentUser(new User());
+        LocalData.getCurrentUserCart().clear();
+        MainPage.display(null);
     }
 }
 
     private static void saveUser(User user) {
         
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(Utility.USERS_DATABASE, true))) {
             bw.write(user.toCSV());
             bw.newLine();
         } catch (IOException e) {
@@ -138,12 +145,12 @@ public class LoginPage {
     }
     
     private static void showUserMenu(Scanner sc) {
-    if (currentUser == null) return;
+    if (LocalData.getCurrentUser() == null) return;
 
     while (true) {
-        System.out.println("\n--- Menu for " + currentUser.getUsername() + " ---");
+        System.out.println("\n--- Menu for " + LocalData.getCurrentUser().getUsername() + " ---");
 
-        if (currentUser.isAdmin()) {
+        if (LocalData.getCurrentUser().isAdmin()) {
             System.out.println("1. Manage Product");
             System.out.println("2. View Product");
             System.out.println("3. Manage Inventory");
@@ -174,7 +181,7 @@ public class LoginPage {
     public static void loadUsers() {
     users.clear(); // clear existing users if any
     
-    try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(Utility.USERS_DATABASE))) {
         String line;
         while ((line = br.readLine()) != null) {
             String[] data = line.split(",", -1);
@@ -197,12 +204,12 @@ public class LoginPage {
     }
 }
     public static User getCurrentUser(){
-        return currentUser;
+        return LocalData.getCurrentUser();
     }
     
     public static boolean doesUsernameExist(String username) {
     
-    try (Scanner scanner = new Scanner(new File(FILE_PATH))) {
+    try (Scanner scanner = new Scanner(new File(Utility.USERS_DATABASE))) {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] data = line.split(",", -1);

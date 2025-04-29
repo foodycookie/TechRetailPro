@@ -64,7 +64,7 @@ public class CartManager {
                 return;
             }
 
-            if (validQuantity > LocalData.getCurrentUserCart().getItems().get(productNumber).getQuantity()) {
+            if (validQuantity > LocalData.getCurrentUserCart().getItems().get(productNumber - 1).getQuantity()) {
                 System.err.println("Invalid quantity input");
                 continue;
             }
@@ -72,7 +72,7 @@ public class CartManager {
             break;
         }
 
-        LocalData.getCurrentUserCart().removeItem(LocalData.getCurrentUserCart().getItems().get(productNumber).getProduct().getName(), validQuantity);
+        LocalData.getCurrentUserCart().removeItem(LocalData.getCurrentUserCart().getItems().get(productNumber - 1).getProduct().getName(), validQuantity);
         System.out.println("\nItem removed");
     }
 }

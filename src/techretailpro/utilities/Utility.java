@@ -26,9 +26,12 @@ public class Utility {
     
     public final static int DATA_PER_PAGE = 20;
     
-    public static final String ORDER_HISTORY_DATABASE = "order_history.txt";
-    public static final String ORDER_HISTORY_DATABASE_HEADER = String.format("%-10s %-20s %-10s %-10s", "OrderID", "ProductName", "Quantity", "Subtotal");
+    public final static String USERS_DATABASE = "src\\techretailpro\\databases\\users.csv";
+    public final static String TEMP_USERS_DATABASE = "src\\techretailpro\\databases\\temp.csv";
     
+    public static final String ORDER_HISTORY_DATABASE = "src/techretailpro/databases/order_history.txt";
+    public static final String ORDER_HISTORY_DATABASE_HEADER = String.format("%-10s %-20s %-10s %-10s", "OrderID", "ProductName", "Quantity", "Subtotal");
+
     public final static Scanner SCANNER = new Scanner(System.in);
 
     public static void clearConsole() {

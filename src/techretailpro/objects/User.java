@@ -1,6 +1,6 @@
 package techretailpro.objects;
 
-public abstract class User {
+public class User {
     protected String username;
     protected String password;
     protected String email;
@@ -47,11 +47,17 @@ public abstract class User {
     public void register() {
     }
     
-    public abstract String toCSV();
+    public String toCSV() {
+        return "";
+    }
     
-    public abstract boolean isAdmin();
+    public boolean isAdmin() {
+        return false;
+    }
     
-    public abstract boolean isCustomer();
+    public boolean isCustomer() {
+        return false;
+    }
     
     public void logout() {
         

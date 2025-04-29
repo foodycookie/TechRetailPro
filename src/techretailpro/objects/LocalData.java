@@ -6,7 +6,7 @@ public class LocalData {
     private static List<Product> currentProductsAvailable; 
     private static List<Product> previousList; 
     //need add logics for both
-//    private static User currentUser = new User();
+    private static User currentUser = new User();
     private static Cart currentUserCart = new Cart(); 
 
     public static List<Product> getCurrentProductsAvailable() {
@@ -25,13 +25,13 @@ public class LocalData {
         LocalData.previousList = previousList;
     }
 
-//    public static User getCurrentUser() {
-//        return currentUser;
-//    }
-//
-//    public static void setCurrentUser(User currentUser) {
-//        LocalData.currentUser = currentUser;
-//    }
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        LocalData.currentUser = currentUser;
+    }
     
     public static Cart getCurrentUserCart() {
         return currentUserCart;
