@@ -2,6 +2,7 @@ package techretailpro.pages;
 
 import java.util.ArrayList;
 import java.util.List;
+import techretailpro.functions.CartManager;
 import techretailpro.functions.ProductManager;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
@@ -37,7 +38,6 @@ public class ProductDetailsPage {
         
         else if (LoginPage.getCurrentUser().isCustomer()) {
             options.add("Add to cart");
-            options.add("Direct order");
         }
         
         else {
@@ -48,8 +48,6 @@ public class ProductDetailsPage {
         }
         
         while(true) {
-            System.out.print("Option > ");
-            
             input = Utility.numberOptionChooser(1, options.size());
             
             if (input == null) {
@@ -60,6 +58,11 @@ public class ProductDetailsPage {
             
             switch (selectedOption) {
                 case "Restock" -> {
+                    if (!LoginPage.getCurrentUser().isAdmin()) {
+                        System.err.println("\nInvalid input");
+                        continue;
+                    }
+                    
                     Boolean action = ProductManager.updateStockUI(product);
                     
                     if (action == null) {
@@ -76,6 +79,11 @@ public class ProductDetailsPage {
                 }
 
                 case "Update product" -> {
+                    if (!LoginPage.getCurrentUser().isAdmin()) {
+                        System.err.println("\nInvalid input");
+                        continue;
+                    }
+                    
                     Boolean action = ProductManager.updateProductUI(product.getCategory(), product.getName());
                     
                     if (action == null) {
@@ -92,6 +100,11 @@ public class ProductDetailsPage {
                 }
 
                 case "Delete product" -> {
+                    if (!LoginPage.getCurrentUser().isAdmin()) {
+                        System.err.println("\nInvalid input");
+                        continue;
+                    }
+                    
                     System.err.println("\nAre you sure?");
                     System.err.println("1. Yes");
                     System.err.println("2. No");
@@ -126,9 +139,17 @@ public class ProductDetailsPage {
                     }    
                 }
                 
-                case "Add to cart" -> {}
-                
-                case "Direct order" -> {}
+                case "Add to cart" -> {
+                    if (!LoginPage.getCurrentUser().isCustomer()) {
+                        System.err.println("\nInvalid input");
+                        continue;
+                    }
+                    
+                    CartManager.addItemToCart(product);
+                    
+                    ProductListPage.display(LocalData.getPreviousList(), 1,  "Item added to cart");
+                }
+                    
 
                 default -> System.err.println("\nInvalid input");
             }

@@ -126,6 +126,15 @@ public class InputValidator {
         return true;
     }
     
+    public static boolean validateOneToOneHundred(int intValue) {
+        if (intValue <= 0 || intValue > 100) {
+            System.err.println("\nInvalid input. Input must be between 1 and 100");
+            return false;
+        }
+        
+        return true;
+    }
+    
     public static boolean validatePositiveOrZeroDouble(double doubleValue) {
         if (doubleValue < 0) {
             System.err.println("\nInvalid input. Input cannot be negative");
@@ -145,7 +154,7 @@ public class InputValidator {
     }
     
     public static boolean validateIfProductNameIsRepeated(String name) {
-        List<Product> list = LocalData.getProducts();
+        List<Product> list = LocalData.getCurrentProductsAvailable();
 
         if (list != null && !list.isEmpty()) {
             for (Product product : list) {
@@ -160,7 +169,7 @@ public class InputValidator {
     }
     
     public static boolean validateIfProductNameIsRepeatedForUpdateWhereYouCanRepeatYourOriginalNameUwu(String oldName, String newName) {
-        List<Product> list = LocalData.getProducts();
+        List<Product> list = LocalData.getCurrentProductsAvailable();
 
         if (list != null && !list.isEmpty()) {
             for (Product product : list) {
@@ -198,6 +207,26 @@ public class InputValidator {
         }
         
         return positiveInt;
+    }
+    
+    public static Integer getOneToOneHundredInt() {
+        Integer oneToOneHundredInt;
+        
+        while (true) {            
+            oneToOneHundredInt = getInt();
+            
+            if (oneToOneHundredInt == null) {
+                return null;
+            }
+            
+            if (!validateOneToOneHundred(oneToOneHundredInt)) {
+                continue;
+            }
+            
+            break;
+        }
+        
+        return oneToOneHundredInt;
     }
     
     public static Double getPositiveOrZeroDouble() {

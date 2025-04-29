@@ -1,14 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.mycompany.assg;
-import java.time.format.DateTimeFormatter;
+package techretailpro.objects;
+
 import java.util.List;
-/**
- *
- * @author TAY TIAN YOU
- */
+
 public class CartOrder {
     private final int id;
     private final List<CartItem> orderItems;
@@ -47,7 +40,7 @@ public class CartOrder {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%-10s %-15s %-10s %-7s %-10s\n", "Product ID", "Product", "Price", "Qty", "Subtotal"));
+        sb.append(String.format("%-15s %-10s %-7s %-10s\n", "Product", "Price", "Qty", "Subtotal"));
         for (CartItem item : orderItems) {
             sb.append(item).append("\n");
         }
@@ -59,5 +52,4 @@ public class CartOrder {
         sb.append(String.format("TOTAL PAID          : RM%.2f", totalAmount));
         return sb.toString();
     }
-    
 }

@@ -1,12 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.mycompany.assg;
-/**
- *
- * @author TAY TIAN YOU
- */
+package techretailpro.objects;
+
 public class Transaction {
     private int choosenMethod;
     private String cardNo;
@@ -60,5 +53,4 @@ public class Transaction {
     public void setChoosenMethod(int choosenMethod) {
         this.choosenMethod = choosenMethod;
     }
-    
 }

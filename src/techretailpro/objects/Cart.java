@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.mycompany.assg;
+package techretailpro.objects;
+
 import java.util.ArrayList;
 import java.util.List;
-/**
- *
- * @author TAY TIAN YOU
- */
+
 public class Cart {
     private final List<CartItem> items;
 
@@ -18,7 +12,7 @@ public class Cart {
 
     public void addItem(Product product, int quantity) {
         for (CartItem item : items) {
-            if (item.getProduct().getId().equals(product.getId())) {
+            if (item.getProduct().getName().equals(product.getName())) {
                 item.updateQuantity(item.getQuantity() + quantity);
                 return;
             }
@@ -26,9 +20,9 @@ public class Cart {
         items.add(new CartItem(product, quantity));
     }
 
-    public void removeItem(String productId, int quantityToRemove) {
+    public void removeItem(String productName, int quantityToRemove) {
         for (CartItem item : new ArrayList<>(items)) {
-            if (item.getProduct().getId().equals(productId)) {
+            if (item.getProduct().getName().equals(productName)) {
                 int currentQty = item.getQuantity();
                 if (quantityToRemove > currentQty) {
                     throw new IllegalArgumentException(
@@ -41,7 +35,7 @@ public class Cart {
                 return;
             }
         }
-        throw new IllegalArgumentException("Item with ID " + productId + " not found");
+        throw new IllegalArgumentException("Item with name " + productName + " not found");
     }
 
     public List<CartItem> getItems() {
@@ -64,12 +58,13 @@ public class Cart {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("=== YOUR CART ===\n");
-        sb.append(String.format("%-10s %-15s %-10s %-7s %-10s\n", "Product ID", "Product", "Price", "Qty", "Subtotal"));
-        for (CartItem item : items) {
-            sb.append(item).append("\n");
+        sb.append(String.format("%-5s %-15s %-10s %-7s %-10s\n", "No", "Product", "Price", "Qty", "Subtotal"));
+        
+        for (int i = 0; i < items.size(); i++) {
+            sb.append(i + 1).append(items.get(i)).append("\n");
         }
+
         sb.append(String.format("TOTAL: RM%.2f\n", calculateTotal()));
         return sb.toString();
     }
-
 }

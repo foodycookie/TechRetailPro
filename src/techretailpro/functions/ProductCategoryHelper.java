@@ -84,7 +84,7 @@ public class ProductCategoryHelper {
             return null;
         }
         
-        for (Product product : LocalData.getProducts()) {
+        for (Product product : LocalData.getCurrentProductsAvailable()) {
             if (product.getCategory().equalsIgnoreCase(category)) {
                 list.add(product);
             }
@@ -101,7 +101,7 @@ public class ProductCategoryHelper {
             return null;
         }
         
-        for (Product product : LocalData.getProducts()) {
+        for (Product product : LocalData.getCurrentProductsAvailable()) {
             if (product.getCategory().equalsIgnoreCase(category)) {
                 list.add(product);
             }

@@ -162,13 +162,13 @@ public class ProductManager {
     }
     
     public static Boolean createProduct(Product product) {
-        List<Product> list = LocalData.getProducts();
-        List<Product> tempList = new ArrayList<>(LocalData.getProducts());
+        List<Product> list = LocalData.getCurrentProductsAvailable();
+        List<Product> tempList = new ArrayList<>(LocalData.getCurrentProductsAvailable());
         
         tempList.add(product);
 
         if (!list.equals(tempList)) {
-            LocalData.setProducts(tempList);
+            LocalData.setCurrentProductsAvailable(tempList);
 
             switch (product.getCategory().toLowerCase()) {
                 case "keyboard" -> DatabaseManager.rewriteKeyboards(ProductListHelper.getKeyboardList());
@@ -336,8 +336,8 @@ public class ProductManager {
     }
     
     public static Boolean updateProduct(String name, Product updatedProduct) {
-        List<Product> list = LocalData.getProducts();
-        List<Product> tempList = new ArrayList<>(LocalData.getProducts());
+        List<Product> list = LocalData.getCurrentProductsAvailable();
+        List<Product> tempList = new ArrayList<>(LocalData.getCurrentProductsAvailable());
         String category = "";
 
         if (list == null || list.isEmpty()) {
@@ -359,7 +359,7 @@ public class ProductManager {
         }
 
         if (!list.equals(tempList)) {
-            LocalData.setProducts(tempList);
+            LocalData.setCurrentProductsAvailable(tempList);
             
             for (int i = 0; i < LocalData.getPreviousList().size(); i++) {
                 if (LocalData.getPreviousList().get(i).getName().equalsIgnoreCase(name)) {
@@ -394,8 +394,8 @@ public class ProductManager {
     }
     
     public static Boolean deleteProduct(String name) {
-        List<Product> list = LocalData.getProducts();
-        List<Product> tempList = new ArrayList<>(LocalData.getProducts());        
+        List<Product> list = LocalData.getCurrentProductsAvailable();
+        List<Product> tempList = new ArrayList<>(LocalData.getCurrentProductsAvailable());        
         String category = "";
         
         if (list.isEmpty()) {
@@ -417,7 +417,7 @@ public class ProductManager {
         }
         
         if (!list.equals(tempList)) {
-            LocalData.setProducts(tempList);
+            LocalData.setCurrentProductsAvailable(tempList);
             
             for (int i = 0; i < LocalData.getPreviousList().size(); i++) {
                 if (LocalData.getPreviousList().get(i).getName().equalsIgnoreCase(name)) {
@@ -472,7 +472,7 @@ public class ProductManager {
     }
     
     public static Boolean updateStock(String name, int amount) {
-        List<Product> list = LocalData.getProducts();
+        List<Product> list = LocalData.getCurrentProductsAvailable();
         String category = "";
         
         int oldStock = 0;
@@ -501,7 +501,7 @@ public class ProductManager {
         }
         
         if (oldStock != newStock) {
-            LocalData.setProducts(list);
+            LocalData.setCurrentProductsAvailable(list);
             
             switch (category.toLowerCase()) {
                 case "keyboard" -> DatabaseManager.rewriteKeyboards(ProductListHelper.getKeyboardList());

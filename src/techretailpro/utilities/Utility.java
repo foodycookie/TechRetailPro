@@ -26,12 +26,11 @@ public class Utility {
     
     public final static int DATA_PER_PAGE = 20;
     
+    public static final String ORDER_HISTORY_DATABASE = "order_history.txt";
+    public static final String ORDER_HISTORY_DATABASE_HEADER = String.format("%-10s %-20s %-10s %-10s", "OrderID", "ProductName", "Quantity", "Subtotal");
+    
     public final static Scanner SCANNER = new Scanner(System.in);
-    
-    public static void closeScanner() {
-        SCANNER.close();
-    }
-    
+
     public static void clearConsole() {
         for (int i = 0; i < 10; i++) {
             System.out.println("");

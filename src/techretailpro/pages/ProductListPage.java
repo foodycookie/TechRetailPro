@@ -2,6 +2,8 @@ package techretailpro.pages;
 
 import java.util.ArrayList;
 import java.util.List;
+import techretailpro.functions.CartManager;
+import techretailpro.functions.OrderManager;
 import techretailpro.functions.ProductListHelper;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
@@ -46,20 +48,43 @@ public class ProductListPage {
         
         System.out.println();
         
-        //Will check if customer, then cannot see product with 0 stock
         if (allSameCategory) {
             System.out.println(list.get(0).detailedListHeader());
             
-            for (int i = start; i < end; i++) {
-                System.out.print(String.format("%-5d ", (i + 1)) + list.get(i).toStringForDetailedList() + "\n");
+            if (LoginPage.getCurrentUser().isAdmin()) {
+                for (int i = start; i < end; i++) {
+                    System.out.print(String.format("%-5d ", (i + 1)) + list.get(i).toStringForDetailedList() + "\n");
+                }
+            }
+            
+            else {
+                for (int i = start; i < end; i++) {
+                    if (!list.get(i).isAvailable()) {
+                        continue;
+                    }
+
+                    System.out.print(String.format("%-5d ", (i + 1)) + list.get(i).toStringForDetailedList() + "\n");
+                }
             }
         }
         
         else {
             System.out.println(list.get(0).generalListHeader());
             
-            for (int i = start; i < end; i++) {
-                System.out.print(String.format("%-5d ", (i + 1)) + list.get(i).toStringForGeneralList() + "\n");
+            if (LoginPage.getCurrentUser().isAdmin()) {
+                for (int i = start; i < end; i++) {
+                    System.out.print(String.format("%-5d ", (i + 1)) + list.get(i).toStringForGeneralList() + "\n");
+                }
+            }
+            
+            else {
+                for (int i = start; i < end; i++) {
+                    if (!list.get(i).isAvailable()) {
+                        continue;
+                    }
+
+                    System.out.print(String.format("%-5d ", (i + 1)) + list.get(i).toStringForGeneralList() + "\n");
+                }
             }
         }
         
@@ -93,6 +118,9 @@ public class ProductListPage {
         }
         
         else if (LoginPage.getCurrentUser().isCustomer()) {
+            options.add("vc. View cart");
+            options.add("rmv. Remove item from cart");
+            options.add("co. Checkout");
         }
         
         else {
@@ -166,6 +194,33 @@ public class ProductListPage {
                     case "fi" -> display(ProductListHelper.filterProductUI(list), 1, null);
 
                     case "re" -> display(LocalData.getPreviousList(), 1, null); 
+                    
+                    case "vc" -> {
+                        if (!LoginPage.getCurrentUser().isCustomer()) {
+                            System.err.println("\nInvalid input");
+                            continue;
+                        }
+                        
+                        CartManager.viewCart();
+                    }
+                
+                    case "rmv" -> {
+                        if (!LoginPage.getCurrentUser().isCustomer()) {
+                            System.err.println("\nInvalid input");
+                            continue;
+                        }
+                        
+                        CartManager.removeItemFromCart();
+                    }
+
+                    case "co" -> {
+                        if (!LoginPage.getCurrentUser().isCustomer()) {
+                            System.err.println("\nInvalid input");
+                            continue;
+                        }
+                        
+//                        OrderManager.checkoutAndPay(orderHistory, payments, trans);
+                    }
 
                     default -> System.err.println("\nInvalid input");
                 }

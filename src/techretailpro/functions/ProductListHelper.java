@@ -15,7 +15,7 @@ import techretailpro.utilities.Utility;
 public class ProductListHelper {
     public static List<Keyboard> getKeyboardList() {
         List<Keyboard> list = new ArrayList<>();
-                    
+        
         for (Product product : ProductCategoryHelper.getListByCategory(new Keyboard().getCategory())) {
             if (product.getCategory().equalsIgnoreCase(new Keyboard().getCategory())) {
                 list.add((Keyboard) product);
@@ -76,7 +76,7 @@ public class ProductListHelper {
     public static List<Product> getLowStockList() {
         List<Product> lowStockList = new ArrayList<>();
 
-        for (Product product : LocalData.getProducts()) {
+        for (Product product : LocalData.getCurrentProductsAvailable()) {
             if (product.isLowStock()) {
                 lowStockList.add(product);
             }

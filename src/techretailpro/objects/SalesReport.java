@@ -1,20 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.mycompany.paymentmodule;
-import java.util.*;
-/**
- *
- * @author TAY TIAN YOU
- */
+package techretailpro.objects;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class SalesReport {
-    private List<Order> orderHistory = new ArrayList<>();
-    private List<Item> allSoldItems = new ArrayList<>();
+    private List<CartOrder> orderHistory = new ArrayList<>();
+    private List<CartItem> allSoldItems = new ArrayList<>();
     
-    public void addOrder(Order order) {
+    public void addOrder(CartOrder order) {
         orderHistory.add(order);
-        allSoldItems.addAll(order.getItems());
+        allSoldItems.addAll(order.getOrderItems());
     }
     public boolean hasOrders() {
         return !orderHistory.isEmpty();
@@ -25,8 +20,8 @@ public class SalesReport {
             return "No orders found.";
         }
         StringBuilder result = new StringBuilder("--- All Order History ---\n");
-        for (Order order : orderHistory) {
-            result.append(order.getReceipt());
+        for (CartOrder order : orderHistory) {
+            result.append(order.toString());
         }
         return result.toString();
     }
@@ -36,9 +31,9 @@ public class SalesReport {
         double totalDiscount = 0;
         StringBuilder report = new StringBuilder("--- Sales Report ---\n");
         
-        for (Order order : orderHistory) {
+        for (CartOrder order : orderHistory) {
             totalSales += order.getTotalAmount();
-            totalDiscount += order.getDiscountUsed();
+            totalDiscount += order.getDiscountAmount();
         }
         
         report.append("Total Sales         : RM").append(totalSales).append("\n")
@@ -46,16 +41,16 @@ public class SalesReport {
               .append("Best Sellers:\n");
 
         List<String> checked = new ArrayList<>();
-        for (Item item : allSoldItems) {
-            if (!checked.contains(item.getName())) {
+        for (CartItem item : allSoldItems) {
+            if (!checked.contains(item.getProduct().getName())) {
                 int count = 0;
-                for (Item i : allSoldItems) {
-                    if (i.getName().equals(item.getName())) {
+                for (CartItem i : allSoldItems) {
+                    if (i.getProduct().getName().equals(item.getProduct().getName())) {
                         count++;
                     }
                 }
-                report.append(String.format("%-19s %-1s %-3s %5s\n",item.getName(), ":", count, "sold"));
-                checked.add(item.getName());
+                report.append(String.format("%-19s %-1s %-3s %5s\n",item.getProduct().getName(), ":", count, "sold"));
+                checked.add(item.getProduct().getName());
             }
         }
         return report.toString();
