@@ -11,7 +11,7 @@ public class CartManager {
         } 
         
         else {
-            System.out.println(LocalData.getCurrentUserCart().toString());
+            System.out.println("\n" + LocalData.getCurrentUserCart().toString());
         }
     }
     
@@ -35,8 +35,15 @@ public class CartManager {
         }
         
         LocalData.getCurrentUserCart().addItem(product, validQuantity);
+
+        for (Product p : LocalData.getCurrentProductsAvailable()) {
+            if (p.getName().equalsIgnoreCase(product.getName())) {
+                p.setStock(p.getStock() - validQuantity);
+                break;
+            }
+        }
     }
-    
+       
     public static void removeItemFromCart() {
         if (LocalData.getCurrentUserCart().isEmpty()) {
             System.out.println("\nCart is empty");
@@ -46,9 +53,9 @@ public class CartManager {
         Integer productNumber;
         Integer validQuantity;
         
-        System.out.println(LocalData.getCurrentUserCart().toString());
+        viewCart();
         
-        System.out.print("\nSelect a product by number");
+        System.out.println("\nSelect a product by number");
         
         productNumber = Utility.numberOptionChooser(1, LocalData.getCurrentUserCart().getItems().size());
             
@@ -71,8 +78,16 @@ public class CartManager {
 
             break;
         }
+        
+        String removedProductName = LocalData.getCurrentUserCart().getItems().get(productNumber - 1).getProduct().getName();
 
-        LocalData.getCurrentUserCart().removeItem(LocalData.getCurrentUserCart().getItems().get(productNumber - 1).getProduct().getName(), validQuantity);
-        System.out.println("\nItem removed");
+        LocalData.getCurrentUserCart().removeItem(removedProductName, validQuantity);
+        
+        for (Product p : LocalData.getCurrentProductsAvailable()) {
+            if (p.getName().equalsIgnoreCase(removedProductName)) {
+                p.setStock(p.getStock() + validQuantity);
+                break;
+            }
+        }
     }
 }

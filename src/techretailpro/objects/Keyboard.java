@@ -63,7 +63,7 @@ public class Keyboard extends Product {
     }
     
     @Override
-    public String detailedListHeader() {
+    public String getDetailedListHeader() {
         return String.format("%-5s %-10s %-25s %-8s %-5s %-8s %-15s %-5s", "No", "Category", "Name", "Price", "Stock", "Wireless", "Key type", "RGB");
     }
 }

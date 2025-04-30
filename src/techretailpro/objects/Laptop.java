@@ -63,7 +63,7 @@ public class Laptop extends Product {
     }
     
     @Override
-    public String detailedListHeader() {
+    public String getDetailedListHeader() {
         return String.format("%-5s %-10s %-25s %-8s %-5s %-25s %-6s %-7s", "No", "Category", "Name", "Price", "Stock", "Processor", "Memory", "Storage");
     }
 }

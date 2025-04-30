@@ -51,49 +51,64 @@ public class MainPage {
             System.err.println(message + ". Jump to main page...");
         }
         
-        System.out.println("\nWelcome to TechRetailPro");
+        if (LocalData.getCurrentUser().isCustomer()) {
+            System.out.println("\nWelcome to TechRetailPro, " + LocalData.getCurrentUser().getUsername() + "!");
+        }
+        
+        else if (LocalData.getCurrentUser().isAdmin()) {
+            System.out.println("\nWelcome to TechRetailPro, Admin " + LocalData.getCurrentUser().getUsername() + "!");
+        }
+        
+        else {
+            System.out.println("\nWelcome to TechRetailPro!");
+        }
+        
         System.out.println("\nPlease select an option");
         System.out.println("Type {exit} at anytime to go back");
-        
+                
         options.add("Browse products via category");
         options.add("View all the products");
         options.add("Search something");
         
+        options.add("Register");
+        options.add("Login");
+        
         if (LoginPage.getCurrentUser().isAdmin()) {
+            options.remove("Register");
+            options.remove("Login");
+            
             options.add("Check all low stock");
             options.add("Create new product");
             options.add("View order history");
+            
+            options.add("Logout");
         }
         
         else if (LoginPage.getCurrentUser().isCustomer()) {
+            options.remove("Register");
+            options.remove("Login");
+            
             options.add("View cart");
             options.add("Remove item from cart");
             options.add("Checkout");
+            
+            options.add("View profile");
+            options.add("Logout");
         }
         
         else {
         }
         
-        options.add("Register");
-        options.add("Login");
-        
-        if (LocalData.getCurrentUser().isAdmin() || LocalData.getCurrentUser().isCustomer()) {
-            options.remove("Register");
-            options.remove("Login");
-            
-            if (LocalData.getCurrentUser().isCustomer()) {
-                options.add("View profile");
-            }
-            
-            options.add("Logout");
-        }
-        
         options.add("Exit program");
+        
+        if (options.isEmpty()) {
+            options.add("Nothing you can do here. Go back");
+        }
         
         for (int i = 0; i < options.size(); i++) {
             System.out.println((i + 1) + ". " + options.get(i));
         }
-
+        
         while(true) {
             Integer input = Utility.numberOptionChooser(1, options.size());
             
@@ -118,21 +133,9 @@ public class MainPage {
                     ProductListHelper.searchProduct(LocalData.getCurrentProductsAvailable(), validQuery);
                 }
 
-                case "Check all low stock" -> {
-                    if (!LoginPage.getCurrentUser().isAdmin()) {
-                        System.err.println("\nInvalid input");
-                        continue;
-                    }
-                        
-                    displayProductInList(ProductListHelper.getLowStockList());
-                }
+                case "Check all low stock" -> displayProductInList(ProductListHelper.getLowStockList());
          
-                case "Create new product" -> {  
-                    if (!LoginPage.getCurrentUser().isAdmin()) {
-                        System.err.println("\nInvalid input");
-                        continue;
-                    }
-                        
+                case "Create new product" -> {    
                     Boolean action = ProductManager.createProductUI();
                     
                     if (action == null) {
@@ -148,40 +151,20 @@ public class MainPage {
                     }
                 }
                 
-                case "View order history" -> {
-                    if (!LoginPage.getCurrentUser().isAdmin()) {
-                        System.err.println("\nInvalid input");
-                        continue;
-                    }
-                        
-                    OrderManager.viewOrderHistory();
-                }
+                case "View order history" -> OrderManager.viewOrderHistory();
                 
-                case "View cart" -> {
-                    if (!LoginPage.getCurrentUser().isCustomer()) {
-                        System.err.println("\nInvalid input");
-                        continue;
-                    }
-                        
-                    CartManager.viewCart();
-                }
+                case "View cart" -> CartManager.viewCart();
                 
                 case "Remove item from cart" -> {
-                    if (!LoginPage.getCurrentUser().isCustomer()) {
-                        System.err.println("\nInvalid input");
-                        continue;
-                    }
-                        
                     CartManager.removeItemFromCart();
+                    
+                    MainPage.display("Item removed from cart");
                 }
                 
                 case "Checkout" -> {
-                    if (!LoginPage.getCurrentUser().isCustomer()) {
-                        System.err.println("\nInvalid input");
-                        continue;
-                    }
-                        
                     OrderManager.checkoutAndPay(orderHistory, payments, trans);
+                    
+                    MainPage.display(null);
                 }
                 
                 case "Register" -> LoginPage.register(Utility.SCANNER);
@@ -199,6 +182,8 @@ public class MainPage {
                     
                     System.exit(0);
                 }
+                
+                case "Nothing you can do here. Go back" -> display(null);
                 
                 default -> System.err.println("\nInvalid input");
             }

@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import techretailpro.objects.Admin;
+import techretailpro.objects.CartItem;
 import techretailpro.objects.Customer;
 import techretailpro.objects.LocalData;
+import techretailpro.objects.Product;
 import techretailpro.objects.User;
 import techretailpro.utilities.Utility;
 
@@ -129,6 +131,21 @@ public class LoginPage {
     if (LocalData.getCurrentUser().isAdmin() || LocalData.getCurrentUser().isCustomer()) {
         System.out.println("Logged out: " + LocalData.getCurrentUser().getUsername());
         LocalData.setCurrentUser(new User());
+        
+        for (CartItem item : LocalData.getCurrentUserCart().getItems()) {
+            String removedProductName = item.getProduct().getName();
+            int removedProductQuantity = item.getQuantity();
+            
+            LocalData.getCurrentUserCart().removeItem(removedProductName, removedProductQuantity);
+            
+            for (Product p : LocalData.getCurrentProductsAvailable()) {
+                if (p.getName().equalsIgnoreCase(removedProductName)) {
+                    p.setStock(p.getStock() + removedProductQuantity);
+                    break;
+                }
+            }
+        }
+
         LocalData.getCurrentUserCart().clear();
         MainPage.display(null);
     }

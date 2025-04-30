@@ -259,6 +259,10 @@ public class OrderManager {
             System.out.println("      Thank you for shopping with TECH RETAIL PRO!       ");
             System.out.print("\nPress Enter to Exit");
             Utility.SCANNER.nextLine();
+ 
+            for (CartItem item : LocalData.getCurrentUserCart().getItems()) {
+                ProductManager.updateStock(item.getProduct().getName(), -(item.getQuantity()));
+            }
 
             LocalData.getCurrentUserCart().clear();
         }

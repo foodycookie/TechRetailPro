@@ -130,6 +130,19 @@ public class Customer extends User {
         String tempFile = Utility.TEMP_USERS_DATABASE;
         File oldFile = new File(filepath);
         File newFile = new File(tempFile);
+
+        try (Scanner checkScanner = new Scanner(oldFile)) {
+            while (checkScanner.hasNextLine()) {
+                String[] data = checkScanner.nextLine().split(",", -1);
+                if (data.length >= 2 && data[1].equals(newUsername) && !data[1].equals(editTerm)) {
+                    System.out.println("Username '" + newUsername + "' is already taken. Please choose a different one.");
+                    return;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+            return;
+        }
         
         try (PrintWriter writer = new PrintWriter(new FileWriter(newFile))) {
             Scanner scanner = new Scanner(oldFile);

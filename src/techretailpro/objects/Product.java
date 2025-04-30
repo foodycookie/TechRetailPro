@@ -76,9 +76,9 @@ public abstract class Product {
 
     public abstract String toStringForDatabase();
     
-    public String generalListHeader() {
+    public String getGeneralListHeader() {
         return String.format("%-5s %-10s %-25s %-8s %-5s", "No", "Category", "Name", "Price", "Stock");
     }
     
-    public abstract String detailedListHeader();
+    public abstract String getDetailedListHeader();
 }

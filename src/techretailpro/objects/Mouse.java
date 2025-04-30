@@ -63,7 +63,7 @@ public class Mouse extends Product {
     }
     
     @Override
-    public String detailedListHeader() {
+    public String getDetailedListHeader() {
         return String.format("%-5s %-10s %-30s %-8s %-5s %-8s %-12s %-5s", "No", "Category", "Name", "Price", "Stock", "Wireless", "Sensor type", "DPI");
     }
 }

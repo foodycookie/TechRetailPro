@@ -5,7 +5,6 @@ import java.util.List;
 public class LocalData {
     private static List<Product> currentProductsAvailable; 
     private static List<Product> previousList; 
-    //need add logics for both
     private static User currentUser = new User();
     private static Cart currentUserCart = new Cart(); 
 

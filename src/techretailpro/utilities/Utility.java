@@ -29,8 +29,8 @@ public class Utility {
     public final static String USERS_DATABASE = "src\\techretailpro\\databases\\users.csv";
     public final static String TEMP_USERS_DATABASE = "src\\techretailpro\\databases\\temp.csv";
     
-    public static final String ORDER_HISTORY_DATABASE = "src/techretailpro/databases/order_history.txt";
-    public static final String ORDER_HISTORY_DATABASE_HEADER = String.format("%-10s %-20s %-10s %-10s", "OrderID", "ProductName", "Quantity", "Subtotal");
+    public final static String ORDER_HISTORY_DATABASE = "src/techretailpro/databases/order_history.txt";
+    public final static String ORDER_HISTORY_DATABASE_HEADER = String.format("%-10s %-20s %-10s %-10s", "OrderID", "ProductName", "Quantity", "Subtotal");
 
     public final static Scanner SCANNER = new Scanner(System.in);
 
@@ -47,7 +47,7 @@ public class Utility {
         Integer numberInput;
         
         while(true) {
-            System.out.print("Option > ");
+            System.out.print("Input > ");
             
             input = SCANNER.nextLine().trim();
             

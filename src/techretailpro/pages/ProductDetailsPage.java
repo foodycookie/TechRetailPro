@@ -37,12 +37,18 @@ public class ProductDetailsPage {
         }
         
         else if (LoginPage.getCurrentUser().isCustomer()) {
-            options.add("Add to cart");
+            if (product.isAvailable()) {
+                options.add("Add to cart");
+            } 
         }
         
         else {
         }
         
+        if (options.isEmpty()) {
+            options.add("Nothing you can do here. Go back");
+        }
+
         for (int i = 0; i < options.size(); i++) {
             System.out.println((i + 1) + ". " + options.get(i));
         }
@@ -58,11 +64,6 @@ public class ProductDetailsPage {
             
             switch (selectedOption) {
                 case "Restock" -> {
-                    if (!LoginPage.getCurrentUser().isAdmin()) {
-                        System.err.println("\nInvalid input");
-                        continue;
-                    }
-                    
                     Boolean action = ProductManager.updateStockUI(product);
                     
                     if (action == null) {
@@ -79,11 +80,6 @@ public class ProductDetailsPage {
                 }
 
                 case "Update product" -> {
-                    if (!LoginPage.getCurrentUser().isAdmin()) {
-                        System.err.println("\nInvalid input");
-                        continue;
-                    }
-                    
                     Boolean action = ProductManager.updateProductUI(product.getCategory(), product.getName());
                     
                     if (action == null) {
@@ -100,11 +96,6 @@ public class ProductDetailsPage {
                 }
 
                 case "Delete product" -> {
-                    if (!LoginPage.getCurrentUser().isAdmin()) {
-                        System.err.println("\nInvalid input");
-                        continue;
-                    }
-                    
                     System.err.println("\nAre you sure?");
                     System.err.println("1. Yes");
                     System.err.println("2. No");
@@ -140,16 +131,12 @@ public class ProductDetailsPage {
                 }
                 
                 case "Add to cart" -> {
-                    if (!LoginPage.getCurrentUser().isCustomer()) {
-                        System.err.println("\nInvalid input");
-                        continue;
-                    }
-                    
                     CartManager.addItemToCart(product);
                     
                     ProductListPage.display(LocalData.getPreviousList(), 1,  "Item added to cart");
                 }
-                    
+                
+                case "Nothing you can do here. Go back" -> ProductListPage.display(LocalData.getPreviousList(), 1, null);
 
                 default -> System.err.println("\nInvalid input");
             }

@@ -7,3 +7,6 @@ TOTAL for Order #1: RM210.00
 1          Keyboard 20          40         2800.00   
 TOTAL for Order #1: RM3270.00
 
+1          This is keyboard 1   11         11.00     
+TOTAL for Order #1: RM11.00
+

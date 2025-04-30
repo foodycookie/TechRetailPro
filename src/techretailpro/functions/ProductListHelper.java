@@ -134,10 +134,9 @@ public class ProductListHelper {
         return sortProductList(list, input);
     }
     
-    //Good luck explaining sort
     public static List<Product> sortProductList(List<Product> list, int option) {
         List<Product> sortedList = new ArrayList<>(list);
-        
+
         switch (option) {
             case 1 -> sortedList.sort(Comparator.comparing(Product::getName));
 
