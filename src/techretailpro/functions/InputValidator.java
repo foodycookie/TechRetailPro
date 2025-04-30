@@ -3,9 +3,103 @@ package techretailpro.functions;
 import java.util.List;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
-import techretailpro.utilities.Utility;
 
 public class InputValidator {
+    public static String getUserInput(String prompt, String type, boolean allowBlank) {
+        String input;
+        
+        while (true) {
+            System.out.println("\n" + prompt);
+            System.out.print("Input > ");
+            input = Utility.SCANNER.nextLine().trim();
+
+            if (allowBlank) {
+                if (input.isEmpty()) {
+                    return "BLANK";
+                }
+            }
+            
+            if (input.equalsIgnoreCase("exit")) {
+                return "EXIT";
+            }
+
+            switch (type.toLowerCase()) {
+                case "int" -> {
+                    try {
+                        Integer.valueOf(input);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Please enter a valid integer");
+                        continue;
+                    }
+                    
+                    return input;
+                }
+
+                case "double" -> {
+                    try {
+                        Double.valueOf(input);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Please enter a valid double");
+                        continue;
+                    }
+                    
+                    return input;
+                }
+
+                case "boolean" -> {
+                    if (!input.equalsIgnoreCase("true") && !input.equalsIgnoreCase("false")) {
+                        System.out.println("Please enter true or false");
+                        continue;
+                    }
+                    
+                    return input;
+                }
+
+                case "string" -> {
+                    if (input.contains(",")) {
+                        System.out.println("Commas are not allowed");
+                        continue;
+                    }
+                    
+                    return input;
+                }
+
+                default -> {
+                    System.out.println("Unsupported type: " + type);
+                    return null;
+                }
+            }
+        }
+    }
+
+
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /// Basic input validation ///
     //Only check if it is the correct data type and not empty
     

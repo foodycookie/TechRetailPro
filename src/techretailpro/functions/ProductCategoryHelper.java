@@ -9,7 +9,6 @@ import techretailpro.objects.LocalData;
 import techretailpro.objects.Mouse;
 import techretailpro.objects.Printer;
 import techretailpro.objects.Product;
-import techretailpro.utilities.Utility;
 
 public class ProductCategoryHelper {
     public static List<String> getExistingCategory() {

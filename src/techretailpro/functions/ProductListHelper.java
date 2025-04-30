@@ -10,7 +10,6 @@ import techretailpro.objects.LocalData;
 import techretailpro.objects.Mouse;
 import techretailpro.objects.Printer;
 import techretailpro.objects.Product;
-import techretailpro.utilities.Utility;
 
 public class ProductListHelper {
     public static List<Keyboard> getKeyboardList() {

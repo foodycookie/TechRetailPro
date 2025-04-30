@@ -15,14 +15,13 @@ import techretailpro.objects.Laptop;
 import techretailpro.objects.Mouse;
 import techretailpro.objects.Printer;
 import techretailpro.objects.Product;
-import techretailpro.utilities.Utility;
-import static techretailpro.utilities.Utility.HEADPHONES_DATABASE;
-import static techretailpro.utilities.Utility.KEYBOARDS_DATABASE;
-import static techretailpro.utilities.Utility.LAPTOPS_DATABASE;
-import static techretailpro.utilities.Utility.MICE_DATABASE;
-import static techretailpro.utilities.Utility.PRINTERS_DATABASE;
+import static techretailpro.functions.Utility.HEADPHONES_DATABASE;
+import static techretailpro.functions.Utility.KEYBOARDS_DATABASE;
+import static techretailpro.functions.Utility.LAPTOPS_DATABASE;
+import static techretailpro.functions.Utility.MICE_DATABASE;
+import static techretailpro.functions.Utility.PRINTERS_DATABASE;
 
-public class DatabaseManager {
+public class ProductDatabaseManager {
     public static List<String[]> readCSV(File file) {
         if (file == null) {
             System.err.println("File not found");
@@ -41,9 +40,11 @@ public class DatabaseManager {
                     continue;
                 }
                 
-                String[] separatedRow = row.split(",");
+                if (!row.isEmpty()) {
+                    String[] separatedRow = row.split(",");
 
-                separatedRows.add(separatedRow);
+                    separatedRows.add(separatedRow);
+                }
             }
         } catch (IOException ex) {
             System.err.println("Error occured while reading file: " + file);
@@ -51,6 +52,18 @@ public class DatabaseManager {
         
         return separatedRows;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     public static List<Product> fetchAllProducts() {
         List<Product> list = new ArrayList<>();
@@ -471,23 +484,23 @@ public class DatabaseManager {
     
     public static void initializeDatabaseFile() {
         if (!new File(KEYBOARDS_DATABASE).exists()) {
-            DatabaseManager.rewriteKeyboards(Arrays.asList(new Keyboard("Adam", 930, 1, "One of the first product", false, "Not found", false)));
+            ProductDatabaseManager.rewriteKeyboards(Arrays.asList(new Keyboard("Adam", 930, 1, "One of the first product", false, "Not found", false)));
         }
         
         if (!new File(MICE_DATABASE).exists()) {
-            DatabaseManager.rewriteMice(Arrays.asList(new Mouse("Eve", 930, 1, "One of the first product", false, "Not found", 0)));
+            ProductDatabaseManager.rewriteMice(Arrays.asList(new Mouse("Eve", 930, 1, "One of the first product", false, "Not found", 0)));
         }
         
         if (!new File(LAPTOPS_DATABASE).exists()) {
-            DatabaseManager.rewriteLaptops(Arrays.asList(new Laptop("Cain", 860, 1, "One of the first product", "Not found", 0, 0)));
+            ProductDatabaseManager.rewriteLaptops(Arrays.asList(new Laptop("Cain", 860, 1, "One of the first product", "Not found", 0, 0)));
         }
         
         if (!new File(HEADPHONES_DATABASE).exists()) {
-            DatabaseManager.rewriteHeadphones(Arrays.asList(new Headphone("Abel", 122, 1, "One of the first product", false, false, false)));
+            ProductDatabaseManager.rewriteHeadphones(Arrays.asList(new Headphone("Abel", 122, 1, "One of the first product", false, false, false)));
         }
         
         if (!new File(PRINTERS_DATABASE).exists()) {
-            DatabaseManager.rewritePrinters(Arrays.asList(new Printer("Seth", 912, 1, "One of the first product", false, 0, "Not found")));
+            ProductDatabaseManager.rewritePrinters(Arrays.asList(new Printer("Seth", 912, 1, "One of the first product", false, 0, "Not found")));
         }
     }
 }

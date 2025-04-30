@@ -1,9 +1,8 @@
-package techretailpro.utilities;
+package techretailpro.functions;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import techretailpro.functions.DatabaseManager;
 import techretailpro.objects.Headphone;
 import techretailpro.objects.Keyboard;
 import techretailpro.objects.Laptop;
@@ -140,7 +139,7 @@ public class Utility {
     }
     
     //WILL OVERRIDE PRODUCT DB FILE, USE WITH CAUTION
-    public static void 我这边打中文会怎样这是生成测试数据的() {
+    public static void productGenerator() {
         List<Product> list = new ArrayList<>();
         Keyboard keyboard;
         Mouse mouse;
@@ -209,6 +208,6 @@ public class Utility {
         }
         
         
-        DatabaseManager.rewriteAllProducts(list);
+        ProductDatabaseManager.rewriteAllProducts(list);
     }
 }

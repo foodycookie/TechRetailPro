@@ -1,12 +1,10 @@
 OrderID    ProductName          Quantity   Subtotal  
-1          Keyboard 1           10         210.00    
-TOTAL for Order #1: RM210.00
+1          This is keyboard 1   1          1.00      
+TOTAL for Order #1: RM1.00
 
-1          Keyboard 1           10         210.00    
-1          Keyboard 2           5          260.00    
-1          Keyboard 20          40         2800.00   
-TOTAL for Order #1: RM3270.00
+3          This is keyboard 1   1          1.00      
+TOTAL for Order #3: RM1.00
 
-1          This is keyboard 1   11         11.00     
-TOTAL for Order #1: RM11.00
+1          This is keyboard 1   1          1.00      
+TOTAL for Order #1: RM1.00
 

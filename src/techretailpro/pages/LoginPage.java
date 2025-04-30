@@ -17,7 +17,7 @@ import techretailpro.objects.Customer;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
 import techretailpro.objects.User;
-import techretailpro.utilities.Utility;
+import techretailpro.functions.Utility;
 
 
 
@@ -104,7 +104,7 @@ public class LoginPage {
                     if (type.equals("admin")) {
                         LocalData.setCurrentUser(new Admin(uname, pwd, email));
 //                        showUserMenu(sc);
-                        MainPage.display(null);
+                        MainPage.display();
 
                     } else {
                         LocalData.setCurrentUser(new Customer(uname, pwd, email, phone, address));
@@ -112,7 +112,7 @@ public class LoginPage {
                     try{
                     System.out.println("Login successful. Welcome, " + LocalData.getCurrentUser().getUsername());
 //                    showUserMenu(sc);
-                    MainPage.display(null);
+                    MainPage.display();
                     return;
                     }
                     catch(Exception ex){
@@ -147,7 +147,7 @@ public class LoginPage {
         }
 
         LocalData.getCurrentUserCart().clear();
-        MainPage.display(null);
+        MainPage.display();
     }
 }
 

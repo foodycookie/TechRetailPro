@@ -2,16 +2,16 @@ package techretailpro.pages;
 
 import java.util.ArrayList;
 import java.util.List;
-import techretailpro.functions.CartManager;
+import techretailpro.functions.CartFunction;
 import techretailpro.functions.InputValidator;
-import techretailpro.functions.OrderManager;
+import techretailpro.functions.OrderFunction;
 import techretailpro.functions.ProductListHelper;
 import techretailpro.objects.CartOrder;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Payment;
 import techretailpro.objects.Product;
 import techretailpro.objects.Transaction;
-import techretailpro.utilities.Utility;
+import techretailpro.functions.Utility;
 
 public class ProductListPage {
     static List<CartOrder> orderHistory = new ArrayList<>();
@@ -22,7 +22,7 @@ public class ProductListPage {
         new Payment("Online Banking")
     };
     
-    public static void display(List<Product> list, int currentPage, String message) {
+    public static void display(List<Product> list, int currentPage) {
         if (list == null) {
             display(LocalData.getPreviousList(), 1, null);
             return;
@@ -180,16 +180,16 @@ public class ProductListPage {
 
                     case "Reset list" -> display(LocalData.getPreviousList(), 1, null); 
                     
-                    case "View cart" -> CartManager.viewCart();
+                    case "View cart" -> CartFunction.viewCart();
                 
                     case "Remove item from cart" -> {
-                        CartManager.removeItemFromCart();
+                        CartFunction.removeItemFromCart();
                         
                         ProductListPage.display(LocalData.getPreviousList(), 1,  "Item removed from cart");
                     }
 
                     case "Checkout" -> {
-                        OrderManager.checkoutAndPay(orderHistory, payments, trans);
+                        OrderFunction.checkoutAndPay(orderHistory, payments, trans);
                         
                         ProductListPage.display(LocalData.getPreviousList(), 1,  null);
                     }

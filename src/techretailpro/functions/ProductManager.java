@@ -9,6 +9,7 @@ import techretailpro.objects.LocalData;
 import techretailpro.objects.Mouse;
 import techretailpro.objects.Printer;
 import techretailpro.objects.Product;
+import techretailpro.pages.MainPage;
 
 public class ProductManager {
     //Can use UI or directly call, ex: customer bought something, call updateStock()
@@ -171,15 +172,15 @@ public class ProductManager {
             LocalData.setCurrentProductsAvailable(tempList);
 
             switch (product.getCategory().toLowerCase()) {
-                case "keyboard" -> DatabaseManager.rewriteKeyboards(ProductListHelper.getKeyboardList());
+                case "keyboard" -> ProductDatabaseManager.rewriteKeyboards(ProductListHelper.getKeyboardList());
 
-                case "mouse" -> DatabaseManager.rewriteMice(ProductListHelper.getMouseList());
+                case "mouse" -> ProductDatabaseManager.rewriteMice(ProductListHelper.getMouseList());
  
-                case "laptop" -> DatabaseManager.rewriteLaptops(ProductListHelper.getLaptopList());
+                case "laptop" -> ProductDatabaseManager.rewriteLaptops(ProductListHelper.getLaptopList());
 
-                case "headphone" -> DatabaseManager.rewriteHeadphones(ProductListHelper.getHeadphoneList());
+                case "headphone" -> ProductDatabaseManager.rewriteHeadphones(ProductListHelper.getHeadphoneList());
 
-                case "printer" -> DatabaseManager.rewritePrinters(ProductListHelper.getPrinterList());
+                case "printer" -> ProductDatabaseManager.rewritePrinters(ProductListHelper.getPrinterList());
 
                 default -> {
                     System.err.println("\nInvalid category");
@@ -193,18 +194,79 @@ public class ProductManager {
         return false;
     }
     
-    public static Boolean updateProductUI(String category, String oldName) {
+    public static Boolean updateProductUI(String category, Product product) {
         System.out.println("\nEnter new name");
         String validName = InputValidator.getValidProductNameForUpdate(oldName);
         if (validName == null) {
             return null;
         }
         
-        System.out.println("\nEnter new price");
-        Double validPrice = InputValidator.getPositiveOrZeroDouble();
-        if (validPrice == null) {
-            return null;
+//        System.out.println("\nEnter new price");
+//        Double validPrice = InputValidator.getPositiveOrZeroDouble();
+//        if (validPrice == null) {
+//            return null;
+//        }
+        
+
+        //1
+        double validPrice = 0;
+        do {            
+            String rawValidPrice = InputValidator.getUserInput("Enter new price (Leave blank to keep current)", "double", true);
+        
+            switch (rawValidPrice) {
+                case "BLANK" -> validPrice = product.getPrice();
+
+                case "EXIT" -> {
+                    System.out.println("Cancelling product update (Type enter to exit)");
+                    Utility.SCANNER.nextLine();
+                    MainPage.display();
+                }
+
+                default -> validPrice = Double.parseDouble(rawValidPrice);
+            }
+        } while (!InputValidator.validatePositiveOrZeroDouble(validPrice) || !InputValidator.validatePositiveOrZeroDouble(validPrice)); 
+                //add more validation
+        
+        //2
+        while (true) {            
+            System.out.print("Enter new price (Leave blank to keep current): ");
+            String newPrice = Utility.SCANNER.nextLine();
+            if (newPrice.isBlank()) {
+                newPrice = oldPrice;
+                break;
+            } 
+
+            else if (newPrice.equalsIgnoreCase("exit")) {
+                System.out.println("Cancelling product update (Type enter to exit)");
+                Utility.SCANNER.nextLine();
+                MainPage.display();
+                break;
+            }
+            
+            else if (Double.parseDouble(newPrice) < 0) {
+                System.err.println("cannot be negative");
+            }
+
+            else {
+                product.setPrice(Double.parseDouble(newPrice));
+                break;
+            }
         }
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         System.out.println("\nEnter new stock");
         Integer validStock = InputValidator.getPositiveOrZeroInt();
@@ -369,15 +431,15 @@ public class ProductManager {
             }
 
             switch (category.toLowerCase()) {
-                case "keyboard" -> DatabaseManager.rewriteKeyboards(ProductListHelper.getKeyboardList());
+                case "keyboard" -> ProductDatabaseManager.rewriteKeyboards(ProductListHelper.getKeyboardList());
 
-                case "mouse" -> DatabaseManager.rewriteMice(ProductListHelper.getMouseList());
+                case "mouse" -> ProductDatabaseManager.rewriteMice(ProductListHelper.getMouseList());
  
-                case "laptop" -> DatabaseManager.rewriteLaptops(ProductListHelper.getLaptopList());
+                case "laptop" -> ProductDatabaseManager.rewriteLaptops(ProductListHelper.getLaptopList());
 
-                case "headphone" -> DatabaseManager.rewriteHeadphones(ProductListHelper.getHeadphoneList());
+                case "headphone" -> ProductDatabaseManager.rewriteHeadphones(ProductListHelper.getHeadphoneList());
 
-                case "printer" -> DatabaseManager.rewritePrinters(ProductListHelper.getPrinterList());
+                case "printer" -> ProductDatabaseManager.rewritePrinters(ProductListHelper.getPrinterList());
 
                 default -> {
                     System.err.println("\nInvalid category");
@@ -427,15 +489,15 @@ public class ProductManager {
             }
 
             switch (category.toLowerCase()) {
-                case "keyboard" -> DatabaseManager.rewriteKeyboards(ProductListHelper.getKeyboardList());
+                case "keyboard" -> ProductDatabaseManager.rewriteKeyboards(ProductListHelper.getKeyboardList());
 
-                case "mouse" -> DatabaseManager.rewriteMice(ProductListHelper.getMouseList());
+                case "mouse" -> ProductDatabaseManager.rewriteMice(ProductListHelper.getMouseList());
  
-                case "laptop" -> DatabaseManager.rewriteLaptops(ProductListHelper.getLaptopList());
+                case "laptop" -> ProductDatabaseManager.rewriteLaptops(ProductListHelper.getLaptopList());
 
-                case "headphone" -> DatabaseManager.rewriteHeadphones(ProductListHelper.getHeadphoneList());
+                case "headphone" -> ProductDatabaseManager.rewriteHeadphones(ProductListHelper.getHeadphoneList());
 
-                case "printer" -> DatabaseManager.rewritePrinters(ProductListHelper.getPrinterList());
+                case "printer" -> ProductDatabaseManager.rewritePrinters(ProductListHelper.getPrinterList());
 
                 default -> {
                     System.err.println("\nInvalid category");
@@ -504,15 +566,15 @@ public class ProductManager {
             LocalData.setCurrentProductsAvailable(list);
             
             switch (category.toLowerCase()) {
-                case "keyboard" -> DatabaseManager.rewriteKeyboards(ProductListHelper.getKeyboardList());
+                case "keyboard" -> ProductDatabaseManager.rewriteKeyboards(ProductListHelper.getKeyboardList());
 
-                case "mouse" -> DatabaseManager.rewriteMice(ProductListHelper.getMouseList());
+                case "mouse" -> ProductDatabaseManager.rewriteMice(ProductListHelper.getMouseList());
  
-                case "laptop" -> DatabaseManager.rewriteLaptops(ProductListHelper.getLaptopList());
+                case "laptop" -> ProductDatabaseManager.rewriteLaptops(ProductListHelper.getLaptopList());
 
-                case "headphone" -> DatabaseManager.rewriteHeadphones(ProductListHelper.getHeadphoneList());
+                case "headphone" -> ProductDatabaseManager.rewriteHeadphones(ProductListHelper.getHeadphoneList());
 
-                case "printer" -> DatabaseManager.rewritePrinters(ProductListHelper.getPrinterList());
+                case "printer" -> ProductDatabaseManager.rewritePrinters(ProductListHelper.getPrinterList());
 
                 default -> {
                     System.err.println("\nInvalid category");

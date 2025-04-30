@@ -2,9 +2,8 @@ package techretailpro.functions;
 
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
-import techretailpro.utilities.Utility;
 
-public class CartManager {
+public class CartFunction {
     public static void viewCart() {
         if (LocalData.getCurrentUserCart().isEmpty()) {
             System.out.println("\nCart is empty");

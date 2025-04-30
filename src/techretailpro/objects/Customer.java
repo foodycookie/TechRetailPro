@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import techretailpro.pages.LoginPage;
-import techretailpro.utilities.Utility;
+import techretailpro.functions.Utility;
 
 
 

@@ -15,9 +15,8 @@ import techretailpro.objects.CartOrder;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Payment;
 import techretailpro.objects.Transaction;
-import techretailpro.utilities.Utility;
 
-public class OrderManager {
+public class OrderFunction {
     private static int nextOrderId;
     
     public static int getNextOrderId() {

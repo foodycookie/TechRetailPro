@@ -2,14 +2,14 @@ package techretailpro.pages;
 
 import java.util.ArrayList;
 import java.util.List;
-import techretailpro.functions.CartManager;
+import techretailpro.functions.CartFunction;
 import techretailpro.functions.ProductManager;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
-import techretailpro.utilities.Utility;
+import techretailpro.functions.Utility;
 
 public class ProductDetailsPage {
-    public static void display(Product product, String message) {
+    public static void display(Product product) {
         if (product == null) {
             ProductListPage.display(LocalData.getPreviousList(), 1, "No product found");
             return;
@@ -131,7 +131,7 @@ public class ProductDetailsPage {
                 }
                 
                 case "Add to cart" -> {
-                    CartManager.addItemToCart(product);
+                    CartFunction.addItemToCart(product);
                     
                     ProductListPage.display(LocalData.getPreviousList(), 1,  "Item added to cart");
                 }

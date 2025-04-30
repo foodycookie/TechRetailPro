@@ -2,11 +2,11 @@ package techretailpro.pages;
 
 import java.util.ArrayList;
 import java.util.List;
-import techretailpro.functions.CartManager;
+import techretailpro.functions.CartFunction;
 import techretailpro.functions.ProductCategoryHelper;
-import techretailpro.functions.DatabaseManager;
+import techretailpro.functions.ProductDatabaseManager;
 import techretailpro.functions.InputValidator;
-import techretailpro.functions.OrderManager;
+import techretailpro.functions.OrderFunction;
 import techretailpro.functions.ProductManager;
 import techretailpro.functions.ProductListHelper;
 import techretailpro.objects.CartOrder;
@@ -15,7 +15,7 @@ import techretailpro.objects.LocalData;
 import techretailpro.objects.Payment;
 import techretailpro.objects.Product;
 import techretailpro.objects.Transaction;
-import techretailpro.utilities.Utility;
+import techretailpro.functions.Utility;
 
 public class MainPage {
     static List<CartOrder> orderHistory = new ArrayList<>();
@@ -42,7 +42,7 @@ public class MainPage {
         ProductListPage.display(list, 1, null);
     }
     
-    public static void display(String message) {
+    public static void display() {
         List<String> options = new ArrayList<>();
        
         Utility.clearConsole();
@@ -151,18 +151,18 @@ public class MainPage {
                     }
                 }
                 
-                case "View order history" -> OrderManager.viewOrderHistory();
+                case "View order history" -> OrderFunction.viewOrderHistory();
                 
-                case "View cart" -> CartManager.viewCart();
+                case "View cart" -> CartFunction.viewCart();
                 
                 case "Remove item from cart" -> {
-                    CartManager.removeItemFromCart();
+                    CartFunction.removeItemFromCart();
                     
                     MainPage.display("Item removed from cart");
                 }
                 
                 case "Checkout" -> {
-                    OrderManager.checkoutAndPay(orderHistory, payments, trans);
+                    OrderFunction.checkoutAndPay(orderHistory, payments, trans);
                     
                     MainPage.display(null);
                 }
@@ -178,7 +178,7 @@ public class MainPage {
                 case "Exit program" -> {
                     System.out.println("\nBye! Thank you for choosing TechRetailPro!");
                     
-                    DatabaseManager.rewriteAllProducts(LocalData.getCurrentProductsAvailable());
+                    ProductDatabaseManager.rewriteAllProducts(LocalData.getCurrentProductsAvailable());
                     
                     System.exit(0);
                 }
