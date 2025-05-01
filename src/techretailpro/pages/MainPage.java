@@ -47,9 +47,6 @@ public class MainPage {
        
         Utility.clearConsole();
         
-        if (message != null && !message.isEmpty()) {
-            System.err.println(message + ". Jump to main page...");
-        }
         
         if (LocalData.getCurrentUser().isCustomer()) {
             System.out.println("\nWelcome to TechRetailPro, " + LocalData.getCurrentUser().getUsername() + "!");
@@ -113,7 +110,7 @@ public class MainPage {
             Integer input = Utility.numberOptionChooser(1, options.size());
             
             if (input == null) {
-                display(null);
+                display();
             }
             
             String selectedOption = options.get(input - 1);
