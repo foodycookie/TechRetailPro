@@ -75,7 +75,7 @@ public class Customer extends User {
             case "0" -> {
                 return; // ⬅️ Back to user menu
             }
-            default -> System.out.println("Invalid input. Please try again.");
+            default -> System.out.println("Invalid input. Please try again. Thank you.");
         }
     }
         
