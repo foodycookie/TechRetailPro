@@ -125,7 +125,8 @@ public class MainPage {
 
                 case "Search something" -> {
                     System.out.println("\nEnter a search query");
-                    String validQuery = InputValidator.getString();
+//                    String validQuery = InputValidator.getString();
+                    String validQuery = "";
                     if (validQuery == null) {
                         display(null);
                     }

@@ -131,7 +131,8 @@ public class ProductListPage {
         }
 
         while(true) {
-            input = InputValidator.getPositiveOrZeroInt();
+//            input = InputValidator.getPositiveOrZeroInt();
+            input = Utility.SCANNER.nextInt();
             
             if (input == null) {
                 MainPage.display(null);
