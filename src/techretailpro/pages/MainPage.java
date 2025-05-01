@@ -42,11 +42,14 @@ public class MainPage {
         ProductListPage.display(list, 1, null);
     }
     
-    public static void display() {
+    public static void display(String message) {
         List<String> options = new ArrayList<>();
        
         Utility.clearConsole();
         
+        if (message != null && !message.isEmpty()) {
+            System.err.println(message + ". Jump to main page...");
+        }
         
         if (LocalData.getCurrentUser().isCustomer()) {
             System.out.println("\nWelcome to TechRetailPro, " + LocalData.getCurrentUser().getUsername() + "!");
@@ -107,10 +110,10 @@ public class MainPage {
         }
         
         while(true) {
-            Integer input = Utility.numberOptionChooser(1, options.size());
+            Integer input = InputValidator.numberOptionChooser(1, options.size());
             
             if (input == null) {
-                display();
+                display(null);
             }
             
             String selectedOption = options.get(input - 1);

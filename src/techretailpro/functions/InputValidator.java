@@ -1,6 +1,8 @@
 package techretailpro.functions;
 
 import java.util.List;
+import static techretailpro.functions.Utility.SCANNER;
+import static techretailpro.functions.Utility.stringToInteger;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
 
@@ -20,7 +22,8 @@ public class InputValidator {
             }
             
             else {
-                
+                System.out.println("Input cannot be blank");
+                continue;
             }
             
             if (input.equalsIgnoreCase("exit")) {
@@ -75,33 +78,78 @@ public class InputValidator {
             }
         }
     }
+    
+    /*
+    double validPrice = 0;
+    do {            
+        String rawValidPrice = InputValidator.getUserInput("Enter new price (Leave blank to keep current)", "double", true);
+
+        switch (rawValidPrice) {
+            case "BLANK" -> validPrice = product.getPrice();
+
+            case "EXIT" -> {
+                System.out.println("Cancelling product update (Type enter to exit)");
+                Utility.SCANNER.nextLine();
+                MainPage.display();
+            }
+
+            default -> validPrice = Double.parseDouble(rawValidPrice);
+        }
+    } while (!InputValidator.validatePositiveOrZeroDouble(validPrice));
+    */
+    
+    public static Integer numberOptionChooser(int minOption, int maxOption) {     
+        String input;
+        Integer numberInput;
+        
+        while(true) {
+            System.out.print("Input > ");
+            
+            input = SCANNER.nextLine().trim();
+            
+            if (input.equalsIgnoreCase("exit")) {
+                return null;
+            }
+            
+            numberInput = stringToInteger(input);
+            
+            if (numberInput == null) {
+                System.err.println("\nInvalid input. Please enter either {exit} or a whole number");
+                continue;
+            }
+
+            if (numberInput < minOption || numberInput > maxOption) {
+                System.err.println("\nInvalid choice. Please enter number from " + minOption + " to " + maxOption);
+                continue;
+            }
+
+            break;
+        }
+        
+        return numberInput;
+    }
+    
+    /*
+    System.out.println("please choose one, type {exit} to go back");
+    System.out.println("1. Display yes");
+    System.out.println("2. Display no");
+
+    Integer input = Utility.numberOptionChooser(1, 2);
+
+    if (input == null) {
+        System.out.println("u exit");
+        System.exit(0);
+    }
 
 
-    
-    
-    
-    
+    switch (input) {
+        case 1 -> System.out.println("Yes");
 
+        case 2 -> System.out.println("No");
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        default -> System.out.println("input error");
+    }
+    */
 
     public static boolean validatePositiveOrZeroInt(int intValue) {
         if (intValue < 0) {

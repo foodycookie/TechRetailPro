@@ -22,7 +22,7 @@ public class ProductListPage {
         new Payment("Online Banking")
     };
     
-    public static void display(List<Product> list, int currentPage) {
+    public static void display(List<Product> list, int currentPage, String message) {
         if (list == null) {
             display(LocalData.getPreviousList(), 1, null);
             return;
@@ -31,6 +31,10 @@ public class ProductListPage {
         if (list.isEmpty()) {
             display(LocalData.getPreviousList(), 1, "No product found");
             return;
+        }
+        
+        if (message != null && !message.isEmpty()) {
+            System.err.println(message + ". Jump to product list page...");
         }
         
         int dataPerPage = Utility.DATA_PER_PAGE;
@@ -154,7 +158,7 @@ public class ProductListPage {
                         
                         System.out.println("\nChooose a page");
                         
-                        input = Utility.numberOptionChooser(1, totalPage);
+                        input = InputValidator.numberOptionChooser(1, totalPage);
                         
                         if (input == null) {
                             display(list, 1, null);

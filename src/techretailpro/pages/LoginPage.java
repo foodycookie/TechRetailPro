@@ -104,7 +104,7 @@ public class LoginPage {
                     if (type.equals("admin")) {
                         LocalData.setCurrentUser(new Admin(uname, pwd, email));
 //                        showUserMenu(sc);
-                        MainPage.display();
+                        MainPage.display(null);
 
                     } else {
                         LocalData.setCurrentUser(new Customer(uname, pwd, email, phone, address));
@@ -112,7 +112,7 @@ public class LoginPage {
                     try{
                     System.out.println("Login successful. Welcome, " + LocalData.getCurrentUser().getUsername());
 //                    showUserMenu(sc);
-                    MainPage.display();
+                    MainPage.display(null);
                     return;
                     }
                     catch(Exception ex){
@@ -147,7 +147,7 @@ public class LoginPage {
         }
 
         LocalData.getCurrentUserCart().clear();
-        MainPage.display();
+        MainPage.display(null);
     }
 }
 

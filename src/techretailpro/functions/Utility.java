@@ -40,38 +40,7 @@ public class Utility {
         
 //        System.out.print("\033[H\033[2J");
     }
-    
-    public static Integer numberOptionChooser(int minOption, int maxOption) {     
-        String input;
-        Integer numberInput;
-        
-        while(true) {
-            System.out.print("Input > ");
-            
-            input = SCANNER.nextLine().trim();
-            
-            if (input.equalsIgnoreCase("exit")) {
-                return null;
-            }
-            
-            numberInput = stringToInteger(input);
-            
-            if (numberInput == null) {
-                System.err.println("\nInvalid input. Please enter either {exit} or a whole number");
-                continue;
-            }
 
-            if (numberInput < minOption || numberInput > maxOption) {
-                System.err.println("\nInvalid choice. Please enter number from " + minOption + " to " + maxOption);
-                continue;
-            }
-
-            break;
-        }
-        
-        return numberInput;
-    }
-    
     public static boolean isInteger(String string) {
         try {
             Integer.valueOf(string);
@@ -206,7 +175,6 @@ public class Utility {
             
             list.add(printer);
         }
-        
         
         ProductDatabaseManager.rewriteAllProducts(list);
     }

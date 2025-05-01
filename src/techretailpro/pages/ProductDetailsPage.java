@@ -3,13 +3,14 @@ package techretailpro.pages;
 import java.util.ArrayList;
 import java.util.List;
 import techretailpro.functions.CartFunction;
+import techretailpro.functions.InputValidator;
 import techretailpro.functions.ProductManager;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
 import techretailpro.functions.Utility;
 
 public class ProductDetailsPage {
-    public static void display(Product product) {
+    public static void display(Product product, String message) {
         if (product == null) {
             ProductListPage.display(LocalData.getPreviousList(), 1, "No product found");
             return;
@@ -54,7 +55,7 @@ public class ProductDetailsPage {
         }
         
         while(true) {
-            input = Utility.numberOptionChooser(1, options.size());
+            input = InputValidator.numberOptionChooser(1, options.size());
             
             if (input == null) {
                 ProductListPage.display(LocalData.getPreviousList(), 1, null);
@@ -80,7 +81,7 @@ public class ProductDetailsPage {
                 }
 
                 case "Update product" -> {
-                    Boolean action = ProductManager.updateProductUI(product.getCategory(), product.getName());
+                    Boolean action = ProductManager.updateProductUI(product.getCategory(), product);
                     
                     if (action == null) {
                         display(product, null);
@@ -100,7 +101,7 @@ public class ProductDetailsPage {
                     System.err.println("1. Yes");
                     System.err.println("2. No");
                     
-                    input = Utility.numberOptionChooser(1, 2);
+                    input = InputValidator.numberOptionChooser(1, 2);
                     
                     if (input == null) {
                         display(product, null);
