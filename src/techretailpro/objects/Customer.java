@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import techretailpro.pages.LoginPage;
 import techretailpro.functions.Utility;
+import techretailpro.pages.MainPage;
 
 
 
@@ -66,59 +67,88 @@ public class Customer extends User {
         System.out.println("Address      : " + customer.getAddress());
 
         System.out.println("\nPress 1 to update profile");
-        System.out.println("Press 0 to return to front page");
-        System.out.print("Choose: ");
+        System.out.println("Press \"back\" to return to front page");
+        System.out.print("Option: ");
         String input = sc.nextLine();
-
-        switch (input) {
-            case "1" -> updateProfile(sc, customer);
-            case "0" -> {
-                return; // ⬅️ Back to user menu
-            }
-            default -> System.out.println("Invalid input. Please try again. Thank you.");
+        
+        if (input.equals("1")) {
+            updateProfile(sc, customer);
+            
+        } else if (input.equalsIgnoreCase("back")) {
+            MainPage.display(null);
+        } else {
+            System.err.println("Invalid input. Please try again. Thank you.\n\n");
         }
     }
         
     }
     
     public static void updateProfile(Scanner sc, Customer customer) {
-        String oldUsername = customer.getUsername(); // Used to match the original record
+    String oldUsername = customer.getUsername();
+    String newUsername, newEmail, newPhone, newAddress;
 
-        System.out.print("Enter new username (leave blank to keep current): ");
-        String newUsername = sc.nextLine();
-        if (!newUsername.isBlank()) {
-            customer.setUsername(newUsername);
-        } else {
-            newUsername = oldUsername; // use the old one if not changed
-        }
+    System.out.print("Enter new username (leave blank to keep current): ");
+    newUsername = sc.nextLine();
+    if (newUsername.equalsIgnoreCase("exit")) {
+        System.out.println("Profile update cancelled.");
+        return;
+    }
+    if (newUsername.isBlank()) {
+        newUsername = oldUsername;
+    }
 
+    while (true) {
         System.out.print("Enter new email (leave blank to keep current): ");
-        String newEmail = sc.nextLine();
-        if (!newEmail.isBlank()) {
-            customer.setEmail(newEmail);
-        } else {
+        newEmail = sc.nextLine();
+        if (newEmail.equalsIgnoreCase("exit")) {
+            System.out.println("Profile update cancelled.");
+            return;
+        }
+        if (newEmail.isBlank()) {
             newEmail = customer.getEmail();
+            break;
+        } else if (newEmail.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+            break;
+        } else {
+            System.out.println("Invalid email format. Try again.");
         }
+    }
 
+    while (true) {
         System.out.print("Enter new phone number (leave blank to keep current): ");
-        String newPhone = sc.nextLine();
-        if (!newPhone.isBlank()) {
-            customer.setPhoneNumber(newPhone);
-        } else {
+        newPhone = sc.nextLine();
+        if (newPhone.equalsIgnoreCase("exit")) {
+            System.out.println("Profile update cancelled.");
+            return;
+        }
+        if (newPhone.isBlank()) {
             newPhone = customer.getPhoneNumber();
-        }
-
-        System.out.print("Enter new address (leave blank to keep current): ");
-        String newAddress = sc.nextLine();
-        if (!newAddress.isBlank()) {
-            customer.setAddress(newAddress);
+            break;
+        } else if (newPhone.matches("\\d{10,11}")) {
+            break;
         } else {
-            newAddress = customer.getAddress();
+            System.out.println("Invalid phone number. Must be 10 to 11 digits.");
         }
+    }
 
-        System.out.println("Profile updated successfully!");
+    System.out.print("Enter new address (leave blank to keep current): ");
+    newAddress = sc.nextLine();
+    if (newAddress.equalsIgnoreCase("exit")) {
+        System.out.println("Profile update cancelled.");
+        return;
+    }
+    if (newAddress.isBlank()) {
+        newAddress = customer.getAddress();
+    }
 
-        saveUpdateProfile(oldUsername, newUsername, customer.getPassword(), newEmail, newPhone, newAddress);
+    customer.setUsername(newUsername);
+    customer.setEmail(newEmail);
+    customer.setPhoneNumber(newPhone);
+    customer.setAddress(newAddress);
+
+    System.out.println("Profile updated successfully!");
+
+    saveUpdateProfile(oldUsername, newUsername, customer.getPassword(), newEmail, newPhone, newAddress);
 }
     
     public void viewOrderHistory() {
@@ -167,7 +197,6 @@ public class Customer extends User {
     if (oldFile.exists() && oldFile.delete()) {
         System.out.println("Old file deleted successfully.");
 
-        // ✅ Rename temp to old file
         if (newFile.renameTo(oldFile)) {
             System.out.println("Temp file renamed to original file successfully.");
         } else {
