@@ -54,7 +54,7 @@ public class ProductManager {
                 }
 
                 default -> {
-                    validPrice = Integer.parseInt(rawValidPrice);
+                    validPrice = Double.parseDouble(rawValidPrice);
                     
                     if (validPrice < 0) {
                         System.err.println("Invalid input. Input must be positive");
@@ -255,7 +255,7 @@ public class ProductManager {
                         }
 
                         default -> {
-                            validPrintSpeed = Integer.parseInt(rawValidPrintSpeed);
+                            validPrintSpeed = Double.parseDouble(rawValidPrintSpeed);
 
                             if (validPrintSpeed < 0) {
                                 System.err.println("Invalid input. Input must be positive");
@@ -393,7 +393,7 @@ public class ProductManager {
                 }
 
                 default -> {
-                    validNewPrice = Integer.parseInt(rawValidNewPrice);
+                    validNewPrice = Double.parseDouble(rawValidNewPrice);
                     
                     if (validNewPrice < 0) {
                         System.err.println("Invalid input. Input must be positive");
@@ -711,7 +711,7 @@ public class ProductManager {
                         }
 
                         default -> {
-                            validNewPrintSpeed = Integer.parseInt(rawValidNewPrintSpeed);
+                            validNewPrintSpeed = Double.parseDouble(rawValidNewPrintSpeed);
 
                             if (validNewPrintSpeed < 0) {
                                 System.err.println("Invalid input. Input must be positive");

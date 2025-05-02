@@ -5,7 +5,6 @@ public class Transaction {
     private String cardNo;
     private int cvv;
     private String accountNo;
-    private String password;
     
     public Transaction(int choosenMethod){
         this.choosenMethod = choosenMethod;
@@ -29,10 +28,6 @@ public class Transaction {
     public String getAccountNo() {
         return accountNo;
     }
-    
-    public String getPassword() {
-        return password;
-    }
 
     public void setCardNo(String cardNo) {
         this.cardNo = cardNo;
@@ -45,11 +40,7 @@ public class Transaction {
     public void setAccountNo(String accountNo) {
         this.accountNo = accountNo;
     }
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
+
     public void setChoosenMethod(int choosenMethod) {
         this.choosenMethod = choosenMethod;
     }

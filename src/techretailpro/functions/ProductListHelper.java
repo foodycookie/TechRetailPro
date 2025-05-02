@@ -219,7 +219,7 @@ public class ProductListHelper {
     public static List<Product> filterProductUI(List<Product> list) { 
         System.out.println("\nFilter by?");
         System.out.println("1. Category");
-        System.out.println("2. Price?");
+        System.out.println("2. Price");
         Integer input = UtilityHelper.numberOptionChooser("Option", 1, 2);
         
         if (input == null) {

@@ -29,7 +29,7 @@ public class UtilityHelper {
     public final static String TEMP_USERS_DATABASE = "src\\techretailpro\\databases\\temp.csv";
     
     public final static String ORDER_HISTORY_DATABASE = "src/techretailpro/databases/order_history.txt";
-    public final static String ORDER_HISTORY_DATABASE_HEADER = String.format("%-10s %-20s %-10s %-10s", "OrderID", "ProductName", "Quantity", "Subtotal");
+    public final static String ORDER_HISTORY_DATABASE_HEADER = String.format("%-10s %-20s %-10s %-10s %-20s", "Username", "ProductName", "Quantity", "Subtotal", "Date/Time");
 
     public final static Scanner SCANNER = new Scanner(System.in);
     
@@ -231,7 +231,7 @@ public class UtilityHelper {
     
     public static void displayReturnMessage(String message) {
         if (message == null || message.isBlank()) {
-            System.out.println("Type enter to exit");
+            System.out.print("Type enter to exit");
         }
         
         else {

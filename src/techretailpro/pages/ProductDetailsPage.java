@@ -28,7 +28,7 @@ public class ProductDetailsPage {
                 
         
         if (LoginPage.getCurrentUser().isAdmin()) {
-            options.add("Restock");
+            options.add("Update stock");
             options.add("Update product");
             options.add("Delete product");
         }
@@ -59,7 +59,7 @@ public class ProductDetailsPage {
             String selectedOption = options.get(input - 1);
             
             switch (selectedOption) {
-                case "Restock" -> {
+                case "Update stock" -> {
                     ProductManager.updateStockUI(product);
                     ProductManager.updateStockToCsv(product);
                     display(product);
@@ -83,7 +83,7 @@ public class ProductDetailsPage {
                     
                     switch (input) {
                         case 1 -> {
-                            ProductManager.updateProductUI(product);
+                            ProductManager.deleteProduct(product);
                             ProductListPage.display(LocalData.getPreviousList(), 1); 
                         }
 

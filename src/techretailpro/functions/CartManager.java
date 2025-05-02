@@ -54,7 +54,9 @@ public class CartManager {
 //            }
 //        }
 
-        UtilityHelper.displayReturnMessage("Item added to cart");
+        System.out.println("\nItem added");
+        
+        viewCart();
     }
        
     public static void removeItemFromCart() {
@@ -110,6 +112,8 @@ public class CartManager {
 //            }
 //        }
 
-        UtilityHelper.displayReturnMessage("Item removed from cart");
+        System.out.println("\nItem deleted");
+        
+        viewCart();
     }
 }

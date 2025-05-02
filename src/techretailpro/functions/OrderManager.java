@@ -17,12 +17,6 @@ import techretailpro.objects.Payment;
 import techretailpro.objects.Transaction;
 
 public class OrderManager {
-    private static int nextOrderId;
-    
-    public static int getNextOrderId() {
-        return nextOrderId++;
-    }
-    
     public static boolean validateExpiry(String expiry) {
         try {
             if (!expiry.matches("\\d{2}/\\d{2}")) {
@@ -52,19 +46,8 @@ public class OrderManager {
             } catch (IOException e) {
                 System.err.println("Could not initialize order history file: " + e.getMessage());
             }
-            nextOrderId = 1;
         } else {
-            int maxId = 0;
-            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                br.readLine();
-                String line;
-                while ((line = br.readLine()) != null) {
-                    String[] parts = line.split(",", 2);
-                    int id = Integer.parseInt(parts[0]);
-                    if (id > maxId) maxId = id;
-                }
-            } catch (IOException | NumberFormatException ignored) {}
-            nextOrderId = maxId + 1;
+            System.out.println("Order history file found.");
         }
     }
 
@@ -72,8 +55,8 @@ public class OrderManager {
         try (PrintWriter pw = new PrintWriter(new FileWriter(UtilityHelper.ORDER_HISTORY_DATABASE, true))) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             for (CartItem item : order.getOrderItems()) {
-                pw.printf("%-10s %-20s %-10s %-10s %-20s%n",
-                        LocalData.getCurrentUser(),
+                pw.printf("%-10s %-20s %-10d %-10.2f %-20s%n",
+                        LocalData.getCurrentUser().getUsername(),
                         item.getProduct().getName(),
                         item.getQuantity(),
                         item.getSubtotal(),
@@ -88,7 +71,7 @@ public class OrderManager {
     public static void viewOrderHistory() {
         try (BufferedReader br = new BufferedReader(new FileReader(UtilityHelper.ORDER_HISTORY_DATABASE))) {
             System.out.println("\n--- Order History ---");
-            System.out.printf("%-10s %-20s %-10s %-10s %-20s\n", "OrderID", "ProductName", "Quantity", "Subtotal","Date/Time");
+            System.out.printf("%-10s %-20s %-10s %-10s %-20s\n", "Username", "ProductName", "Quantity", "Subtotal","Date/Time");
             br.lines().skip(1).forEach(System.out::println);
             System.out.println("---------------------\n");
         } catch (IOException e) {
@@ -190,6 +173,9 @@ public class OrderManager {
                     do {
                         System.out.print("Enter 16-digit card number\ninput >  ");
                         cardNo = UtilityHelper.SCANNER.nextLine();
+                        if(!cardNo.matches("\\d{16}")){
+                            System.out.println("Please enter 16 digits only.\n");
+                        }
                     } while (!cardNo.matches("\\d{16}"));
                     trans.setCardNo(cardNo);
 
@@ -218,16 +204,30 @@ public class OrderManager {
                     do {
                         System.out.print("Enter account number (7-16 digits)\ninput >  ");
                         accNo = UtilityHelper.SCANNER.nextLine();
+                        if(accNo.matches("\\d{7,16}")){
+                            System.out.println("Please enter 7 to 16 digits only.\n");
+                        }
                     } while (!accNo.matches("\\d{7,16}"));
                     trans.setAccountNo(accNo);
 
-                    System.out.print("Enter password\ninput >  ");
-                    trans.setPassword(UtilityHelper.SCANNER.nextLine());
                     paymentSelected = true;
                     System.out.println("");
                 }
             }
         }
+        
+        String password;
+        do{
+            System.out.print("Enter your password (type back to cancel checkout)\ninput >  ");
+            password = UtilityHelper.SCANNER.nextLine();
+            if (password.equalsIgnoreCase("back")) {
+                System.out.println("Cancelling checkout. Returning to menu...\n");
+                return; // Exit the method or handle as needed
+            }
+            if (!password.equals(LocalData.getCurrentUser().getPassword())){
+                System.out.println("Wrong password! Please enter again.\n");
+            }
+        }while(!password.equals(LocalData.getCurrentUser().getPassword()));
 
         double amount;
         do {
@@ -246,14 +246,13 @@ public class OrderManager {
         if (payment != null && payment.processPayment(finalTotal)) {
             System.out.println("Payment Successful!");
 
-            CartOrder newOrder = new CartOrder(getNextOrderId(), LocalData.getCurrentUserCart().getItems(),originalTotal, finalTotal, discountAmount);
-            int orderId = getNextOrderId();
+            CartOrder newOrder = new CartOrder(LocalData.getCurrentUserCart().getItems(),originalTotal, finalTotal, discountAmount);
+            
             orderHistory.add(newOrder);
             appendOrderToCsv(newOrder);
             
             System.out.println("\n---------------------------------------------------------");
             System.out.println("TECH RETAIL PRO");
-            System.out.println("Order ID " + orderId);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             System.out.println("Date / Time: " + LocalDateTime.now().format(formatter));
             System.out.println("---------------------------------------------------------");

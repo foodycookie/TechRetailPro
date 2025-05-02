@@ -59,10 +59,10 @@ public class Cart {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("=== YOUR CART ===\n");
-        sb.append(String.format("%-5s %-15s %-10s %-7s %-10s\n", "No", "Product", "Price", "Qty", "Subtotal"));
+        sb.append(String.format("%-5s %-15s %-10s %-10s %-10s\n", "No", "Product", "Price", "Qty", "Subtotal"));
         
         for (int i = 0; i < items.size(); i++) {
-            sb.append(i + 1).append(items.get(i)).append("\n");
+            sb.append(String.format("%-6d%s\n", i + 1, items.get(i)));
         }
 
         sb.append(String.format("TOTAL: RM%.2f\n", calculateTotal()));

@@ -3,22 +3,16 @@ package techretailpro.objects;
 import java.util.List;
 
 public class CartOrder {
-    private final int id;
     private final List<CartItem> orderItems;
     private final double originalTotal;
     private final double totalAmount;
     private final double discountAmount;
 
-    public CartOrder(int id, List<CartItem> orderItems, double originalTotal, double totalAmount, double discountAmount) {
-        this.id = id;
+    public CartOrder(List<CartItem> orderItems, double originalTotal, double totalAmount, double discountAmount) {
         this.orderItems = orderItems;
         this.totalAmount = totalAmount;
         this.discountAmount = discountAmount;
         this.originalTotal = originalTotal;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public List<CartItem> getOrderItems() {

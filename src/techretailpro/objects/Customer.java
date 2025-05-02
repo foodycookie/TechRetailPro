@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import techretailpro.pages.LoginPage;
 import techretailpro.functions.UtilityHelper;
-import techretailpro.pages.MainPage;
 
 public class Customer extends User {
     private String phoneNumber;
@@ -184,10 +183,8 @@ public class Customer extends User {
        
         
     if (oldFile.exists() && oldFile.delete()) {
-        System.out.println("Old file deleted successfully.");
 
         if (newFile.renameTo(oldFile)) {
-            System.out.println("Temp file renamed to original file successfully.");
         } else {
             System.out.println("Failed to rename temp file.");
         }

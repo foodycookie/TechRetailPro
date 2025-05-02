@@ -26,11 +26,13 @@ public class MainPage {
                 
     public static void displayProductInList(List<Product> list) {
         if (list == null) {
+            display();
             return;
         }
         
         if (list.isEmpty()) {
             UtilityHelper.displayReturnMessage("No product found");
+            display();
             return;
         }
         
@@ -61,7 +63,7 @@ public class MainPage {
                 
         options.add("Browse products via category");
         options.add("View all the products");
-        options.add("Search something");
+        options.add("Search a product");
         
         options.add("Register");
         options.add("Login");
@@ -115,9 +117,9 @@ public class MainPage {
 
                 case "View all the products" -> displayProductInList(LocalData.getCurrentProductsAvailable());
 
-                case "Search something" -> {
+                case "Search a product" -> {
                     String validQuery;
-                    validQuery = UtilityHelper.getUserInput("Search a product, enter a search query", "string", false);
+                    validQuery = UtilityHelper.getUserInput("Enter a search query", "string", false);
                     if (validQuery.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
                         display();
                     }
