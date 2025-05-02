@@ -1,5 +1,7 @@
 package techretailpro.objects;
 
+import techretailpro.functions.UtilityHelper;
+
 public class Laptop extends Product {
     private String processor;    
     private int memory;
@@ -51,19 +53,34 @@ public class Laptop extends Product {
                "\nMemory (GB): " + memory +
                "\nStorage (GB): " + storage;
     }
-    
+
     @Override
     public String toStringForDetailedList() {
         return String.format("%-10s %-25s %-8.2f %-5s %-25s %-6d %-7d", getCategory(), getName(), getPrice(), getStock(), processor, memory, storage);       
     }
     
     @Override
-    public String toStringForDatabase() {
+    public String getDetailedListHeader() {
+        return String.format("%-5s %-10s %-25s %-8s %-5s %-25s %-6s %-7s", "No", "Category", "Name", "Price", "Stock", "Processor", "Memory", "Storage");
+    }
+    
+    @Override
+    public String toStringForCsv() {
         return getCategory() + "," + getName() + "," + String.format("%.2f", getPrice()) + "," + getStock() + "," + getDescription() + "," + processor + "," + memory + "," + storage;  
     }
     
     @Override
-    public String getDetailedListHeader() {
-        return String.format("%-5s %-10s %-25s %-8s %-5s %-25s %-6s %-7s", "No", "Category", "Name", "Price", "Stock", "Processor", "Memory", "Storage");
+    public String getCsvHeader() {
+        return "Category,Name,Price,Stock,Description,Processor,Memory,Storage\n";
+    }
+    
+    @Override
+    public String getCsvFilePath() {
+        return UtilityHelper.LAPTOPS_DATABASE;
+    }
+    
+    @Override
+    public String getCsvTempFilePath() {
+        return UtilityHelper.TEMP_LAPTOPS_DATABASE;
     }
 }

@@ -1,9 +1,11 @@
 package techretailpro.objects;
 
+import java.util.ArrayList;
 import java.util.List;
+import techretailpro.functions.ProductDatabaseManager;
 
 public class LocalData {
-    private static List<Product> currentProductsAvailable; 
+    private static List<Product> currentProductsAvailable = new ArrayList<>(ProductDatabaseManager.fetchAllProducts()); 
     private static List<Product> previousList; 
     private static User currentUser = new User();
     private static Cart currentUserCart = new Cart(); 

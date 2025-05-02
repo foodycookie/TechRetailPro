@@ -1,19 +1,14 @@
 package techretailpro.main;
 
-import techretailpro.functions.InputValidator;
 import techretailpro.functions.ProductDatabaseManager;
-import techretailpro.functions.OrderFunction;
-import techretailpro.functions.Utility;
-import techretailpro.objects.LocalData;
+import techretailpro.functions.OrderManager;
 import techretailpro.pages.MainPage;
 
 public class TechRetailPro {
     public static void main(String[] args) {
-        ProductDatabaseManager.initializeDatabaseFile();
-        OrderFunction.initCsv();
-
-        LocalData.setCurrentProductsAvailable(ProductDatabaseManager.fetchAllProducts());
+        ProductDatabaseManager.initializeAllProductCsv();
+        OrderManager.initCsv();
          
-        MainPage.display(null);
+        MainPage.display();
     }
 }

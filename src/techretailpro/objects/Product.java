@@ -72,13 +72,19 @@ public abstract class Product {
         return String.format("%-10s %-25s %-8.2f %-5d", getCategory(), name, price, stock);       
     }
     
-    public abstract String toStringForDetailedList();
-
-    public abstract String toStringForDatabase();
-    
     public String getGeneralListHeader() {
         return String.format("%-5s %-10s %-25s %-8s %-5s", "No", "Category", "Name", "Price", "Stock");
     }
     
+    public abstract String toStringForDetailedList();
+    
     public abstract String getDetailedListHeader();
+    
+    public abstract String toStringForCsv();
+    
+    public abstract String getCsvHeader();
+    
+    public abstract String getCsvFilePath();
+    
+    public abstract String getCsvTempFilePath();  
 }

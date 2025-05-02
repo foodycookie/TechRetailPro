@@ -1,5 +1,5 @@
 Category,Name,Price,Stock,Description,Wireless,KeyType,RGB
-Keyboard,This is keyboard 1,1.00,85,1,true,1,true
+Keyboard,This is keyboard 1,1.00,75,1,true,1,true
 Keyboard,Keyboard 2,52.00,5,A slightly better keyboard,true,Mechanical,true
 Keyboard,Keyboard 3,23.00,0,A basic keyboard,false,Scissor switch,false
 Keyboard,Keyboard 4,54.00,10,A slightly better keyboard,true,Mechanical,true
@@ -199,3 +199,4 @@ Keyboard,Keyboard 197,217.00,100,A basic keyboard,false,Scissor switch,false
 Keyboard,Keyboard 198,248.00,50,A slightly better keyboard,true,Mechanical,true
 Keyboard,Keyboard 199,219.00,100,A basic keyboard,false,Scissor switch,false
 Keyboard,Keyboard 200,250.00,50,A slightly better keyboard,true,Mechanical,true
+Keyboard,dwaw,0.00,1,0,true,dawdawdw,false

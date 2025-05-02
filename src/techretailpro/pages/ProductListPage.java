@@ -2,16 +2,16 @@ package techretailpro.pages;
 
 import java.util.ArrayList;
 import java.util.List;
-import techretailpro.functions.CartFunction;
-import techretailpro.functions.InputValidator;
-import techretailpro.functions.OrderFunction;
+import techretailpro.functions.CartManager;
+import techretailpro.functions.OrderManager;
 import techretailpro.functions.ProductListHelper;
+import techretailpro.functions.ProductManager;
 import techretailpro.objects.CartOrder;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Payment;
 import techretailpro.objects.Product;
 import techretailpro.objects.Transaction;
-import techretailpro.functions.Utility;
+import techretailpro.functions.UtilityHelper;
 
 public class ProductListPage {
     static List<CartOrder> orderHistory = new ArrayList<>();
@@ -22,22 +22,19 @@ public class ProductListPage {
         new Payment("Online Banking")
     };
     
-    public static void display(List<Product> list, int currentPage, String message) {
+    public static void display(List<Product> list, int currentPage) {
         if (list == null) {
-            display(LocalData.getPreviousList(), 1, null);
+            display(LocalData.getPreviousList(), 1);
             return;
         }
         
         if (list.isEmpty()) {
-            display(LocalData.getPreviousList(), 1, "No product found");
+            UtilityHelper.displayReturnMessage("No product found");
+            display(LocalData.getPreviousList(), 1);
             return;
         }
         
-        if (message != null && !message.isEmpty()) {
-            System.err.println(message + ". Jump to product list page...");
-        }
-        
-        int dataPerPage = Utility.DATA_PER_PAGE;
+        int dataPerPage = UtilityHelper.DATA_PER_PAGE;
         int totalPage = (int) Math.ceil((double) list.size() / dataPerPage);        
         
         int minOptionForProductNumber = 101 + (dataPerPage * (currentPage - 1));
@@ -46,14 +43,11 @@ public class ProductListPage {
         int endForProductNumber = Math.min(startForProductNumber + dataPerPage, list.size());
         
         List<String> options = new ArrayList<>();
-        Integer input;
+        int numberInput;
+        Integer optionInput;
         boolean allSameCategory = true;
         
-        Utility.clearConsole();
-        
-        if (message != null && !message.isEmpty()) {
-            System.err.println(message + ". Jump to product list page...");
-        }
+        UtilityHelper.clearConsole();
 
         for (Product product : list) {
             if (!list.get(0).getCategory().equals(product.getCategory())) {
@@ -103,7 +97,7 @@ public class ProductListPage {
   
         System.out.println("\nPlease select a product by number to view its details");
         System.out.println("Or select an option");
-        System.out.println("Type {exit} at anytime to go back");
+        System.out.println("Type {back} at anytime to go back");
         
         options.add("Sort list");
         options.add("Search product");
@@ -111,6 +105,8 @@ public class ProductListPage {
         options.add("Reset list");
         
         if (LoginPage.getCurrentUser().isAdmin()) {
+            options.add("Check all low stock");
+            options.add("Create new product");
         }
         
         else if (LoginPage.getCurrentUser().isCustomer()) {
@@ -129,87 +125,101 @@ public class ProductListPage {
         for (int i = 0; i < options.size(); i++) {
             System.out.println((i + 1) + ". " + options.get(i));
         }
+        
+        while (true) {            
+            String rawInput = UtilityHelper.getUserInput("Option", "int", false);
 
-        while(true) {
-//            input = InputValidator.getPositiveOrZeroInt();
-            input = Utility.SCANNER.nextInt();
-            
-            if (input == null) {
-                MainPage.display(null);
-            }
+            switch (rawInput) {
+                case UtilityHelper.BACK_CONSTANT -> {
+                    MainPage.display();
+                }
 
-            if (input >= 1 && input <= options.size()) {
-                String selectedOption = options.get(input - 1);
-            
-                switch (selectedOption) {
-                    case "Previous page" -> {
-                        if (currentPage == 1) {
-                            System.err.println("\nYou are at the first page");
-                            continue;
+                default -> {
+                    numberInput = Integer.parseInt(rawInput);
+                    
+                    if (numberInput >= 1 && numberInput <= options.size()) {
+                        String selectedOption = options.get(numberInput - 1);
+
+                        switch (selectedOption) {
+                            case "Previous page" -> {
+                                if (currentPage == 1) {
+                                    System.err.println("\nYou are at the first page");
+                                    continue;
+                                }
+
+                                display(list, (currentPage - 1));  
+                            }
+
+                            case "Choose a page" -> {
+                                if (currentPage == 1 && currentPage == totalPage) {
+                                    System.err.println("\nThere is only one page, what are you choosing?");
+                                    continue;
+                                }
+
+                                optionInput = UtilityHelper.numberOptionChooser("Chooose a page", 1, totalPage);
+                                if (optionInput == null) {
+                                    display(list, 1);
+                                }
+
+                                display(list, optionInput);
+                            }
+
+                            case "Next page" -> {
+                                if (currentPage == totalPage) {
+                                    System.err.println("\nYou are at the last page");
+                                    continue;
+                                }
+
+                                display(list, (currentPage + 1));
+                            }
+
+                            case "Sort list" -> display(ProductListHelper.sortProductListUI(list), 1);
+
+                            case "Search product" -> display(ProductListHelper.searchProductUI(list), 1);
+
+                            case "Filter product" -> display(ProductListHelper.filterProductUI(list), 1);
+
+                            case "Reset list" -> display(LocalData.getPreviousList(), 1); 
+
+                            case "Check all low stock" -> display(ProductListHelper.getLowStockList(), 1);
+
+                            case "Create new product" -> {    
+                                ProductManager.createProductUI();
+                                display(LocalData.getPreviousList(), 1);
+                                
+                            }
+
+                            case "View cart" -> {
+                                CartManager.viewCart();
+                                display(LocalData.getPreviousList(), 1);
+                            }
+
+                            case "Remove item from cart" -> {
+                                CartManager.removeItemFromCart();
+                                display(LocalData.getPreviousList(), 1);
+                            }
+
+                            case "Checkout" -> {
+                                OrderManager.checkoutAndPay(orderHistory, payments, trans);
+                                display(LocalData.getPreviousList(), 1);
+                            }
+
+                            default -> System.err.println("\nInvalid input");
                         }
-                        
-                        display(list, (currentPage - 1), null);  
-                    }
-                    
-                    case "Choose a page" -> {
-                        if (currentPage == 1 && currentPage == totalPage) {
-                            System.err.println("\nThere is only one page, what are you choosing?");
-                            continue;
-                        }
-                        
-                        System.out.println("\nChooose a page");
-                        
-                        input = InputValidator.numberOptionChooser(1, totalPage);
-                        
-                        if (input == null) {
-                            display(list, 1, null);
-                        }
-                        
-                        display(list, input, null);
-                    }
-                    
-                    case "Next page" -> {
-                        if (currentPage == totalPage) {
-                            System.err.println("\nYou are at the last page");
-                            continue;
-                        }
-                        
-                        display(list, (currentPage + 1), null);
-                    }
-                    
-                    case "Sort list" -> display(ProductListHelper.sortProductListUI(list), 1, null);
-                    
-                    case "Search product" -> display(ProductListHelper.searchProductUI(list), 1, null);
-                    
-                    case "Filter product" -> display(ProductListHelper.filterProductUI(list), 1, null);
-
-                    case "Reset list" -> display(LocalData.getPreviousList(), 1, null); 
-                    
-                    case "View cart" -> CartFunction.viewCart();
-                
-                    case "Remove item from cart" -> {
-                        CartFunction.removeItemFromCart();
-                        
-                        ProductListPage.display(LocalData.getPreviousList(), 1,  "Item removed from cart");
                     }
 
-                    case "Checkout" -> {
-                        OrderFunction.checkoutAndPay(orderHistory, payments, trans);
-                        
-                        ProductListPage.display(LocalData.getPreviousList(), 1,  null);
+                    else if (numberInput >= minOptionForProductNumber && numberInput <= maxOptionForProductNumber) {
+                        ProductDetailsPage.display(list.get(numberInput - 101));
                     }
 
-                    default -> System.err.println("\nInvalid input");
+                    else {
+                        System.err.println("Invalid choice. Please enter number from " + 1 + " to " + options.size() + ", or " + minOptionForProductNumber + " to " + maxOptionForProductNumber);
+                        continue;
+                    }
                 }
             }
             
-            else if (input >= minOptionForProductNumber && input <= maxOptionForProductNumber) {
-                ProductDetailsPage.display(list.get(input - 101), null);
-            }
-            
-            else {
-                System.err.println("\nInvalid choice. Please enter number from " + 1 + " to " + options.size() + ", or " + minOptionForProductNumber + " to " + maxOptionForProductNumber);
-            }
+            break;
         }
     }
 }

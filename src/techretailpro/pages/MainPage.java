@@ -2,11 +2,9 @@ package techretailpro.pages;
 
 import java.util.ArrayList;
 import java.util.List;
-import techretailpro.functions.CartFunction;
+import techretailpro.functions.CartManager;
 import techretailpro.functions.ProductCategoryHelper;
-import techretailpro.functions.ProductDatabaseManager;
-import techretailpro.functions.InputValidator;
-import techretailpro.functions.OrderFunction;
+import techretailpro.functions.OrderManager;
 import techretailpro.functions.ProductManager;
 import techretailpro.functions.ProductListHelper;
 import techretailpro.objects.CartOrder;
@@ -15,7 +13,7 @@ import techretailpro.objects.LocalData;
 import techretailpro.objects.Payment;
 import techretailpro.objects.Product;
 import techretailpro.objects.Transaction;
-import techretailpro.functions.Utility;
+import techretailpro.functions.UtilityHelper;
 
 public class MainPage {
     static List<CartOrder> orderHistory = new ArrayList<>();
@@ -28,28 +26,23 @@ public class MainPage {
                 
     public static void displayProductInList(List<Product> list) {
         if (list == null) {
-            display(null);
             return;
         }
         
         if (list.isEmpty()) {
-            display("No product found");
+            UtilityHelper.displayReturnMessage("No product found");
             return;
         }
         
         LocalData.setPreviousList(list);
 
-        ProductListPage.display(list, 1, null);
+        ProductListPage.display(list, 1);
     }
     
-    public static void display(String message) {
+    public static void display() {
         List<String> options = new ArrayList<>();
        
-        Utility.clearConsole();
-        
-        if (message != null && !message.isEmpty()) {
-            System.err.println(message + ". Jump to main page...");
-        }
+        UtilityHelper.clearConsole();
         
         if (LocalData.getCurrentUser().isCustomer()) {
             System.out.println("\nWelcome to TechRetailPro, " + LocalData.getCurrentUser().getUsername() + "!");
@@ -64,7 +57,7 @@ public class MainPage {
         }
         
         System.out.println("\nPlease select an option");
-        System.out.println("Type {exit} at anytime to go back");
+        System.out.println("Type {back} at anytime to go back");
                 
         options.add("Browse products via category");
         options.add("View all the products");
@@ -110,10 +103,9 @@ public class MainPage {
         }
         
         while(true) {
-            Integer input = InputValidator.numberOptionChooser(1, options.size());
-            
+            Integer input = UtilityHelper.numberOptionChooser("Option", 1, options.size());
             if (input == null) {
-                display(null);
+                display();
             }
             
             String selectedOption = options.get(input - 1);
@@ -124,67 +116,68 @@ public class MainPage {
                 case "View all the products" -> displayProductInList(LocalData.getCurrentProductsAvailable());
 
                 case "Search something" -> {
-                    System.out.println("\nEnter a search query");
-//                    String validQuery = InputValidator.getString();
-                    String validQuery = "";
-                    if (validQuery == null) {
-                        display(null);
+                    String validQuery;
+                    validQuery = UtilityHelper.getUserInput("Search a product, enter a search query", "string", false);
+                    if (validQuery.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                        display();
                     }
                     
-                    ProductListHelper.searchProduct(LocalData.getCurrentProductsAvailable(), validQuery);
+                    displayProductInList(ProductListHelper.searchProduct(LocalData.getCurrentProductsAvailable(), validQuery));
                 }
 
                 case "Check all low stock" -> displayProductInList(ProductListHelper.getLowStockList());
          
                 case "Create new product" -> {    
-                    Boolean action = ProductManager.createProductUI();
-                    
-                    if (action == null) {
-                        display(null);
-                    }
-                    
-                    else if (action) {
-                        display("Product created");
-                    }
-                    
-                    else {
-                        display("Product was not created");
-                    }
+                    ProductManager.createProductUI();
+                    display();
                 }
                 
-                case "View order history" -> OrderFunction.viewOrderHistory();
+                case "View order history" -> {
+                    OrderManager.viewOrderHistory();
+                    display();
+                }
                 
-                case "View cart" -> CartFunction.viewCart();
+                case "View cart" -> {
+                    CartManager.viewCart();
+                    display();
+                }
                 
                 case "Remove item from cart" -> {
-                    CartFunction.removeItemFromCart();
-                    
-                    MainPage.display("Item removed from cart");
+                    CartManager.removeItemFromCart();
+                    display();
                 }
                 
                 case "Checkout" -> {
-                    OrderFunction.checkoutAndPay(orderHistory, payments, trans);
-                    
-                    MainPage.display(null);
+                    OrderManager.checkoutAndPay(orderHistory, payments, trans);
+                    display();
                 }
                 
-                case "Register" -> LoginPage.register(Utility.SCANNER);
+                case "Register" -> {
+                    LoginPage.register(UtilityHelper.SCANNER);
+                    display();
+                }
                     
-                case "Login" -> LoginPage.login(Utility.SCANNER);
+                case "Login" -> {
+                    LoginPage.login(UtilityHelper.SCANNER);
+                    display();
+                }
                 
-                case "Logout" -> LoginPage.logout();
+                case "Logout" -> {
+                    LoginPage.logout();
+                    display();
+                }
                 
-                case "View profile" -> Customer.viewProfile(Utility.SCANNER);
+                case "View profile" -> {
+                    Customer.viewProfile(UtilityHelper.SCANNER);
+                    display();
+                }
                 
                 case "Exit program" -> {
-                    System.out.println("\nBye! Thank you for choosing TechRetailPro!");
-                    
-                    ProductDatabaseManager.rewriteAllProducts(LocalData.getCurrentProductsAvailable());
-                    
+                    System.out.println("\nBye! Thank you for choosing TechRetailPro!");                    
                     System.exit(0);
                 }
                 
-                case "Nothing you can do here. Go back" -> display(null);
+                case "Nothing you can do here. Go back" -> display();
                 
                 default -> System.err.println("\nInvalid input");
             }

@@ -17,15 +17,12 @@ import techretailpro.objects.Customer;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
 import techretailpro.objects.User;
-import techretailpro.functions.Utility;
-
-
+import techretailpro.functions.UtilityHelper;
 
 public class LoginPage {
     
     public static List<User> users = new ArrayList<>();
 
-    
     public static void register(Scanner sc) {
 
     System.out.println("\n\nRegister Page");
@@ -40,8 +37,6 @@ public class LoginPage {
         String choice = sc.nextLine();
 
         if (choice.equalsIgnoreCase("back")) {
-            System.err.println("Registration cancelled.");
-            MainPage.display(null);
             return;
         }
 
@@ -61,8 +56,6 @@ public class LoginPage {
         System.out.print("\nUsername: ");
         username = sc.nextLine();
         if (username.equalsIgnoreCase("back")) {
-            System.err.println("Registration cancelled.");
-            MainPage.display(null);
             return;
         }
         if (username.isBlank()) {
@@ -79,8 +72,6 @@ public class LoginPage {
         System.out.print("Password: ");
         password = sc.nextLine();
         if (password.equalsIgnoreCase("back")) {
-            System.err.println("Registration cancelled.");
-            MainPage.display(null);
             return;
         }
         if (password.isBlank()) {
@@ -95,8 +86,6 @@ public class LoginPage {
         System.out.print("Email: ");
         email = sc.nextLine();
         if (email.equalsIgnoreCase("back")) {
-            System.err.println("Registration cancelled.");
-            MainPage.display(null);
             return;
         }
         if (email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
@@ -115,8 +104,6 @@ public class LoginPage {
             System.out.print("Phone Number: ");
             phone = sc.nextLine();
             if (phone.equalsIgnoreCase("back")) {
-                System.err.println("Registration cancelled.");
-                MainPage.display(null);
                 return;
             }
             if (phone.matches("\\d{10,11}")) {
@@ -130,8 +117,6 @@ public class LoginPage {
         System.out.print("Address (or type 'back' to cancel): ");
         address = sc.nextLine();
         if (address.equalsIgnoreCase("back")) {
-            System.err.println("Registration cancelled.");
-            MainPage.display(null);
             return;
         }
 
@@ -140,7 +125,6 @@ public class LoginPage {
 
     saveUser(user);
     System.out.println("Registration successful.");
-    MainPage.display(null);
 }
 
 
@@ -157,21 +141,17 @@ public class LoginPage {
     System.out.print("Username: ");
     String username = sc.nextLine();
     if (username.equalsIgnoreCase("back")) {
-        System.out.println("Returning to previous menu...");
-        MainPage.display(null);
         return ;
     }
 
     System.out.print("Password: ");
     String password = sc.nextLine();
     if (password.equalsIgnoreCase("back")) {
-        System.out.println("Returning to previous menu...");
-        MainPage.display(null);
         return;
     }
 
     try {
-        List<String> lines = Files.readAllLines(Paths.get(Utility.USERS_DATABASE));
+        List<String> lines = Files.readAllLines(Paths.get(UtilityHelper.USERS_DATABASE));
         for (String line : lines) {
             String[] data = line.split(",", -1);
             String type = data[0];
@@ -188,8 +168,8 @@ public class LoginPage {
                     LocalData.setCurrentUser(new Customer(uname, pwd, email, phone, address));
                 }
 
-                System.out.println("Login successful. Welcome, " + LocalData.getCurrentUser().getUsername());
-                MainPage.display(null); // Proceed to main page
+//                System.out.println("Login successful. Welcome, " + LocalData.getCurrentUser().getUsername());
+//                MainPage.display(); // Proceed to main page
                 return;
             }
         }
@@ -220,13 +200,13 @@ public class LoginPage {
         }
 
         LocalData.getCurrentUserCart().clear();
-        MainPage.display(null);
+        MainPage.display();
     }
 }
 
     private static void saveUser(User user) {
         
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(Utility.USERS_DATABASE, true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(UtilityHelper.USERS_DATABASE, true))) {
             bw.write(user.toCSV());
             bw.newLine();
         } catch (IOException e) {
@@ -237,7 +217,7 @@ public class LoginPage {
     public static void loadUsers() {
     users.clear(); // clear existing users if any
     
-    try (BufferedReader br = new BufferedReader(new FileReader(Utility.USERS_DATABASE))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(UtilityHelper.USERS_DATABASE))) {
         String line;
         while ((line = br.readLine()) != null) {
             String[] data = line.split(",", -1);
@@ -265,7 +245,7 @@ public class LoginPage {
     
     public static boolean doesUsernameExist(String username) {
     
-    try (Scanner scanner = new Scanner(new File(Utility.USERS_DATABASE))) {
+    try (Scanner scanner = new Scanner(new File(UtilityHelper.USERS_DATABASE))) {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] data = line.split(",", -1);

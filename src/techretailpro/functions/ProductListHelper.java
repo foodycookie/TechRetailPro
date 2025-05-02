@@ -3,75 +3,10 @@ package techretailpro.functions;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import techretailpro.objects.Headphone;
-import techretailpro.objects.Keyboard;
-import techretailpro.objects.Laptop;
 import techretailpro.objects.LocalData;
-import techretailpro.objects.Mouse;
-import techretailpro.objects.Printer;
 import techretailpro.objects.Product;
 
-public class ProductListHelper {
-    public static List<Keyboard> getKeyboardList() {
-        List<Keyboard> list = new ArrayList<>();
-        
-        for (Product product : ProductCategoryHelper.getListByCategory(new Keyboard().getCategory())) {
-            if (product.getCategory().equalsIgnoreCase(new Keyboard().getCategory())) {
-                list.add((Keyboard) product);
-            }
-        }
-        
-        return list;
-    }
-    
-    public static List<Mouse> getMouseList() {
-        List<Mouse> list = new ArrayList<>();
-                    
-        for (Product product : ProductCategoryHelper.getListByCategory(new Mouse().getCategory())) {
-            if (product.getCategory().equalsIgnoreCase(new Mouse().getCategory())) {
-                list.add((Mouse) product);
-            }
-        }
-        
-        return list;
-    }
-    
-    public static List<Laptop> getLaptopList() {
-        List<Laptop> list = new ArrayList<>();
-                    
-        for (Product product : ProductCategoryHelper.getListByCategory(new Laptop().getCategory())) {
-            if (product.getCategory().equalsIgnoreCase(new Laptop().getCategory())) {
-                list.add((Laptop) product);
-            }
-        }
-        
-        return list;
-    }
-    
-    public static List<Headphone> getHeadphoneList() {
-        List<Headphone> list = new ArrayList<>();
-                    
-        for (Product product : ProductCategoryHelper.getListByCategory(new Headphone().getCategory())) {
-            if (product.getCategory().equalsIgnoreCase(new Headphone().getCategory())) {
-                list.add((Headphone) product);
-            }
-        }
-        
-        return list;
-    }
-    
-    public static List<Printer> getPrinterList() {
-        List<Printer> list = new ArrayList<>();
-                    
-        for (Product product : ProductCategoryHelper.getListByCategory(new Printer().getCategory())) {
-            if (product.getCategory().equalsIgnoreCase(new Printer().getCategory())) {
-                list.add((Printer) product);
-            }
-        }
-        
-        return list;
-    }
-    
+public class ProductListHelper {    
     public static List<Product> getLowStockList() {
         List<Product> lowStockList = new ArrayList<>();
 
@@ -84,14 +19,13 @@ public class ProductListHelper {
         return lowStockList;
     }
     
-    
     public static List<Product> searchProductUI(List<Product> list) {
-        System.out.println("\nEnter a search query");
-        String validQuery = InputValidator.getString();
-        if (validQuery == null) {
+        String validQuery;
+        validQuery = UtilityHelper.getUserInput("Enter a search query", "string", false);
+        if (validQuery.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
             return list;
         }
-        
+
         return searchProduct(list, validQuery);
     }
     
@@ -124,8 +58,7 @@ public class ProductListHelper {
         System.out.println("5. Price, ascending order");
         System.out.println("6. Price, descending order");
         
-        Integer input = Utility.numberOptionChooser(1, 6);
-        
+        Integer input = UtilityHelper.numberOptionChooser("Option", 1, 6);
         if (input == null) {
             return list;
         }
@@ -164,7 +97,6 @@ public class ProductListHelper {
         
         while (chooseMoreCategory) {
             String selectedCategory = ProductCategoryHelper.chooseCategoryForFilterList(categoriesToRemove);
-            
             if (selectedCategory == null && selectedCategories.isEmpty()) {
                 return list;
             }
@@ -180,8 +112,7 @@ public class ProductListHelper {
             System.out.println("1. Yes");
             System.out.println("2. No");
             
-            Integer input = Utility.numberOptionChooser(1, 2);
-            
+            Integer input = UtilityHelper.numberOptionChooser("Option", 1, 2);
             if (input == null) {
                 return filterProductByCategory(list, selectedCategories);
             }
@@ -203,44 +134,73 @@ public class ProductListHelper {
     public static List<Product> filterProductByCategory(List<Product> list, List<String> categories) { 
         List<Product> newList = new ArrayList<>();
         
-        for (Product product : list) {
-            for (String category : categories) {
-                if (product.getCategory().equalsIgnoreCase(category) && !newList.contains(product)) {
-                    newList.add(product);
-                    break;
-                }
-            }
-            
+        for (String category : categories) {
+            newList.addAll(ProductCategoryHelper.getListByCategory(category));
         }
+        
+//        for (Product product : list) {
+//            for (String category : categories) {
+//                if (product.getCategory().equalsIgnoreCase(category) && !newList.contains(product)) {
+//                    newList.add(product);
+//                    break;
+//                }
+//            }
+//            
+//        }
         
         return newList;
     }
     
     public static List<Product> filterProductByPriceUI(List<Product> list) {
-        Double validMinPrice;
-        Double validMaxPrice;
-        
+        double validMinPrice;
         while (true) {            
-            System.out.println("\nEnter minimum price");
-            validMinPrice = InputValidator.getPositiveOrZeroDouble();
-            if (validMinPrice == null) {
-                return list;
+            String rawValidMinPrice = UtilityHelper.getUserInput("Enter minimum price", "double", false);
+
+            switch (rawValidMinPrice) {
+                case UtilityHelper.BACK_CONSTANT -> {
+                    return list;
+                }
+
+                default -> {
+                    validMinPrice = Double.parseDouble(rawValidMinPrice);
+
+                    if (validMinPrice < 0) {
+                        System.err.println("Invalid input. Input must be positive");
+                        continue;
+                    }
+                }
             }
 
-            System.out.println("\nEnter maximum price");
-            validMaxPrice = InputValidator.getPositiveOrZeroDouble();
-            if (validMaxPrice == null) {
-                return list;
-            }
-            
-            if (validMaxPrice < validMinPrice) {
-                System.err.println("\nInvalid input. Maximum price needs to be greater than minimum price");
-                continue;
-            }
-            
             break;
         }
-        
+
+        double validMaxPrice;
+        while (true) {            
+            String rawValidMaxPrice = UtilityHelper.getUserInput("Enter maximum price", "double", false);
+
+            switch (rawValidMaxPrice) {
+                case UtilityHelper.BACK_CONSTANT -> {
+                    return list;
+                }
+
+                default -> {
+                    validMaxPrice = Double.parseDouble(rawValidMaxPrice);
+
+                    if (validMinPrice < 0) {
+                        System.err.println("Invalid input. Input must be positive");
+                        continue;
+                    }
+
+                    if (validMaxPrice < validMinPrice) {
+                        System.err.println("Invalid input. Maximum price needs to be greater than minimum price");
+                        continue;
+                    }
+                }
+            }
+
+            break;
+        }
+
         return filterProductByPrice(list, validMinPrice, validMaxPrice);
     }
     
@@ -256,12 +216,11 @@ public class ProductListHelper {
         return newList;
     }   
     
-    public static List<Product> filterProductUI(List<Product> list) {   
+    public static List<Product> filterProductUI(List<Product> list) { 
         System.out.println("\nFilter by?");
         System.out.println("1. Category");
-        System.out.println("2. Price");
-        
-        Integer input = Utility.numberOptionChooser(1, 2);
+        System.out.println("2. Price?");
+        Integer input = UtilityHelper.numberOptionChooser("Option", 1, 2);
         
         if (input == null) {
             return list;

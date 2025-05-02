@@ -1,5 +1,7 @@
 package techretailpro.objects;
 
+import techretailpro.functions.UtilityHelper;
+
 public class Mouse extends Product {
     private boolean wireless;
     private String sensorType;
@@ -58,12 +60,27 @@ public class Mouse extends Product {
     }
     
     @Override
-    public String toStringForDatabase() {
+    public String getDetailedListHeader() {
+        return String.format("%-5s %-10s %-30s %-8s %-5s %-8s %-12s %-5s", "No", "Category", "Name", "Price", "Stock", "Wireless", "Sensor type", "DPI");
+    }
+    
+    @Override
+    public String toStringForCsv() {
         return getCategory() + "," + getName() + "," + String.format("%.2f", getPrice()) + "," + getStock() + "," + getDescription() + "," + wireless + "," + sensorType + "," + dpi;  
     }
     
     @Override
-    public String getDetailedListHeader() {
-        return String.format("%-5s %-10s %-30s %-8s %-5s %-8s %-12s %-5s", "No", "Category", "Name", "Price", "Stock", "Wireless", "Sensor type", "DPI");
+    public String getCsvHeader() {
+        return "Category,Name,Price,Stock,Description,Wireless,SensorType,DPI\n";
+    }
+    
+    @Override
+    public String getCsvFilePath() {
+        return UtilityHelper.MICE_DATABASE;
+    }
+    
+    @Override
+    public String getCsvTempFilePath() {
+        return UtilityHelper.TEMP_MICE_DATABASE;
     }
 }

@@ -25,7 +25,7 @@ public class ProductCategoryHelper {
     
     public static void displayCategory(List<String> categories) {
         if (categories == null || categories.isEmpty()) {
-            System.err.println("\nNo available categories");
+            System.err.println("No available categories");
             return;
         }
         
@@ -39,15 +39,13 @@ public class ProductCategoryHelper {
     
     public static String chooseCategory(List<String> categories) {
         if (categories == null || categories.isEmpty()) {
-            System.err.println("\nNo available categories");
+            System.err.println("No available categories");
             return null;
         }
         
-        System.out.println("\nSelect a category");
         displayCategory(categories);
-
-        Integer input = Utility.numberOptionChooser(1, categories.size());
         
+        Integer input = UtilityHelper.numberOptionChooser("Select a category", 1, categories.size());
         if (input == null) {
             return null;
         }
@@ -55,7 +53,6 @@ public class ProductCategoryHelper {
         return categories.get(input - 1);
     }
 
-    //User can choose multiple categories, selection will remove the chosen category
     public static String chooseCategoryForFilterList(List<String> categoriesToRemove) {
         List<String> categories = getExistingCategory();
         
@@ -66,33 +63,23 @@ public class ProductCategoryHelper {
         }
         
         if (categories.isEmpty()) {
-            System.err.println("\nNo remaining categories");
+            UtilityHelper.displayReturnMessage("No category left. Will display the full list");
             return null;
         }
         
         return chooseCategory(categories);
     }
     
-    //UI choose
     public static List<Product> getListByCategory() {
-        List<Product> list = new ArrayList<>();
-        
         String category = chooseCategory(getExistingCategory());
         
         if (category == null) {
             return null;
         }
         
-        for (Product product : LocalData.getCurrentProductsAvailable()) {
-            if (product.getCategory().equalsIgnoreCase(category)) {
-                list.add(product);
-            }
-        }
-        
-        return list;
+        return getListByCategory(category);
     }
     
-    //Passed data choose
     public static List<Product> getListByCategory(String category) {
         List<Product> list = new ArrayList<>();
         

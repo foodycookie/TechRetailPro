@@ -1,5 +1,7 @@
 package techretailpro.objects;
 
+import techretailpro.functions.UtilityHelper;
+
 public class Keyboard extends Product {
     private boolean wireless;
     private String keyType;
@@ -51,19 +53,34 @@ public class Keyboard extends Product {
                "\nKey type: " + keyType +
                "\nRGB: " + rgb;
     }
-    
+        
     @Override
     public String toStringForDetailedList() {
-        return String.format("%-10s %-25s %-8.2f %-5s %-8s %-15s %-5s", getCategory(), getName(), getPrice(), getStock(), wireless, keyType, rgb);       
-    }
-    
-    @Override
-    public String toStringForDatabase() {
-        return getCategory() + "," + getName() + "," + String.format("%.2f", getPrice()) + "," + getStock() + "," + getDescription() + "," + wireless + "," + keyType + "," + rgb;  
+        return String.format("%-10s %-25s %-8.2f %-5s %-8s %-15s %-5s", getCategory(), getName(), getPrice(), getStock(), wireless, keyType, rgb);
     }
     
     @Override
     public String getDetailedListHeader() {
         return String.format("%-5s %-10s %-25s %-8s %-5s %-8s %-15s %-5s", "No", "Category", "Name", "Price", "Stock", "Wireless", "Key type", "RGB");
+    }
+    
+    @Override
+    public String toStringForCsv() {
+        return getCategory() + "," + getName() + "," + String.format("%.2f", getPrice()) + "," + getStock() + "," + getDescription() + "," + wireless + "," + keyType + "," + rgb;
+    }
+    
+    @Override
+    public String getCsvHeader() {
+        return "Category,Name,Price,Stock,Description,Wireless,KeyType,RGB\n";
+    }
+    
+    @Override
+    public String getCsvFilePath() {
+        return UtilityHelper.KEYBOARDS_DATABASE;
+    }
+    
+    @Override
+    public String getCsvTempFilePath() {
+        return UtilityHelper.TEMP_KEYBOARDS_DATABASE;
     }
 }

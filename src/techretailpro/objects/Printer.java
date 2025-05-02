@@ -1,5 +1,7 @@
 package techretailpro.objects;
 
+import techretailpro.functions.UtilityHelper;
+
 public class Printer extends Product {
     private boolean wireless;
     private double printSpeed;
@@ -51,19 +53,34 @@ public class Printer extends Product {
                "\nPrint speed (PPM): " + printSpeed +
                "\nInk type: " + inkType;
     }
-    
+
     @Override
     public String toStringForDetailedList() {
         return String.format("%-10s %-25s %-8.2f %-5s %-8s %-5.1f %-10s", getCategory(), getName(), getPrice(), getStock(), wireless, printSpeed, inkType);       
     }
     
     @Override
-    public String toStringForDatabase() {
+    public String getDetailedListHeader() {
+        return String.format("%-5s %-10s %-25s %-8s %-5s %-8s %-5s %-10s", "No", "Category", "Name", "Price", "Stock", "Wireless", "Speed", "Ink");
+    }
+    
+    @Override
+    public String toStringForCsv() {
         return getCategory() + "," + getName() + "," + String.format("%.2f", getPrice()) + "," + getStock() + "," + getDescription() + "," + wireless + "," + printSpeed + "," + inkType;  
     }
     
     @Override
-    public String getDetailedListHeader() {
-        return String.format("%-5s %-10s %-25s %-8s %-5s %-8s %-5s %-10s", "No", "Category", "Name", "Price", "Stock", "Wireless", "Speed", "Ink");
+    public String getCsvHeader() {
+        return "Category,Name,Price,Stock,Description,Wireless,PrintSpeed,InkType\n";
+    }
+    
+    @Override
+    public String getCsvFilePath() {
+        return UtilityHelper.PRINTERS_DATABASE;
+    }
+    
+    @Override
+    public String getCsvTempFilePath() {
+        return UtilityHelper.TEMP_PRINTERS_DATABASE;
     }
 }

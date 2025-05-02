@@ -1,5 +1,7 @@
 package techretailpro.objects;
 
+import techretailpro.functions.UtilityHelper;
+
 public class Headphone extends Product {
     private boolean wireless;
     private boolean noiseCancellation;
@@ -51,19 +53,34 @@ public class Headphone extends Product {
                "\nNoise cancellation: " + noiseCancellation +
                "\nMicrophone: " + microphone;
     }
-    
+
     @Override
     public String toStringForDetailedList() {
         return String.format("%-10s %-25s %-8.2f %-5s %-8s %-5s %-5s", getCategory(), getName(), getPrice(), getStock(), wireless, noiseCancellation, microphone);       
     }
     
     @Override
-    public String toStringForDatabase() {
+    public String getDetailedListHeader() {
+        return String.format("%-5s %-10s %-25s %-8s %-5s %-8s %-5s %-5s", "No", "Category", "Name", "Price", "Stock", "Wireless", "NC", "Mic");
+    }
+    
+    @Override
+    public String toStringForCsv() {
         return getCategory() + "," + getName() + "," + String.format("%.2f", getPrice()) + "," + getStock() + "," + getDescription() + "," + wireless + "," + noiseCancellation + "," + microphone;  
     }
     
     @Override
-    public String getDetailedListHeader() {
-        return String.format("%-5s %-10s %-25s %-8s %-5s %-8s %-5s %-5s", "No", "Category", "Name", "Price", "Stock", "Wireless", "NC", "Mic");
+    public String getCsvHeader() {
+        return "Category,Name,Price,Stock,Description,Wireless,NoiseCancellation,Microphone\n";
+    }
+    
+    @Override
+    public String getCsvFilePath() {
+        return UtilityHelper.HEADPHONES_DATABASE;
+    }
+    
+    @Override
+    public String getCsvTempFilePath() {
+        return UtilityHelper.TEMP_HEADPHONES_DATABASE;
     }
 }

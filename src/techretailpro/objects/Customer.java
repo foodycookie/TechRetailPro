@@ -6,10 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import techretailpro.pages.LoginPage;
-import techretailpro.functions.Utility;
+import techretailpro.functions.UtilityHelper;
 import techretailpro.pages.MainPage;
-
-
 
 public class Customer extends User {
     private String phoneNumber;
@@ -52,35 +50,30 @@ public class Customer extends User {
         this.address = address;
     }
     
-    
-
-    
     public static void viewProfile(Scanner sc) {
-        
         Customer customer = (Customer) LoginPage.getCurrentUser();
 
-    while (true) {
-        System.out.println("\n=== Customer Profile ===");
-        System.out.println("Username     : " + customer.getUsername());
-        System.out.println("Email        : " + customer.getEmail());
-        System.out.println("Phone Number : " + customer.getPhoneNumber());
-        System.out.println("Address      : " + customer.getAddress());
+        while (true) {
+            System.out.println("\n=== Customer Profile ===");
+            System.out.println("Username     : " + customer.getUsername());
+            System.out.println("Email        : " + customer.getEmail());
+            System.out.println("Phone Number : " + customer.getPhoneNumber());
+            System.out.println("Address      : " + customer.getAddress());
 
-        System.out.println("\nPress 1 to update profile");
-        System.out.println("Press \"back\" to return to front page");
-        System.out.print("Option: ");
-        String input = sc.nextLine();
-        
-        if (input.equals("1")) {
-            updateProfile(sc, customer);
-            
-        } else if (input.equalsIgnoreCase("back")) {
-            MainPage.display(null);
-        } else {
-            System.err.println("Invalid input. Please try again. Thank you.\n\n");
-        }
-    }
-        
+            System.out.println("\nPress 1 to update profile");
+            System.out.println("Press \"back\" to return to front page");
+            System.out.print("Option: ");
+            String input = sc.nextLine();
+
+            if (input.equals("1")) {
+                updateProfile(sc, customer);
+
+            } else if (input.equalsIgnoreCase("back")) {
+                return;
+            } else {
+                System.err.println("Invalid input. Please try again. Thank you.\n\n");
+            }
+        }  
     }
     
     public static void updateProfile(Scanner sc, Customer customer) {
@@ -89,8 +82,7 @@ public class Customer extends User {
 
     System.out.print("Enter new username (leave blank to keep current): ");
     newUsername = sc.nextLine();
-    if (newUsername.equalsIgnoreCase("exit")) {
-        System.out.println("Profile update cancelled.");
+    if (newUsername.equalsIgnoreCase("back")) {
         return;
     }
     if (newUsername.isBlank()) {
@@ -100,8 +92,7 @@ public class Customer extends User {
     while (true) {
         System.out.print("Enter new email (leave blank to keep current): ");
         newEmail = sc.nextLine();
-        if (newEmail.equalsIgnoreCase("exit")) {
-            System.out.println("Profile update cancelled.");
+        if (newEmail.equalsIgnoreCase("back")) {
             return;
         }
         if (newEmail.isBlank()) {
@@ -117,8 +108,7 @@ public class Customer extends User {
     while (true) {
         System.out.print("Enter new phone number (leave blank to keep current): ");
         newPhone = sc.nextLine();
-        if (newPhone.equalsIgnoreCase("exit")) {
-            System.out.println("Profile update cancelled.");
+        if (newPhone.equalsIgnoreCase("back")) {
             return;
         }
         if (newPhone.isBlank()) {
@@ -133,8 +123,7 @@ public class Customer extends User {
 
     System.out.print("Enter new address (leave blank to keep current): ");
     newAddress = sc.nextLine();
-    if (newAddress.equalsIgnoreCase("exit")) {
-        System.out.println("Profile update cancelled.");
+    if (newAddress.equalsIgnoreCase("back")) {
         return;
     }
     if (newAddress.isBlank()) {
@@ -156,8 +145,8 @@ public class Customer extends User {
     }
    
     public static void saveUpdateProfile(String editTerm, String newUsername, String newPassword, String newEmail, String newPhone, String newAddress) {
-        String filepath = Utility.USERS_DATABASE;
-        String tempFile = Utility.TEMP_USERS_DATABASE;
+        String filepath = UtilityHelper.USERS_DATABASE;
+        String tempFile = UtilityHelper.TEMP_USERS_DATABASE;
         File oldFile = new File(filepath);
         File newFile = new File(tempFile);
 

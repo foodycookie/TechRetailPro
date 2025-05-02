@@ -10,7 +10,7 @@ import techretailpro.objects.Mouse;
 import techretailpro.objects.Printer;
 import techretailpro.objects.Product;
 
-public class Utility {
+public class UtilityHelper {
     public final static String KEYBOARDS_DATABASE = "src/techretailpro/databases/keyboards.csv";
     public final static String MICE_DATABASE = "src/techretailpro/databases/mice.csv";
     public final static String LAPTOPS_DATABASE = "src/techretailpro/databases/laptops.csv";
@@ -32,6 +32,9 @@ public class Utility {
     public final static String ORDER_HISTORY_DATABASE_HEADER = String.format("%-10s %-20s %-10s %-10s", "OrderID", "ProductName", "Quantity", "Subtotal");
 
     public final static Scanner SCANNER = new Scanner(System.in);
+    
+    public final static String BACK_CONSTANT = "BACK";
+    public final static String BLANK_CONSTANT = "BLANK";
 
     public static void clearConsole() {
         for (int i = 0; i < 10; i++) {
@@ -86,7 +89,7 @@ public class Utility {
         
         String s = string.trim().toLowerCase();
         
-        return s.equals("true") || s.equals("false") || s.equals("yes") || s.equals("no");
+        return s.equals("true") || s.equals("false");
     }
     
     public static Boolean stringToBoolean(String string) {
@@ -96,15 +99,146 @@ public class Utility {
         
         String s = string.trim().toLowerCase();
         
-        if (s.equals("true") || s.equals("yes")) {
+        if (s.equals("true")) {
             return true;
         }
         
-        else if (s.equals("false") || s.equals("no")) {
+        else if (s.equals("false")) {
             return false;
         }
         
         return null;
+    }
+    
+    public static String getUserInput(String prompt, String type, boolean allowBlank) {
+        String input;
+        
+        while (true) {
+            if (prompt != null) {
+                StringBuilder message = new StringBuilder("\n" + prompt);
+
+                if (type.equalsIgnoreCase("boolean")) {
+                    message.append(" (true / false)");
+                }
+
+                if (allowBlank) {
+                    message.append(" (Leave blank to keep original)");
+                }
+
+                message.append(": ");
+                System.out.print(message);
+            }
+            
+            input = UtilityHelper.SCANNER.nextLine().trim();
+            
+
+            if (input.equalsIgnoreCase(BACK_CONSTANT)) {
+                return BACK_CONSTANT;
+            }
+
+            if (input.isEmpty()) {
+                if (allowBlank) {
+                    return BLANK_CONSTANT;
+                } 
+                
+                else {
+                    System.err.println("Invalid input. Input cannot be blank");
+                    continue;
+                }
+            }
+
+            switch (type.toLowerCase()) {
+                case "int" -> {
+                    try {
+                        Integer.valueOf(input);
+                    } catch (NumberFormatException e) {
+                        System.err.println("Invalid input. Please enter either {back} or a valid integer");
+                        continue;
+                    }
+                    
+                    return input;
+                }
+
+                case "double" -> {
+                    try {
+                        Double.valueOf(input);
+                    } catch (NumberFormatException e) {
+                        System.err.println("Invalid input. Please enter either {back} or a valid double");
+                        continue;
+                    }
+                    
+                    return input;
+                }
+
+                case "boolean" -> {
+                    if (!input.equalsIgnoreCase("true") && !input.equalsIgnoreCase("false")) {
+                        System.err.println("Invalid input. Please enter either {back} or true / false");
+                        continue;
+                    }
+                    
+                    return input;
+                }
+
+                case "string" -> {
+                    if (input.contains(",")) {
+                        System.err.println("Invalid input. Commas are not allowed");
+                        continue;
+                    }
+                    
+                    return input;
+                }
+
+                default -> {
+                    System.err.println("Unsupported type: " + type);
+                    return null;
+                }
+            }
+        }
+    }
+    
+    public static Integer numberOptionChooser(String prompt, int minOption, int maxOption) {     
+        String input;
+        Integer numberInput;
+        
+        while(true) {        
+            if (prompt != null) {
+                System.out.print("\n" + prompt + ": ");
+            }
+
+            input = SCANNER.nextLine().trim();
+            
+            if (input.equalsIgnoreCase(BACK_CONSTANT)) {
+                return null;
+            }
+            
+            numberInput = stringToInteger(input);
+            
+            if (numberInput == null) {
+                System.err.println("Invalid input. Please enter either {back} or a whole number");
+                continue;
+            }
+
+            if (numberInput < minOption || numberInput > maxOption) {
+                System.err.println("Invalid choice. Please enter number from " + minOption + " to " + maxOption);
+                continue;
+            }
+
+            break;
+        }
+        
+        return numberInput;
+    }
+    
+    public static void displayReturnMessage(String message) {
+        if (message == null || message.isBlank()) {
+            System.out.println("Type enter to exit");
+        }
+        
+        else {
+            System.out.print("\n" + message + " (Type enter to exit)");
+        }
+        
+        UtilityHelper.SCANNER.nextLine();
     }
     
     //WILL OVERRIDE PRODUCT DB FILE, USE WITH CAUTION
@@ -176,6 +310,8 @@ public class Utility {
             list.add(printer);
         }
         
-        ProductDatabaseManager.rewriteAllProducts(list);
+        for (Product product : list) {
+            ProductDatabaseManager.appendProductCsv(product);
+        }
     }
 }
