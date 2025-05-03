@@ -1,9 +1,14 @@
 Username   ProductName          Quantity   Subtotal   Date/Time           
-b          a                    1          1.00       2025-05-03 10:07:30 
-TOTAL RM1.00
-b          a                    1          1.00       2025-05-03 10:09:14 
-TOTAL RM1.00
-b          Keyboard 1           2          42.00      2025-05-03 10:14:29 
-b          Keyboard 2           1          52.00      2025-05-03 10:14:29 
-b          Keyboard 3           1          23.00      2025-05-03 10:14:29 
-TOTAL RM117.00
+b          Keyboard 1           1          21.00      2025-05-03 15:27:56 
+b          Keyboard 2           1          52.00      2025-05-03 15:27:56 
+DeliveryFee RM10.00
+Discount    RM0.00
+TOTAL       RM83.00
+b          Keyboard 1           1          21.00      2025-05-03 15:28:26 
+DeliveryFee RM0.00
+Discount    RM0.00
+TOTAL       RM21.00
+q          Keyboard 1           1          21.00      2025-05-03 15:30:48 
+DeliveryFee RM10.00
+Discount    RM0.00
+TOTAL       RM31.00

@@ -116,7 +116,7 @@ public class LoginPage {
         }
 
         String address;
-        System.out.print("Address (or type 'back' to cancel): ");
+        System.out.print("Address: ");
         address = sc.nextLine();
         if (address.equalsIgnoreCase("back")) {
             return;

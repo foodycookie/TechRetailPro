@@ -63,7 +63,7 @@ public class MainPage {
             
             options.add("Check all low stock");
             options.add("Create new product");
-            options.add("View order history");
+            options.add("View all order history");
             
             options.add("Logout");
         }
@@ -75,6 +75,7 @@ public class MainPage {
             options.add("View cart");
             options.add("Remove item from cart");
             options.add("Checkout");
+            options.add("View order history");
             
             options.add("View profile");
             options.add("Logout");
@@ -123,8 +124,13 @@ public class MainPage {
                     display();
                 }
                 
-                case "View order history" -> {
+                case "View all order history" -> {
                     OrderManager.viewOrderHistory();
+                    display();
+                }
+                
+                case "View order history" -> {
+                    OrderManager.viewCurrentUserOrderHistory();
                     display();
                 }
                 

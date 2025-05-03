@@ -27,7 +27,7 @@ public class CartItem {
 
     @Override
     public String toString() {
-        return String.format("%-15s RM%-10.2f %-10d RM%-10.2f",
+        return String.format("%-15s RM%-8.2f %-10d RM%-10.2f",
             product.getName(), product.getPrice(), quantity, getSubtotal());
     }
 }

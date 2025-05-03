@@ -30,11 +30,19 @@ public class CartOrder {
     public double getDiscountAmount() {
         return discountAmount;
     }
+    
+    public String getDeliveryMethod() {
+        return "Generic Order";
+    }
+    
+    public double getDeliveryFee(){
+        return 0.0;
+    }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%-15s %-10s %-7s %-10s\n", "Product", "Price", "Qty", "Subtotal"));
+        sb.append(String.format("%-15s %-10s %-10s %-10s\n", "Product", "Price", "Qty", "Subtotal"));
         for (CartItem item : orderItems) {
             sb.append(item).append("\n");
         }

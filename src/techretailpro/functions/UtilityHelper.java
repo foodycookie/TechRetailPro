@@ -231,11 +231,11 @@ public class UtilityHelper {
     
     public static void displayReturnMessage(String message) {
         if (message == null || message.isBlank()) {
-            System.out.print("\nType enter to exit");
+            System.out.print("\nPress enter to proceed");
         }
         
         else {
-            System.out.print("\n" + message + " (Type enter to exit)");
+            System.out.print("\n" + message + " (Press enter to proceed)");
         }
         
         UtilityHelper.SCANNER.nextLine();
