@@ -11,6 +11,7 @@ import techretailpro.objects.Customer;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
 import techretailpro.functions.UtilityHelper;
+import techretailpro.objects.Admin;
 
 public class MainPage {         
     public static void displayProductInList(List<Product> list) {
@@ -65,6 +66,7 @@ public class MainPage {
             options.add("Create new product");
             options.add("View all order history");
             
+            options.add("Close account");
             options.add("Logout");
         }
         
@@ -166,6 +168,11 @@ public class MainPage {
                 
                 case "View profile" -> {
                     Customer.viewProfile(UtilityHelper.SCANNER);
+                    display();
+                }
+                
+                case "Close account" -> {
+                    Admin.closeAdminAccount(UtilityHelper.SCANNER);
                     display();
                 }
                 

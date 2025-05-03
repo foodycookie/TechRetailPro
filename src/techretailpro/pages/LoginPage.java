@@ -160,10 +160,16 @@ public class LoginPage {
             String email = data[3];
             String phone = data.length > 4 ? data[4] : "";
             String address = data.length > 5 ? data[5] : "";
+            boolean status = data.length > 6 ? Boolean.parseBoolean(data[6]) : true;
 
             if (uname.equals(username) && pwd.equals(password)) {
                 if (type.equals("admin")) {
+                    if (status){
                     LocalData.setCurrentUser(new Admin(uname, pwd, email));
+                    }else{
+                        UtilityHelper.displayReturnMessage("Login failed: Admin account is inactive");
+                        MainPage.display();
+                    }
                 } else {
                     LocalData.setCurrentUser(new Customer(uname, pwd, email, phone, address));
                 }
@@ -174,6 +180,7 @@ public class LoginPage {
                 return;
             }
         }
+
     } catch (IOException e) {
         System.err.println("Login failed: " + e.getMessage());
     }
