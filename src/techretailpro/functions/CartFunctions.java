@@ -3,25 +3,25 @@ package techretailpro.functions;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
 
-public class CartManager {
+public class CartFunctions {
     public static void viewCart() {
         if (LocalData.getCurrentUserCart().isEmpty()) {
-            UtilityHelper.displayReturnMessage("Cart is empty");
+            Utility.displayReturnMessage("Cart is empty");
         } 
         
         else {
             System.out.println("\n" + LocalData.getCurrentUserCart().toString());
-            UtilityHelper.displayReturnMessage("");
+            Utility.displayReturnMessage("");
         }
     }
     
     public static void addItemToCart(Product product) {
         int validQuantity;
         while (true) {            
-            String rawValidQuantity = UtilityHelper.getUserInput("Enter quantity", "int", false);
+            String rawValidQuantity = Utility.getUserInput("Enter quantity", "int", false);
 
             switch (rawValidQuantity) {
-                case UtilityHelper.BACK_CONSTANT -> {
+                case Utility.BACK_CONSTANT -> {
                     return;
                 }
 
@@ -45,7 +45,7 @@ public class CartManager {
  
         LocalData.getCurrentUserCart().addItem(product, validQuantity);
         
-        ProductManager.updateStock(product, -validQuantity);
+        ProductFunctions.updateStock(product, -validQuantity);
 
         System.out.println("\nItem added");
         
@@ -54,23 +54,23 @@ public class CartManager {
        
     public static void removeItemFromCart() {
         if (LocalData.getCurrentUserCart().isEmpty()) {
-            UtilityHelper.displayReturnMessage("Cart is empty");
+            Utility.displayReturnMessage("Cart is empty");
             return;
         }
 
         System.out.println("\n" + LocalData.getCurrentUserCart().toString());
         
-        Integer productNumber = UtilityHelper.numberOptionChooser("Select a product you want to remove by number", 1, LocalData.getCurrentUserCart().getItems().size());
+        Integer productNumber = Utility.numberOptionChooser("Select a product you want to remove by number", 1, LocalData.getCurrentUserCart().getItems().size());
         if (productNumber == null) {
             return;
         }
 
         int validQuantity;
         while (true) {            
-            String rawValidQuantity = UtilityHelper.getUserInput("Enter quantity", "int", false);
+            String rawValidQuantity = Utility.getUserInput("Enter quantity", "int", false);
 
             switch (rawValidQuantity) {
-                case UtilityHelper.BACK_CONSTANT -> {
+                case Utility.BACK_CONSTANT -> {
                     return;
                 }
 
@@ -96,7 +96,7 @@ public class CartManager {
 
         LocalData.getCurrentUserCart().removeItem(productToRemove.getName(), validQuantity);
         
-        ProductManager.updateStock(productToRemove, validQuantity);
+        ProductFunctions.updateStock(productToRemove, validQuantity);
 
         System.out.println("\nItem deleted");
         

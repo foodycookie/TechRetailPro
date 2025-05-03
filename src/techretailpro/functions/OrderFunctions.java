@@ -18,7 +18,7 @@ import techretailpro.objects.Customer;
 import techretailpro.objects.PickUpOrder;
 import techretailpro.objects.DeliveryOrder;
 
-public class OrderManager {
+public class OrderFunctions {
     public static boolean validateExpiry(String expiry) {
         try {
             if (!expiry.matches("\\d{2}/\\d{2}")) {
@@ -41,10 +41,10 @@ public class OrderManager {
     }
     
     public static void initCsv() {
-        File file = new File(UtilityHelper.ORDER_HISTORY_DATABASE);
+        File file = new File(Utility.ORDER_HISTORY_DATABASE);
         if (!file.exists()) {
             try (PrintWriter pw = new PrintWriter(new FileWriter(file))) {
-                pw.println(UtilityHelper.ORDER_HISTORY_DATABASE_HEADER);
+                pw.println(Utility.ORDER_HISTORY_DATABASE_HEADER);
             } catch (IOException e) {
                 System.err.println("Could not initialize order history file: " + e.getMessage());
             }
@@ -52,7 +52,7 @@ public class OrderManager {
     }
 
     public static void appendOrderToCsv(CartOrder order) { 
-        try (PrintWriter pw = new PrintWriter(new FileWriter(UtilityHelper.ORDER_HISTORY_DATABASE, true))) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(Utility.ORDER_HISTORY_DATABASE, true))) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             for (CartItem item : order.getOrderItems()) {
                 pw.printf("%-10s %-20s %-10d %-10.2f %-20s%n",
@@ -71,7 +71,7 @@ public class OrderManager {
     }
     
     public static void viewOrderHistory() {
-        try (BufferedReader br = new BufferedReader(new FileReader(UtilityHelper.ORDER_HISTORY_DATABASE))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(Utility.ORDER_HISTORY_DATABASE))) {
             System.out.println("\n--- Order History ---");
             System.out.printf("%-10s %-20s %-10s %-10s %-20s\n", "Username", "ProductName", "Quantity", "Subtotal", "Date/Time");
             br.lines().skip(1).forEach(System.out::println);
@@ -80,12 +80,12 @@ public class OrderManager {
             System.err.println("Error reading order history: " + e.getMessage());
         }
         
-        UtilityHelper.displayReturnMessage("");
+        Utility.displayReturnMessage("");
     }
     
     public static void viewCurrentUserOrderHistory() {
         String currentUser = LocalData.getCurrentUser().getUsername();
-        try (BufferedReader br = new BufferedReader(new FileReader(UtilityHelper.ORDER_HISTORY_DATABASE))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(Utility.ORDER_HISTORY_DATABASE))) {
             System.out.println("\n--- Your Order History ---");
             System.out.printf("%-10s %-20s %-10s %-10s %-20s\n", "Username", "ProductName", "Quantity", "Subtotal", "Date/Time");
             br.lines()
@@ -96,12 +96,12 @@ public class OrderManager {
         } catch (IOException e) {
             System.err.println("Error reading order history: " + e.getMessage());
         }
-        UtilityHelper.displayReturnMessage("");
+        Utility.displayReturnMessage("");
     }
 
     public static void checkoutAndPay() {
         if (LocalData.getCurrentUserCart().isEmpty()) {
-            UtilityHelper.displayReturnMessage("Cart is empty");
+            Utility.displayReturnMessage("Cart is empty");
             return;
         }
         
@@ -122,15 +122,15 @@ public class OrderManager {
         do {  
             System.out.print("Select option (1-2):\ninput > ");
 
-            if (UtilityHelper.SCANNER.hasNextInt()) {
-                orderType = UtilityHelper.SCANNER.nextInt();
-                UtilityHelper.SCANNER.nextLine(); // Consume the newline character
+            if (Utility.SCANNER.hasNextInt()) {
+                orderType = Utility.SCANNER.nextInt();
+                Utility.SCANNER.nextLine(); // Consume the newline character
                 if (orderType != 1 && orderType != 2) {
                     System.out.println("Invalid selection. Please enter 1 or 2.\n");
                 }
             } else {
                 System.out.println("Invalid input. Please enter a number (1 or 2).\n");
-                UtilityHelper.SCANNER.nextLine(); 
+                Utility.SCANNER.nextLine(); 
                 orderType = 0;                       // Reset to ensure the loop continues
             }
         } while (orderType != 1 && orderType != 2);
@@ -144,7 +144,7 @@ public class OrderManager {
                 address = customer.getAddress();
                 if (address == null || address.isBlank()) {
                     System.out.print("You haven't set a delivery address. Please enter your address:\ninput > ");
-                    address = UtilityHelper.SCANNER.nextLine();
+                    address = Utility.SCANNER.nextLine();
                     customer.setAddress(address);
                 }
                 deliveryFee = 10.0;
@@ -156,7 +156,7 @@ public class OrderManager {
 
         // Discount
         System.out.print("\nEnter discount code (press Enter to skip, 0 to back)\ninput > ");
-        String code = UtilityHelper.SCANNER.nextLine();
+        String code = Utility.SCANNER.nextLine();
         double discountAmount = 0;
         
         if (code.equals("0")) {
@@ -196,15 +196,15 @@ public class OrderManager {
             int paymentChoose;
             do {
                 System.out.print("Select payment method (0-3)\ninput > ");
-                if (UtilityHelper.SCANNER.hasNextInt()) {
-                    paymentChoose = UtilityHelper.SCANNER.nextInt();
-                    UtilityHelper.SCANNER.nextLine(); // Consume the newline character
+                if (Utility.SCANNER.hasNextInt()) {
+                    paymentChoose = Utility.SCANNER.nextInt();
+                    Utility.SCANNER.nextLine(); // Consume the newline character
                     if (paymentChoose < 0 || paymentChoose > 3) {
                         System.out.println("Invalid selection. Please enter a number between 0 and 3.\n");
                     }
                 } else {
                     System.out.println("Invalid input. Please enter a number between 0 and 3.\n");
-                    UtilityHelper.SCANNER.nextLine(); 
+                    Utility.SCANNER.nextLine(); 
                     paymentChoose = -1; 
                 }
             } while (paymentChoose < 0 || paymentChoose > 3);
@@ -241,7 +241,7 @@ public class OrderManager {
                     String cardNo;
                     do {
                         System.out.print("Enter 16-digit card number\ninput >  ");
-                        cardNo = UtilityHelper.SCANNER.nextLine();
+                        cardNo = Utility.SCANNER.nextLine();
                         if(!cardNo.matches("\\d{16}")){
                             System.out.println("Please enter 16 digits only.\n");
                         }
@@ -251,13 +251,13 @@ public class OrderManager {
                     int cvv;
                     do {
                         System.out.print("Enter 3-digit CVV\ninput > ");
-                        while (!UtilityHelper.SCANNER.hasNextInt()) {
+                        while (!Utility.SCANNER.hasNextInt()) {
                             System.out.println("Invalid input. Please enter a 3-digit CVV.\n");
                             System.out.print("Enter 3-digit CVV\ninput > ");
-                            UtilityHelper.SCANNER.next(); 
+                            Utility.SCANNER.next(); 
                         }
-                        cvv = UtilityHelper.SCANNER.nextInt();
-                        UtilityHelper.SCANNER.nextLine(); 
+                        cvv = Utility.SCANNER.nextInt();
+                        Utility.SCANNER.nextLine(); 
                         if (cvv < 100 || cvv > 999) {
                             System.out.println("Invalid input. Please enter a 3-digit CVV.\n");
                         }
@@ -265,7 +265,7 @@ public class OrderManager {
                     trans.setCvv(cvv);
 
                     System.out.print("Enter expiry date (MM/YY)\ninput >  ");
-                    String expiry = UtilityHelper.SCANNER.nextLine();
+                    String expiry = Utility.SCANNER.nextLine();
                     if (!validateExpiry(expiry)) {
                         System.out.println("Card expired or invalid date. Please select payment again.\n");
                         continue;
@@ -276,7 +276,7 @@ public class OrderManager {
                     String accNo;
                     do {
                         System.out.print("Enter account number (7-16 digits)\ninput >  ");
-                        accNo = UtilityHelper.SCANNER.nextLine();
+                        accNo = Utility.SCANNER.nextLine();
                         if(!accNo.matches("\\d{7,16}")){
                             System.out.println("Please enter 7 to 16 digits only.\n");
                         }
@@ -291,7 +291,7 @@ public class OrderManager {
         String password;
         do{
             System.out.print("Enter your password (type back to cancel checkout)\ninput >  ");
-            password = UtilityHelper.SCANNER.nextLine();
+            password = Utility.SCANNER.nextLine();
             if (password.equalsIgnoreCase("back")) {
                 System.out.println("Cancelling checkout. Returning to menu...\n");
                 return; 
@@ -304,12 +304,12 @@ public class OrderManager {
         double amount;
         do {
             System.out.printf("Enter the amount to pay (RM%.2f)\ninput >  RM", finalTotal);
-            while (!UtilityHelper.SCANNER.hasNextDouble()) {
+            while (!Utility.SCANNER.hasNextDouble()) {
                 System.out.print("Invalid input. Enter a valid amount\ninput >  RM");
-                UtilityHelper.SCANNER.next();
+                Utility.SCANNER.next();
             }
-            amount = UtilityHelper.SCANNER.nextDouble();
-            UtilityHelper.SCANNER.nextLine();
+            amount = Utility.SCANNER.nextDouble();
+            Utility.SCANNER.nextLine();
             if (Math.abs(amount - finalTotal) > 0.01) {
                 System.err.println("Amount not matched. Please enter exactly RM" + finalTotal + "\n");
             }
@@ -328,7 +328,7 @@ public class OrderManager {
             appendOrderToCsv(newOrder);
             
             for (CartItem item : LocalData.getCurrentUserCart().getItems()) {
-                ProductManager.updateStockToCsv(item.getProduct());
+                ProductFunctions.updateStockToCsv(item.getProduct());
             }
             
             System.out.println("\n---------------------------------------------------------");
@@ -344,7 +344,7 @@ public class OrderManager {
             System.out.println("---------------------------------------------------------");
             System.out.println("      Thank you for shopping with TECH RETAIL PRO!       ");
             System.out.print("\nPress Enter to Exit");
-            UtilityHelper.SCANNER.nextLine();
+            Utility.SCANNER.nextLine();
  
             LocalData.getCurrentUserCart().clear();
         }

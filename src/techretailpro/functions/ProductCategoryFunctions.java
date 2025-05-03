@@ -10,7 +10,7 @@ import techretailpro.objects.Mouse;
 import techretailpro.objects.Printer;
 import techretailpro.objects.Product;
 
-public class ProductCategoryHelper {
+public class ProductCategoryFunctions {
     public static List<String> getExistingCategory() {
         List<String> list = new ArrayList<>();
         
@@ -46,7 +46,7 @@ public class ProductCategoryHelper {
         
         displayCategory(categories);
         
-        Integer input = UtilityHelper.numberOptionChooser("Select a category", 1, categories.size());
+        Integer input = Utility.numberOptionChooser("Select a category", 1, categories.size());
         if (input == null) {
             return null;
         }
@@ -64,7 +64,7 @@ public class ProductCategoryHelper {
         }
         
         if (categories.isEmpty()) {
-            UtilityHelper.displayReturnMessage("No category left. Will display the full list");
+            Utility.displayReturnMessage("No category left. Will display the full list");
             return null;
         }
         

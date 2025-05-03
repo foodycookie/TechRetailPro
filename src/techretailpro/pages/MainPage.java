@@ -2,16 +2,15 @@ package techretailpro.pages;
 
 import java.util.ArrayList;
 import java.util.List;
-import techretailpro.functions.CartManager;
-import techretailpro.functions.ProductCategoryHelper;
-import techretailpro.functions.OrderManager;
-import techretailpro.functions.ProductManager;
-import techretailpro.functions.ProductListHelper;
-import techretailpro.objects.Customer;
+import techretailpro.functions.CartFunctions;
+import techretailpro.functions.ProductCategoryFunctions;
+import techretailpro.functions.OrderFunctions;
+import techretailpro.functions.ProductFunctions;
+import techretailpro.functions.ProductListFunctions;
+import techretailpro.functions.UserFunctions;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
-import techretailpro.functions.UtilityHelper;
-import techretailpro.objects.Admin;
+import techretailpro.functions.Utility;
 
 public class MainPage {         
     public static void displayProductInList(List<Product> list) {
@@ -21,7 +20,7 @@ public class MainPage {
         }
         
         if (list.isEmpty()) {
-            UtilityHelper.displayReturnMessage("No product found");
+            Utility.displayReturnMessage("No product found");
             display();
             return;
         }
@@ -34,7 +33,7 @@ public class MainPage {
     public static void display() {
         List<String> options = new ArrayList<>();
        
-        UtilityHelper.clearConsole();
+        Utility.clearConsole();
         
         if (LocalData.getCurrentUser().isCustomer()) {
             System.out.println("\nWelcome to TechRetailPro, " + LocalData.getCurrentUser().getUsername() + "!");
@@ -58,7 +57,7 @@ public class MainPage {
         options.add("Register");
         options.add("Login");
         
-        if (LoginPage.getCurrentUser().isAdmin()) {
+        if (UserFunctions.getCurrentUser().isAdmin()) {
             options.remove("Register");
             options.remove("Login");
             
@@ -70,7 +69,7 @@ public class MainPage {
             options.add("Logout");
         }
         
-        else if (LoginPage.getCurrentUser().isCustomer()) {
+        else if (UserFunctions.getCurrentUser().isCustomer()) {
             options.remove("Register");
             options.remove("Login");
             
@@ -97,7 +96,7 @@ public class MainPage {
         }
         
         while(true) {
-            Integer input = UtilityHelper.numberOptionChooser("Option", 1, options.size());
+            Integer input = Utility.numberOptionChooser("Option", 1, options.size());
             if (input == null) {
                 display();
             }
@@ -105,74 +104,74 @@ public class MainPage {
             String selectedOption = options.get(input - 1);
             
             switch (selectedOption) {               
-                case "Browse products via category" -> displayProductInList(ProductCategoryHelper.getListByCategory());
+                case "Browse products via category" -> displayProductInList(ProductCategoryFunctions.getListByCategory());
 
                 case "View all the products" -> displayProductInList(LocalData.getCurrentProductsAvailable());
 
                 case "Search a product" -> {
                     String validQuery;
-                    validQuery = UtilityHelper.getUserInput("Enter a search query", "string", false);
-                    if (validQuery.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                    validQuery = Utility.getUserInput("Enter a search query", "string", false);
+                    if (validQuery.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                         display();
                     }
                     
-                    displayProductInList(ProductListHelper.searchProduct(LocalData.getCurrentProductsAvailable(), validQuery));
+                    displayProductInList(ProductListFunctions.searchProduct(LocalData.getCurrentProductsAvailable(), validQuery));
                 }
 
-                case "Check all low stock" -> displayProductInList(ProductListHelper.getLowStockList());
+                case "Check all low stock" -> displayProductInList(ProductListFunctions.getLowStockList());
          
                 case "Create new product" -> {    
-                    ProductManager.createProductUI();
+                    ProductFunctions.createProductUI();
                     display();
                 }
                 
                 case "View all order history" -> {
-                    OrderManager.viewOrderHistory();
+                    OrderFunctions.viewOrderHistory();
                     display();
                 }
                 
                 case "View order history" -> {
-                    OrderManager.viewCurrentUserOrderHistory();
+                    OrderFunctions.viewCurrentUserOrderHistory();
                     display();
                 }
                 
                 case "View cart" -> {
-                    CartManager.viewCart();
+                    CartFunctions.viewCart();
                     display();
                 }
                 
                 case "Remove item from cart" -> {
-                    CartManager.removeItemFromCart();
+                    CartFunctions.removeItemFromCart();
                     display();
                 }
                 
                 case "Checkout" -> {
-                    OrderManager.checkoutAndPay();
+                    OrderFunctions.checkoutAndPay();
                     display();
                 }
                 
                 case "Register" -> {
-                    LoginPage.register(UtilityHelper.SCANNER);
+                    UserFunctions.register(Utility.SCANNER);
                     display();
                 }
                     
                 case "Login" -> {
-                    LoginPage.login(UtilityHelper.SCANNER);
+                    UserFunctions.login(Utility.SCANNER);
                     display();
                 }
                 
                 case "Logout" -> {
-                    LoginPage.logout();
+                    UserFunctions.logout();
                     display();
                 }
                 
                 case "View profile" -> {
-                    Customer.viewProfile(UtilityHelper.SCANNER);
+                    UserFunctions.viewProfile(Utility.SCANNER);
                     display();
                 }
                 
                 case "Close account" -> {
-                    Admin.closeAdminAccount(UtilityHelper.SCANNER);
+                    UserFunctions.closeAdminAccount(Utility.SCANNER);
                     display();
                 }
                 

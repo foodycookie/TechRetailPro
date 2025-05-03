@@ -2,13 +2,14 @@ package techretailpro.pages;
 
 import java.util.ArrayList;
 import java.util.List;
-import techretailpro.functions.CartManager;
-import techretailpro.functions.OrderManager;
-import techretailpro.functions.ProductListHelper;
-import techretailpro.functions.ProductManager;
+import techretailpro.functions.CartFunctions;
+import techretailpro.functions.OrderFunctions;
+import techretailpro.functions.ProductListFunctions;
+import techretailpro.functions.ProductFunctions;
+import techretailpro.functions.UserFunctions;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
-import techretailpro.functions.UtilityHelper;
+import techretailpro.functions.Utility;
 
 public class ProductListPage {
     public static void display(List<Product> list, int currentPage) {
@@ -18,12 +19,12 @@ public class ProductListPage {
         }
         
         if (list.isEmpty()) {
-            UtilityHelper.displayReturnMessage("No product found");
+            Utility.displayReturnMessage("No product found");
             display(LocalData.getPreviousList(), 1);
             return;
         }
         
-        int dataPerPage = UtilityHelper.DATA_PER_PAGE;
+        int dataPerPage = Utility.DATA_PER_PAGE;
         int totalPage = (int) Math.ceil((double) list.size() / dataPerPage);        
         
         int minOptionForProductNumber = 101 + (dataPerPage * (currentPage - 1));
@@ -36,7 +37,7 @@ public class ProductListPage {
         Integer optionInput;
         boolean allSameCategory = true;
         
-        UtilityHelper.clearConsole();
+        Utility.clearConsole();
 
         for (Product product : list) {
             if (!list.get(0).getCategory().equals(product.getCategory())) {
@@ -93,12 +94,12 @@ public class ProductListPage {
         options.add("Filter product");
         options.add("Reset list");
         
-        if (LoginPage.getCurrentUser().isAdmin()) {
+        if (UserFunctions.getCurrentUser().isAdmin()) {
             options.add("Check all low stock");
             options.add("Create new product");
         }
         
-        else if (LoginPage.getCurrentUser().isCustomer()) {
+        else if (UserFunctions.getCurrentUser().isCustomer()) {
             options.add("View cart");
             options.add("Remove item from cart");
             options.add("Checkout");
@@ -116,10 +117,10 @@ public class ProductListPage {
         }
         
         while (true) {            
-            String rawInput = UtilityHelper.getUserInput("Option", "int", false);
+            String rawInput = Utility.getUserInput("Option", "int", false);
 
             switch (rawInput) {
-                case UtilityHelper.BACK_CONSTANT -> {
+                case Utility.BACK_CONSTANT -> {
                     MainPage.display();
                 }
 
@@ -145,7 +146,7 @@ public class ProductListPage {
                                     continue;
                                 }
 
-                                optionInput = UtilityHelper.numberOptionChooser("Chooose a page", 1, totalPage);
+                                optionInput = Utility.numberOptionChooser("Chooose a page", 1, totalPage);
                                 if (optionInput == null) {
                                     display(list, 1);
                                 }
@@ -162,36 +163,38 @@ public class ProductListPage {
                                 display(list, (currentPage + 1));
                             }
 
-                            case "Sort list" -> display(ProductListHelper.sortProductListUI(list), 1);
+                            case "Sort list" -> display(ProductListFunctions.sortProductListUI(list), 1);
 
-                            case "Search product" -> display(ProductListHelper.searchProductUI(list), 1);
+                            case "Search product" -> display(ProductListFunctions.searchProductUI(list), 1);
 
-                            case "Filter product" -> display(ProductListHelper.filterProductUI(list), 1);
+                            case "Filter product" -> display(ProductListFunctions.filterProductUI(list), 1);
 
                             case "Reset list" -> display(LocalData.getPreviousList(), 1); 
 
-                            case "Check all low stock" -> display(ProductListHelper.getLowStockList(), 1);
+                            case "Check all low stock" -> display(ProductListFunctions.getLowStockList(), 1);
 
                             case "Create new product" -> {    
-                                ProductManager.createProductUI();
+                                ProductFunctions.createProductUI();
                                 display(LocalData.getPreviousList(), 1);
                                 
                             }
 
                             case "View cart" -> {
-                                CartManager.viewCart();
+                                CartFunctions.viewCart();
                                 display(LocalData.getPreviousList(), 1);
                             }
 
                             case "Remove item from cart" -> {
-                                CartManager.removeItemFromCart();
+                                CartFunctions.removeItemFromCart();
                                 display(LocalData.getPreviousList(), 1);
                             }
 
                             case "Checkout" -> {
-                                OrderManager.checkoutAndPay();
+                                OrderFunctions.checkoutAndPay();
                                 display(LocalData.getPreviousList(), 1);
                             }
+                            
+                            case "Nothing you can do here. Go back" -> MainPage.display();
 
                             default -> System.err.println("\nInvalid input");
                         }

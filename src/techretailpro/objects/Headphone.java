@@ -1,6 +1,6 @@
 package techretailpro.objects;
 
-import techretailpro.functions.UtilityHelper;
+import techretailpro.functions.Utility;
 
 public class Headphone extends Product {
     private boolean wireless;
@@ -76,11 +76,11 @@ public class Headphone extends Product {
     
     @Override
     public String getCsvFilePath() {
-        return UtilityHelper.HEADPHONES_DATABASE;
+        return Utility.HEADPHONES_DATABASE;
     }
     
     @Override
     public String getCsvTempFilePath() {
-        return UtilityHelper.TEMP_HEADPHONES_DATABASE;
+        return Utility.TEMP_HEADPHONES_DATABASE;
     }
 }

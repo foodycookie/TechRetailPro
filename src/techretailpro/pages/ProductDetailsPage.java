@@ -2,16 +2,17 @@ package techretailpro.pages;
 
 import java.util.ArrayList;
 import java.util.List;
-import techretailpro.functions.CartManager;
-import techretailpro.functions.ProductManager;
+import techretailpro.functions.CartFunctions;
+import techretailpro.functions.ProductFunctions;
+import techretailpro.functions.UserFunctions;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
-import techretailpro.functions.UtilityHelper;
+import techretailpro.functions.Utility;
 
 public class ProductDetailsPage {
     public static void display(Product product) {
         if (product == null) {
-            UtilityHelper.displayReturnMessage("No product found");
+            Utility.displayReturnMessage("No product found");
             ProductListPage.display(LocalData.getPreviousList(), 1);
             return;
         }
@@ -19,7 +20,7 @@ public class ProductDetailsPage {
         List<String> options = new ArrayList<>();
         Integer input;
         
-        UtilityHelper.clearConsole();
+        Utility.clearConsole();
         
         System.out.println("\n" + product.toString());
         
@@ -27,13 +28,13 @@ public class ProductDetailsPage {
         System.out.println("Type {back} at anytime to go back");
                 
         
-        if (LoginPage.getCurrentUser().isAdmin()) {
+        if (UserFunctions.getCurrentUser().isAdmin()) {
             options.add("Update stock");
             options.add("Update product");
             options.add("Delete product");
         }
         
-        else if (LoginPage.getCurrentUser().isCustomer()) {
+        else if (UserFunctions.getCurrentUser().isCustomer()) {
             if (product.isAvailable()) {
                 options.add("Add to cart");
             } 
@@ -51,7 +52,7 @@ public class ProductDetailsPage {
         }
         
         while(true) {
-            input = UtilityHelper.numberOptionChooser("Option", 1, options.size());
+            input = Utility.numberOptionChooser("Option", 1, options.size());
             if (input == null) {
                 ProductListPage.display(LocalData.getPreviousList(), 1);
             }
@@ -60,13 +61,13 @@ public class ProductDetailsPage {
             
             switch (selectedOption) {
                 case "Update stock" -> {
-                    ProductManager.updateStockUI(product);
-                    ProductManager.updateStockToCsv(product);
+                    ProductFunctions.updateStockUI(product);
+                    ProductFunctions.updateStockToCsv(product);
                     display(product);
                 }
 
                 case "Update product" -> {
-                    ProductManager.updateProductUI(product);
+                    ProductFunctions.updateProductUI(product);
                     display(product);
                 }
 
@@ -75,7 +76,7 @@ public class ProductDetailsPage {
                     System.err.println("1. Yes");
                     System.err.println("2. No");
                     
-                    input = UtilityHelper.numberOptionChooser("Option", 1, 2);
+                    input = Utility.numberOptionChooser("Option", 1, 2);
                     if (input == null) {
                         display(product);
                         return;
@@ -83,7 +84,7 @@ public class ProductDetailsPage {
                     
                     switch (input) {
                         case 1 -> {
-                            ProductManager.deleteProduct(product);
+                            ProductFunctions.deleteProduct(product);
                             ProductListPage.display(LocalData.getPreviousList(), 1); 
                         }
 
@@ -94,7 +95,7 @@ public class ProductDetailsPage {
                 }
                 
                 case "Add to cart" -> {
-                    CartManager.addItemToCart(product);
+                    CartFunctions.addItemToCart(product);
                     ProductListPage.display(LocalData.getPreviousList(), 1);
                 }
                 

@@ -1,6 +1,6 @@
 package techretailpro.objects;
 
-import techretailpro.functions.UtilityHelper;
+import techretailpro.functions.Utility;
 
 public class Mouse extends Product {
     private boolean wireless;
@@ -76,11 +76,11 @@ public class Mouse extends Product {
     
     @Override
     public String getCsvFilePath() {
-        return UtilityHelper.MICE_DATABASE;
+        return Utility.MICE_DATABASE;
     }
     
     @Override
     public String getCsvTempFilePath() {
-        return UtilityHelper.TEMP_MICE_DATABASE;
+        return Utility.TEMP_MICE_DATABASE;
     }
 }

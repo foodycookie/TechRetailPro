@@ -1,6 +1,6 @@
 package techretailpro.objects;
 
-import techretailpro.functions.UtilityHelper;
+import techretailpro.functions.Utility;
 
 public class Laptop extends Product {
     private String processor;    
@@ -76,11 +76,11 @@ public class Laptop extends Product {
     
     @Override
     public String getCsvFilePath() {
-        return UtilityHelper.LAPTOPS_DATABASE;
+        return Utility.LAPTOPS_DATABASE;
     }
     
     @Override
     public String getCsvTempFilePath() {
-        return UtilityHelper.TEMP_LAPTOPS_DATABASE;
+        return Utility.TEMP_LAPTOPS_DATABASE;
     }
 }

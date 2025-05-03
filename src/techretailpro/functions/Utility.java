@@ -10,7 +10,7 @@ import techretailpro.objects.Mouse;
 import techretailpro.objects.Printer;
 import techretailpro.objects.Product;
 
-public class UtilityHelper {
+public class Utility {
     public final static String KEYBOARDS_DATABASE = "src/techretailpro/databases/keyboards.csv";
     public final static String MICE_DATABASE = "src/techretailpro/databases/mice.csv";
     public final static String LAPTOPS_DATABASE = "src/techretailpro/databases/laptops.csv";
@@ -129,7 +129,7 @@ public class UtilityHelper {
                 System.out.print(message);
             }
             
-            input = UtilityHelper.SCANNER.nextLine().trim();
+            input = Utility.SCANNER.nextLine().trim();
             
 
             if (input.equalsIgnoreCase(BACK_CONSTANT)) {
@@ -238,7 +238,7 @@ public class UtilityHelper {
             System.out.print("\n" + message + " (Press enter to proceed)");
         }
         
-        UtilityHelper.SCANNER.nextLine();
+        Utility.SCANNER.nextLine();
     }
     
     public static void productGenerator() {
@@ -310,7 +310,7 @@ public class UtilityHelper {
         }
         
         for (Product product : list) {
-            ProductDatabaseManager.appendProductCsv(product);
+            ProductDatabaseFunctions.appendProductCsv(product);
         }
     }
 }

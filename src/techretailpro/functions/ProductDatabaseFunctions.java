@@ -16,7 +16,7 @@ import techretailpro.objects.Mouse;
 import techretailpro.objects.Printer;
 import techretailpro.objects.Product;
 
-public class ProductDatabaseManager {
+public class ProductDatabaseFunctions {
     public static List<Product> fetchProducts(Product product) {
         if (product == null) {
             System.err.println("Instance is null");
@@ -47,12 +47,12 @@ public class ProductDatabaseManager {
                     case "keyboard" -> {
                         Keyboard keyboard = new Keyboard(
                                 fields[1].trim(),
-                                UtilityHelper.stringToDouble(fields[2].trim()),
-                                UtilityHelper.stringToInteger(fields[3].trim()),
+                                Utility.stringToDouble(fields[2].trim()),
+                                Utility.stringToInteger(fields[3].trim()),
                                 fields[4].trim(),
-                                UtilityHelper.stringToBoolean(fields[5].trim()),
+                                Utility.stringToBoolean(fields[5].trim()),
                                 fields[6].trim(),
-                                UtilityHelper.stringToBoolean(fields[7].trim()));
+                                Utility.stringToBoolean(fields[7].trim()));
                         
                         if (fields[0] == null || fields[1] == null || fields[2] == null || fields[3] == null || fields[4] == null || fields[5] == null || fields[6] == null || fields[7] == null) {
                             if (fields[1] == null) {
@@ -72,12 +72,12 @@ public class ProductDatabaseManager {
                     case "mouse" -> {
                         Mouse mouse = new Mouse(
                                 fields[1].trim(),
-                                UtilityHelper.stringToDouble(fields[2].trim()),
-                                UtilityHelper.stringToInteger(fields[3].trim()),
+                                Utility.stringToDouble(fields[2].trim()),
+                                Utility.stringToInteger(fields[3].trim()),
                                 fields[4].trim(),
-                                UtilityHelper.stringToBoolean(fields[5].trim()),
+                                Utility.stringToBoolean(fields[5].trim()),
                                 fields[6].trim(),
-                                UtilityHelper.stringToInteger(fields[7].trim()));
+                                Utility.stringToInteger(fields[7].trim()));
                         
                         if (fields[0] == null || fields[1] == null || fields[2] == null || fields[3] == null || fields[4] == null || fields[5] == null || fields[6] == null || fields[7] == null) {
                             if (fields[1] == null) {
@@ -97,12 +97,12 @@ public class ProductDatabaseManager {
                     case "laptop" -> {
                         Laptop laptop = new Laptop(
                                 fields[1].trim(),
-                                UtilityHelper.stringToDouble(fields[2].trim()),
-                                UtilityHelper.stringToInteger(fields[3].trim()),
+                                Utility.stringToDouble(fields[2].trim()),
+                                Utility.stringToInteger(fields[3].trim()),
                                 fields[4].trim(),
                                 fields[5].trim(),
-                                UtilityHelper.stringToInteger(fields[6].trim()),
-                                UtilityHelper.stringToInteger(fields[7].trim()));
+                                Utility.stringToInteger(fields[6].trim()),
+                                Utility.stringToInteger(fields[7].trim()));
                         
                         if (fields[0] == null || fields[1] == null || fields[2] == null || fields[3] == null || fields[4] == null || fields[5] == null || fields[6] == null || fields[7] == null) {
                             if (fields[1] == null) {
@@ -122,12 +122,12 @@ public class ProductDatabaseManager {
                     case "headphone" -> {
                         Headphone headphone = new Headphone(
                                 fields[1].trim(),
-                                UtilityHelper.stringToDouble(fields[2].trim()),
-                                UtilityHelper.stringToInteger(fields[3].trim()),
+                                Utility.stringToDouble(fields[2].trim()),
+                                Utility.stringToInteger(fields[3].trim()),
                                 fields[4].trim(),
-                                UtilityHelper.stringToBoolean(fields[5].trim()),
-                                UtilityHelper.stringToBoolean(fields[6].trim()),
-                                UtilityHelper.stringToBoolean(fields[7].trim()));
+                                Utility.stringToBoolean(fields[5].trim()),
+                                Utility.stringToBoolean(fields[6].trim()),
+                                Utility.stringToBoolean(fields[7].trim()));
                         
                         if (fields[0] == null || fields[1] == null || fields[2] == null || fields[3] == null || fields[4] == null || fields[5] == null || fields[6] == null || fields[7] == null) {
                             if (fields[1] == null) {
@@ -147,11 +147,11 @@ public class ProductDatabaseManager {
                     case "printer" -> {
                         Printer printer = new Printer(
                                 fields[1].trim(),
-                                UtilityHelper.stringToDouble(fields[2].trim()),
-                                UtilityHelper.stringToInteger(fields[3].trim()),
+                                Utility.stringToDouble(fields[2].trim()),
+                                Utility.stringToInteger(fields[3].trim()),
                                 fields[4].trim(),
-                                UtilityHelper.stringToBoolean(fields[5].trim()),
-                                UtilityHelper.stringToDouble(fields[6].trim()),
+                                Utility.stringToBoolean(fields[5].trim()),
+                                Utility.stringToDouble(fields[6].trim()),
                                 fields[7].trim());
                         
                         if (fields[0] == null || fields[1] == null || fields[2] == null || fields[3] == null || fields[4] == null || fields[5] == null || fields[6] == null || fields[7] == null) {

@@ -44,9 +44,6 @@ public class User {
         return "User{" + "username=" + username + ", password=" + password + ", email=" + email + '}';
     }
 
-    public void register() {
-    }
-    
     public String toCSV() {
         return "";
     }
@@ -57,9 +54,5 @@ public class User {
     
     public boolean isCustomer() {
         return false;
-    }
-    
-    public void logout() {
-        
     }
 }

@@ -9,9 +9,9 @@ import techretailpro.objects.Mouse;
 import techretailpro.objects.Printer;
 import techretailpro.objects.Product;
 
-public class ProductManager {
+public class ProductFunctions {
     public static void createProductUI() {
-        String category = ProductCategoryHelper.chooseCategory(ProductCategoryHelper.getExistingCategory());
+        String category = ProductCategoryFunctions.chooseCategory(ProductCategoryFunctions.getExistingCategory());
         
         if (category == null) {
             return;
@@ -19,8 +19,8 @@ public class ProductManager {
                 
         String validName;
         while (true) {            
-            validName = UtilityHelper.getUserInput("Enter product name", "string", false);
-            if (validName.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+            validName = Utility.getUserInput("Enter product name", "string", false);
+            if (validName.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                 return;
             }
 
@@ -46,10 +46,10 @@ public class ProductManager {
         
         double validPrice;
         while (true) {            
-            String rawValidPrice = UtilityHelper.getUserInput("Enter price", "double", false);
+            String rawValidPrice = Utility.getUserInput("Enter price", "double", false);
 
             switch (rawValidPrice) {
-                case UtilityHelper.BACK_CONSTANT -> {
+                case Utility.BACK_CONSTANT -> {
                     return;
                 }
 
@@ -68,10 +68,10 @@ public class ProductManager {
         
         int validStock;
         while (true) {            
-            String rawValidStock = UtilityHelper.getUserInput("Enter stock", "int", false);
+            String rawValidStock = Utility.getUserInput("Enter stock", "int", false);
 
             switch (rawValidStock) {
-                case UtilityHelper.BACK_CONSTANT -> {
+                case Utility.BACK_CONSTANT -> {
                     return;
                 }
 
@@ -89,29 +89,29 @@ public class ProductManager {
         }
 
         String validDescription;
-        validDescription = UtilityHelper.getUserInput("Enter description", "string", false);
-        if (validDescription.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+        validDescription = Utility.getUserInput("Enter description", "string", false);
+        if (validDescription.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
             return;
         }
 
         switch (category.toLowerCase()) {
             case "keyboard" -> {
                 boolean validWireless;
-                String rawValidWireless = UtilityHelper.getUserInput("Is the keyboard wireless?", "boolean", false);
-                if (rawValidWireless.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidWireless = Utility.getUserInput("Is the keyboard wireless?", "boolean", false);
+                if (rawValidWireless.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
                 validWireless = Boolean.parseBoolean(rawValidWireless);
 
                 String validKeyType;
-                validKeyType = UtilityHelper.getUserInput("Enter key type", "string", false);
-                if (validKeyType.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                validKeyType = Utility.getUserInput("Enter key type", "string", false);
+                if (validKeyType.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
 
                 boolean validRgb;
-                String rawValidRgb = UtilityHelper.getUserInput("Does the keyboard has RGB?", "boolean", false);
-                if (rawValidRgb.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidRgb = Utility.getUserInput("Does the keyboard has RGB?", "boolean", false);
+                if (rawValidRgb.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
                 validRgb = Boolean.parseBoolean(rawValidRgb);
@@ -121,24 +121,24 @@ public class ProductManager {
             
             case "mouse" -> {
                 boolean validWireless;
-                String rawValidWireless = UtilityHelper.getUserInput("Is the mouse wireless?", "boolean", false);
-                if (rawValidWireless.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidWireless = Utility.getUserInput("Is the mouse wireless?", "boolean", false);
+                if (rawValidWireless.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
                 validWireless = Boolean.parseBoolean(rawValidWireless);
 
                 String validSensorType;
-                validSensorType = UtilityHelper.getUserInput("Enter sensor type", "string", false);
-                if (validSensorType.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                validSensorType = Utility.getUserInput("Enter sensor type", "string", false);
+                if (validSensorType.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
                 
                 int validDpi;
                 while (true) {            
-                    String rawValidDpi = UtilityHelper.getUserInput("Enter DPI", "int", false);
+                    String rawValidDpi = Utility.getUserInput("Enter DPI", "int", false);
 
                     switch (rawValidDpi) {
-                        case UtilityHelper.BACK_CONSTANT -> {
+                        case Utility.BACK_CONSTANT -> {
                             return;
                         }
 
@@ -160,17 +160,17 @@ public class ProductManager {
             
             case "laptop" -> {
                 String validProcessor;
-                validProcessor = UtilityHelper.getUserInput("Enter processor", "string", false);
-                if (validProcessor.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                validProcessor = Utility.getUserInput("Enter processor", "string", false);
+                if (validProcessor.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
                 
                 int validMemory;
                 while (true) {            
-                    String rawValidMemory = UtilityHelper.getUserInput("Enter memory (GB)", "int", false);
+                    String rawValidMemory = Utility.getUserInput("Enter memory (GB)", "int", false);
 
                     switch (rawValidMemory) {
-                        case UtilityHelper.BACK_CONSTANT -> {
+                        case Utility.BACK_CONSTANT -> {
                             return;
                         }
 
@@ -189,10 +189,10 @@ public class ProductManager {
                 
                 int validStorage;
                 while (true) {            
-                    String rawValidStorage = UtilityHelper.getUserInput("Enter storage (GB)", "int", false);
+                    String rawValidStorage = Utility.getUserInput("Enter storage (GB)", "int", false);
 
                     switch (rawValidStorage) {
-                        case UtilityHelper.BACK_CONSTANT -> {
+                        case Utility.BACK_CONSTANT -> {
                             return;
                         }
 
@@ -214,22 +214,22 @@ public class ProductManager {
 
             case "headphone" -> {
                 boolean validWireless;
-                String rawValidWireless = UtilityHelper.getUserInput("Is the headphone wireless?", "boolean", false);
-                if (rawValidWireless.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidWireless = Utility.getUserInput("Is the headphone wireless?", "boolean", false);
+                if (rawValidWireless.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
                 validWireless = Boolean.parseBoolean(rawValidWireless);
                 
                 boolean validNoiseCancellation;
-                String rawValidNoiseCancellation = UtilityHelper.getUserInput("Does the headphone has noise cancellation?", "boolean", false);
-                if (rawValidNoiseCancellation.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidNoiseCancellation = Utility.getUserInput("Does the headphone has noise cancellation?", "boolean", false);
+                if (rawValidNoiseCancellation.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
                 validNoiseCancellation = Boolean.parseBoolean(rawValidNoiseCancellation);
                 
                 boolean validMicrophone;
-                String rawValidMicrophone = UtilityHelper.getUserInput("Does the headphone has microphone?", "boolean", false);
-                if (rawValidMicrophone.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidMicrophone = Utility.getUserInput("Does the headphone has microphone?", "boolean", false);
+                if (rawValidMicrophone.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
                 validMicrophone = Boolean.parseBoolean(rawValidMicrophone);
@@ -239,18 +239,18 @@ public class ProductManager {
             
             case "printer" -> {
                 boolean validWireless;
-                String rawValidWireless = UtilityHelper.getUserInput("Is the printer wireless?", "boolean", false);
-                if (rawValidWireless.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidWireless = Utility.getUserInput("Is the printer wireless?", "boolean", false);
+                if (rawValidWireless.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
                 validWireless = Boolean.parseBoolean(rawValidWireless);
 
                 double validPrintSpeed;
                 while (true) {            
-                    String rawValidPrintSpeed = UtilityHelper.getUserInput("Enter print speed (PPM)", "double", false);
+                    String rawValidPrintSpeed = Utility.getUserInput("Enter print speed (PPM)", "double", false);
 
                     switch (rawValidPrintSpeed) {
-                        case UtilityHelper.BACK_CONSTANT -> {
+                        case Utility.BACK_CONSTANT -> {
                             return;
                         }
 
@@ -268,8 +268,8 @@ public class ProductManager {
                 }
                 
                 String validInkType;
-                validInkType = UtilityHelper.getUserInput("Enter ink type", "string", false);
-                if (validInkType.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                validInkType = Utility.getUserInput("Enter ink type", "string", false);
+                if (validInkType.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
                 
@@ -283,27 +283,27 @@ public class ProductManager {
     public static void createProduct(Product product) {
         LocalData.getCurrentProductsAvailable().add(product);
         
-        ProductDatabaseManager.appendProductCsv(product);
+        ProductDatabaseFunctions.appendProductCsv(product);
         
-        UtilityHelper.displayReturnMessage("Product created");
+        Utility.displayReturnMessage("Product created");
     }
         
     public static void deleteProduct(Product product) {
         LocalData.getCurrentProductsAvailable().remove(product);
         LocalData.getPreviousList().remove(product);
         
-        ProductDatabaseManager.deleteProductCsv(product);
+        ProductDatabaseFunctions.deleteProductCsv(product);
         
-        UtilityHelper.displayReturnMessage("Product deleted");
+        Utility.displayReturnMessage("Product deleted");
     }
     
     public static void updateStockUI(Product product) {
         int validStock;
         while (true) {            
-            String rawValidStock = UtilityHelper.getUserInput("Enter stock, negative number to reduce stock, positive number to add stock", "int", false);
+            String rawValidStock = Utility.getUserInput("Enter stock, negative number to reduce stock, positive number to add stock", "int", false);
 
             switch (rawValidStock) {
-                case UtilityHelper.BACK_CONSTANT -> {
+                case Utility.BACK_CONSTANT -> {
                     return;
                 }
 
@@ -330,29 +330,29 @@ public class ProductManager {
     
     public static void updateStock(Product product, int amount) {
         if ((product.getStock() + amount) < 0) {
-            UtilityHelper.displayReturnMessage("Stock cannot be negative");
+            Utility.displayReturnMessage("Stock cannot be negative");
         }
                 
         product.setStock(product.getStock() + amount);
     }
     
     public static void updateStockToCsv(Product product) {
-        ProductDatabaseManager.updateProductCsv(product, product);
+        ProductDatabaseFunctions.updateProductCsv(product, product);
         
         if (LocalData.getCurrentUser().isAdmin()) {
-            UtilityHelper.displayReturnMessage("Stock updated");
+            Utility.displayReturnMessage("Stock updated");
         }
     }
     
     public static void updateProductUI(Product originalProduct) {
         String validNewName;
         while (true) {            
-            validNewName = UtilityHelper.getUserInput("Enter new product name", "string", true);
-            if (validNewName.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+            validNewName = Utility.getUserInput("Enter new product name", "string", true);
+            if (validNewName.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                 return;
             }
             
-            if (validNewName.equalsIgnoreCase(UtilityHelper.BLANK_CONSTANT)) {
+            if (validNewName.equalsIgnoreCase(Utility.BLANK_CONSTANT)) {
                 validNewName = originalProduct.getName();
                 break;
             }
@@ -383,14 +383,14 @@ public class ProductManager {
         
         double validNewPrice;
         while (true) {            
-            String rawValidNewPrice = UtilityHelper.getUserInput("Enter new price", "double", true);
+            String rawValidNewPrice = Utility.getUserInput("Enter new price", "double", true);
 
             switch (rawValidNewPrice) {
-                case UtilityHelper.BACK_CONSTANT -> {
+                case Utility.BACK_CONSTANT -> {
                     return;
                 }
                 
-                case UtilityHelper.BLANK_CONSTANT -> {
+                case Utility.BLANK_CONSTANT -> {
                     validNewPrice = originalProduct.getPrice();
                 }
 
@@ -409,14 +409,14 @@ public class ProductManager {
         
         int validNewStock;
         while (true) {            
-            String rawValidNewStock = UtilityHelper.getUserInput("Enter new stock", "int", true);
+            String rawValidNewStock = Utility.getUserInput("Enter new stock", "int", true);
 
             switch (rawValidNewStock) {
-                case UtilityHelper.BACK_CONSTANT -> {
+                case Utility.BACK_CONSTANT -> {
                     return;
                 }
                 
-                case UtilityHelper.BLANK_CONSTANT -> {
+                case Utility.BLANK_CONSTANT -> {
                     validNewStock = originalProduct.getStock();
                 }
 
@@ -434,11 +434,11 @@ public class ProductManager {
         }
 
         String validNewDescription;
-        validNewDescription = UtilityHelper.getUserInput("Enter new description", "string", true);
-        if (validNewDescription.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+        validNewDescription = Utility.getUserInput("Enter new description", "string", true);
+        if (validNewDescription.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
             return;
         }
-        if (validNewDescription.equalsIgnoreCase(UtilityHelper.BLANK_CONSTANT)) {
+        if (validNewDescription.equalsIgnoreCase(Utility.BLANK_CONSTANT)) {
             validNewDescription = originalProduct.getDescription();
         }
         
@@ -450,16 +450,16 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Original product is not a Keyboard instance");
+                    Utility.displayReturnMessage("Original product is not a Keyboard instance");
                     return;
                 }
 
                 boolean validNewWireless;
-                String rawValidNewWireless = UtilityHelper.getUserInput("Is the keyboard wireless?", "boolean", true);
-                if (rawValidNewWireless.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidNewWireless = Utility.getUserInput("Is the keyboard wireless?", "boolean", true);
+                if (rawValidNewWireless.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
-                if (rawValidNewWireless.equalsIgnoreCase(UtilityHelper.BLANK_CONSTANT)) {
+                if (rawValidNewWireless.equalsIgnoreCase(Utility.BLANK_CONSTANT)) {
                     validNewWireless = originalKeyboard.isWireless();
                 }
                 else {
@@ -467,20 +467,20 @@ public class ProductManager {
                 }
                 
                 String validNewKeyType;
-                validNewKeyType = UtilityHelper.getUserInput("Enter new key type", "string", true);
-                if (validNewKeyType.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                validNewKeyType = Utility.getUserInput("Enter new key type", "string", true);
+                if (validNewKeyType.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
-                if (validNewKeyType.equalsIgnoreCase(UtilityHelper.BLANK_CONSTANT)) {
+                if (validNewKeyType.equalsIgnoreCase(Utility.BLANK_CONSTANT)) {
                     validNewKeyType = originalKeyboard.getKeyType();
                 }
                 
                 boolean validNewRgb;
-                String rawValidNewRgb = UtilityHelper.getUserInput("Does the keyboard has RGB?", "boolean", true);
-                if (rawValidNewRgb.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidNewRgb = Utility.getUserInput("Does the keyboard has RGB?", "boolean", true);
+                if (rawValidNewRgb.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
-                if (rawValidNewRgb.equalsIgnoreCase(UtilityHelper.BLANK_CONSTANT)) {
+                if (rawValidNewRgb.equalsIgnoreCase(Utility.BLANK_CONSTANT)) {
                     validNewRgb = originalKeyboard.isRgb();
                 }
                 else {
@@ -497,16 +497,16 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Original product is not a Mouse instance");
+                    Utility.displayReturnMessage("Original product is not a Mouse instance");
                     return;
                 }
                 
                 boolean validNewWireless;
-                String rawValidNewWireless = UtilityHelper.getUserInput("Is the mouse wireless?", "boolean", true);
-                if (rawValidNewWireless.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidNewWireless = Utility.getUserInput("Is the mouse wireless?", "boolean", true);
+                if (rawValidNewWireless.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
-                if (rawValidNewWireless.equalsIgnoreCase(UtilityHelper.BLANK_CONSTANT)) {
+                if (rawValidNewWireless.equalsIgnoreCase(Utility.BLANK_CONSTANT)) {
                     validNewWireless = originalMouse.isWireless();
                 }
                 else {
@@ -514,24 +514,24 @@ public class ProductManager {
                 }
 
                 String validNewSensorType;
-                validNewSensorType = UtilityHelper.getUserInput("Enter new sensor type", "string", true);
-                if (validNewSensorType.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                validNewSensorType = Utility.getUserInput("Enter new sensor type", "string", true);
+                if (validNewSensorType.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
-                if (validNewSensorType.equalsIgnoreCase(UtilityHelper.BLANK_CONSTANT)) {
+                if (validNewSensorType.equalsIgnoreCase(Utility.BLANK_CONSTANT)) {
                     validNewSensorType = originalMouse.getSensorType();
                 }
                                 
                 int validNewDpi;
                 while (true) {            
-                    String rawValidNewDpi = UtilityHelper.getUserInput("Enter new DPI", "int", true);
+                    String rawValidNewDpi = Utility.getUserInput("Enter new DPI", "int", true);
 
                     switch (rawValidNewDpi) {
-                        case UtilityHelper.BACK_CONSTANT -> {
+                        case Utility.BACK_CONSTANT -> {
                             return;
                         }
 
-                        case UtilityHelper.BLANK_CONSTANT -> {
+                        case Utility.BLANK_CONSTANT -> {
                             validNewDpi = originalMouse.getDpi();
                         }
 
@@ -558,29 +558,29 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Original product is not a Laptop instance");
+                    Utility.displayReturnMessage("Original product is not a Laptop instance");
                     return;
                 }
 
                 String validNewProcessor;
-                validNewProcessor = UtilityHelper.getUserInput("Enter new processor", "string", true);
-                if (validNewProcessor.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                validNewProcessor = Utility.getUserInput("Enter new processor", "string", true);
+                if (validNewProcessor.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
-                if (validNewProcessor.equalsIgnoreCase(UtilityHelper.BLANK_CONSTANT)) {
+                if (validNewProcessor.equalsIgnoreCase(Utility.BLANK_CONSTANT)) {
                     validNewProcessor = originalLaptop.getProcessor();
                 }
 
                 int validNewMemory;
                 while (true) {            
-                    String rawValidNewMemory = UtilityHelper.getUserInput("Enter new memory (GB)", "int", true);
+                    String rawValidNewMemory = Utility.getUserInput("Enter new memory (GB)", "int", true);
 
                     switch (rawValidNewMemory) {
-                        case UtilityHelper.BACK_CONSTANT -> {
+                        case Utility.BACK_CONSTANT -> {
                             return;
                         }
 
-                        case UtilityHelper.BLANK_CONSTANT -> {
+                        case Utility.BLANK_CONSTANT -> {
                             validNewMemory = originalLaptop.getMemory();
                         }
 
@@ -599,14 +599,14 @@ public class ProductManager {
                 
                 int validNewStorage;
                 while (true) {            
-                    String rawValidNewStorage = UtilityHelper.getUserInput("Enter new storage (GB)", "int", true);
+                    String rawValidNewStorage = Utility.getUserInput("Enter new storage (GB)", "int", true);
 
                     switch (rawValidNewStorage) {
-                        case UtilityHelper.BACK_CONSTANT -> {
+                        case Utility.BACK_CONSTANT -> {
                             return;
                         }
 
-                        case UtilityHelper.BLANK_CONSTANT -> {
+                        case Utility.BLANK_CONSTANT -> {
                             validNewStorage = originalLaptop.getStorage();
                         }
 
@@ -633,16 +633,16 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Original product is not a Headphone instance");
+                    Utility.displayReturnMessage("Original product is not a Headphone instance");
                     return;
                 }
                 
                 boolean validNewWireless;
-                String rawValidNewWireless = UtilityHelper.getUserInput("Is the headphone wireless?", "boolean", true);
-                if (rawValidNewWireless.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidNewWireless = Utility.getUserInput("Is the headphone wireless?", "boolean", true);
+                if (rawValidNewWireless.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
-                if (rawValidNewWireless.equalsIgnoreCase(UtilityHelper.BLANK_CONSTANT)) {
+                if (rawValidNewWireless.equalsIgnoreCase(Utility.BLANK_CONSTANT)) {
                     validNewWireless = originalHeadphone.isWireless();
                 }
                 else {
@@ -650,11 +650,11 @@ public class ProductManager {
                 }
                 
                 boolean validNewNoiseCancellation;
-                String rawValidNewNoiseCancellation = UtilityHelper.getUserInput("Does the headphone has noise cancellation?", "boolean", true);
-                if (rawValidNewNoiseCancellation.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidNewNoiseCancellation = Utility.getUserInput("Does the headphone has noise cancellation?", "boolean", true);
+                if (rawValidNewNoiseCancellation.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
-                if (rawValidNewNoiseCancellation.equalsIgnoreCase(UtilityHelper.BLANK_CONSTANT)) {
+                if (rawValidNewNoiseCancellation.equalsIgnoreCase(Utility.BLANK_CONSTANT)) {
                     validNewNoiseCancellation = originalHeadphone.isNoiseCancellation();
                 }
                 else {
@@ -662,11 +662,11 @@ public class ProductManager {
                 }
                 
                 boolean validNewMicrophone;
-                String rawValidNewMicrophone = UtilityHelper.getUserInput("Does the headphone has microphone?", "boolean", true);
-                if (rawValidNewMicrophone.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidNewMicrophone = Utility.getUserInput("Does the headphone has microphone?", "boolean", true);
+                if (rawValidNewMicrophone.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
-                if (rawValidNewMicrophone.equalsIgnoreCase(UtilityHelper.BLANK_CONSTANT)) {
+                if (rawValidNewMicrophone.equalsIgnoreCase(Utility.BLANK_CONSTANT)) {
                     validNewMicrophone = originalHeadphone.isMicrophone();
                 }
                 else {
@@ -683,16 +683,16 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Original product is not a Printer instance");
+                    Utility.displayReturnMessage("Original product is not a Printer instance");
                     return;
                 }
                 
                 boolean validNewWireless;
-                String rawValidNewWireless = UtilityHelper.getUserInput("Is the printer wireless?", "boolean", true);
-                if (rawValidNewWireless.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                String rawValidNewWireless = Utility.getUserInput("Is the printer wireless?", "boolean", true);
+                if (rawValidNewWireless.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
-                if (rawValidNewWireless.equalsIgnoreCase(UtilityHelper.BLANK_CONSTANT)) {
+                if (rawValidNewWireless.equalsIgnoreCase(Utility.BLANK_CONSTANT)) {
                     validNewWireless = originalPrinter.isWireless();
                 }
                 else {
@@ -701,14 +701,14 @@ public class ProductManager {
 
                 double validNewPrintSpeed;
                 while (true) {            
-                    String rawValidNewPrintSpeed = UtilityHelper.getUserInput("Enter new print speed (PPM)", "double", true);
+                    String rawValidNewPrintSpeed = Utility.getUserInput("Enter new print speed (PPM)", "double", true);
 
                     switch (rawValidNewPrintSpeed) {
-                        case UtilityHelper.BACK_CONSTANT -> {
+                        case Utility.BACK_CONSTANT -> {
                             return;
                         }
 
-                        case UtilityHelper.BLANK_CONSTANT -> {
+                        case Utility.BLANK_CONSTANT -> {
                             validNewPrintSpeed = originalPrinter.getPrintSpeed();
                         }
 
@@ -726,11 +726,11 @@ public class ProductManager {
                 }
 
                 String validNewInkType;
-                validNewInkType = UtilityHelper.getUserInput("Enter new ink type", "string", true);
-                if (validNewInkType.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+                validNewInkType = Utility.getUserInput("Enter new ink type", "string", true);
+                if (validNewInkType.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
                     return;
                 }
-                if (validNewInkType.equalsIgnoreCase(UtilityHelper.BLANK_CONSTANT)) {
+                if (validNewInkType.equalsIgnoreCase(Utility.BLANK_CONSTANT)) {
                     validNewInkType = originalPrinter.getInkType();
                 }
                 
@@ -757,7 +757,7 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Original product is not a Keyboard instance");
+                    Utility.displayReturnMessage("Original product is not a Keyboard instance");
                     return;
                 }
                 
@@ -766,7 +766,7 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Updated product is not a Keyboard instance");
+                    Utility.displayReturnMessage("Updated product is not a Keyboard instance");
                     return;
                 }
                 
@@ -784,7 +784,7 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Original product is not a Mouse instance");
+                    Utility.displayReturnMessage("Original product is not a Mouse instance");
                     return;
                 }
                 
@@ -793,7 +793,7 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Updated product is not a Mouse instance");
+                    Utility.displayReturnMessage("Updated product is not a Mouse instance");
                     return;
                 }
                 
@@ -811,7 +811,7 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Original product is not a Laptop instance");
+                    Utility.displayReturnMessage("Original product is not a Laptop instance");
                     return;
                 }
                 
@@ -820,7 +820,7 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Updated product is not a Laptop instance");
+                    Utility.displayReturnMessage("Updated product is not a Laptop instance");
                     return;
                 }
                 
@@ -838,7 +838,7 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Original product is not a Headphone instance");
+                    Utility.displayReturnMessage("Original product is not a Headphone instance");
                     return;
                 }
                 
@@ -847,7 +847,7 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Updated product is not a Headphone instance");
+                    Utility.displayReturnMessage("Updated product is not a Headphone instance");
                     return;
                 }
                 
@@ -865,7 +865,7 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Original product is not a Printer instance");
+                    Utility.displayReturnMessage("Original product is not a Printer instance");
                     return;
                 }
                 
@@ -874,7 +874,7 @@ public class ProductManager {
                 }
                 
                 else {
-                    UtilityHelper.displayReturnMessage("Updated product is not a Printer instance");
+                    Utility.displayReturnMessage("Updated product is not a Printer instance");
                     return;
                 }
                 
@@ -889,8 +889,8 @@ public class ProductManager {
             }
         }
         
-        ProductDatabaseManager.updateProductCsv(originalProduct, updatedProduct);
+        ProductDatabaseFunctions.updateProductCsv(originalProduct, updatedProduct);
         
-        UtilityHelper.displayReturnMessage("Product updated");
+        Utility.displayReturnMessage("Product updated");
     }
 }

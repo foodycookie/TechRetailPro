@@ -1,6 +1,6 @@
 package techretailpro.objects;
 
-import techretailpro.functions.UtilityHelper;
+import techretailpro.functions.Utility;
 
 public class Keyboard extends Product {
     private boolean wireless;
@@ -76,11 +76,11 @@ public class Keyboard extends Product {
     
     @Override
     public String getCsvFilePath() {
-        return UtilityHelper.KEYBOARDS_DATABASE;
+        return Utility.KEYBOARDS_DATABASE;
     }
     
     @Override
     public String getCsvTempFilePath() {
-        return UtilityHelper.TEMP_KEYBOARDS_DATABASE;
+        return Utility.TEMP_KEYBOARDS_DATABASE;
     }
 }

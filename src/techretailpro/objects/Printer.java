@@ -1,6 +1,6 @@
 package techretailpro.objects;
 
-import techretailpro.functions.UtilityHelper;
+import techretailpro.functions.Utility;
 
 public class Printer extends Product {
     private boolean wireless;
@@ -76,11 +76,11 @@ public class Printer extends Product {
     
     @Override
     public String getCsvFilePath() {
-        return UtilityHelper.PRINTERS_DATABASE;
+        return Utility.PRINTERS_DATABASE;
     }
     
     @Override
     public String getCsvTempFilePath() {
-        return UtilityHelper.TEMP_PRINTERS_DATABASE;
+        return Utility.TEMP_PRINTERS_DATABASE;
     }
 }

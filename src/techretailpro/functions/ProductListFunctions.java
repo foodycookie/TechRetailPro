@@ -6,7 +6,7 @@ import java.util.List;
 import techretailpro.objects.LocalData;
 import techretailpro.objects.Product;
 
-public class ProductListHelper {    
+public class ProductListFunctions {    
     public static List<Product> getLowStockList() {
         List<Product> lowStockList = new ArrayList<>();
 
@@ -21,8 +21,8 @@ public class ProductListHelper {
     
     public static List<Product> searchProductUI(List<Product> list) {
         String validQuery;
-        validQuery = UtilityHelper.getUserInput("Enter a search query", "string", false);
-        if (validQuery.equalsIgnoreCase(UtilityHelper.BACK_CONSTANT)) {
+        validQuery = Utility.getUserInput("Enter a search query", "string", false);
+        if (validQuery.equalsIgnoreCase(Utility.BACK_CONSTANT)) {
             return list;
         }
 
@@ -58,7 +58,7 @@ public class ProductListHelper {
         System.out.println("5. Price, ascending order");
         System.out.println("6. Price, descending order");
         
-        Integer input = UtilityHelper.numberOptionChooser("Option", 1, 6);
+        Integer input = Utility.numberOptionChooser("Option", 1, 6);
         if (input == null) {
             return list;
         }
@@ -96,7 +96,7 @@ public class ProductListHelper {
         boolean chooseMoreCategory = true;
         
         while (chooseMoreCategory) {
-            String selectedCategory = ProductCategoryHelper.chooseCategoryForFilterList(categoriesToRemove);
+            String selectedCategory = ProductCategoryFunctions.chooseCategoryForFilterList(categoriesToRemove);
             if (selectedCategory == null && selectedCategories.isEmpty()) {
                 return list;
             }
@@ -112,7 +112,7 @@ public class ProductListHelper {
             System.out.println("1. Yes");
             System.out.println("2. No");
             
-            Integer input = UtilityHelper.numberOptionChooser("Option", 1, 2);
+            Integer input = Utility.numberOptionChooser("Option", 1, 2);
             if (input == null) {
                 return filterProductByCategory(list, selectedCategories);
             }
@@ -135,18 +135,8 @@ public class ProductListHelper {
         List<Product> newList = new ArrayList<>();
         
         for (String category : categories) {
-            newList.addAll(ProductCategoryHelper.getListByCategory(category));
+            newList.addAll(ProductCategoryFunctions.getListByCategory(category));
         }
-        
-//        for (Product product : list) {
-//            for (String category : categories) {
-//                if (product.getCategory().equalsIgnoreCase(category) && !newList.contains(product)) {
-//                    newList.add(product);
-//                    break;
-//                }
-//            }
-//            
-//        }
         
         return newList;
     }
@@ -154,10 +144,10 @@ public class ProductListHelper {
     public static List<Product> filterProductByPriceUI(List<Product> list) {
         double validMinPrice;
         while (true) {            
-            String rawValidMinPrice = UtilityHelper.getUserInput("Enter minimum price", "double", false);
+            String rawValidMinPrice = Utility.getUserInput("Enter minimum price", "double", false);
 
             switch (rawValidMinPrice) {
-                case UtilityHelper.BACK_CONSTANT -> {
+                case Utility.BACK_CONSTANT -> {
                     return list;
                 }
 
@@ -176,10 +166,10 @@ public class ProductListHelper {
 
         double validMaxPrice;
         while (true) {            
-            String rawValidMaxPrice = UtilityHelper.getUserInput("Enter maximum price", "double", false);
+            String rawValidMaxPrice = Utility.getUserInput("Enter maximum price", "double", false);
 
             switch (rawValidMaxPrice) {
-                case UtilityHelper.BACK_CONSTANT -> {
+                case Utility.BACK_CONSTANT -> {
                     return list;
                 }
 
@@ -220,7 +210,7 @@ public class ProductListHelper {
         System.out.println("\nFilter by?");
         System.out.println("1. Category");
         System.out.println("2. Price");
-        Integer input = UtilityHelper.numberOptionChooser("Option", 1, 2);
+        Integer input = Utility.numberOptionChooser("Option", 1, 2);
         
         if (input == null) {
             return list;
