@@ -71,7 +71,7 @@ public class Printer extends Product {
     
     @Override
     public String getCsvHeader() {
-        return "Category,Name,Price,Stock,Description,Wireless,PrintSpeed,InkType\n";
+        return "Category,Name,Price,Stock,Description,Wireless,PrintSpeed,InkType";
     }
     
     @Override

@@ -300,7 +300,7 @@ public class ProductManager {
     public static void updateStockUI(Product product) {
         int validStock;
         while (true) {            
-            String rawValidStock = UtilityHelper.getUserInput("Enter stock, negative number for stock out, positive number for stock in", "int", false);
+            String rawValidStock = UtilityHelper.getUserInput("Enter stock, negative number to reduce stock, positive number to add stock", "int", false);
 
             switch (rawValidStock) {
                 case UtilityHelper.BACK_CONSTANT -> {
@@ -316,7 +316,7 @@ public class ProductManager {
                     }
                     
                     if ((product.getStock() + validStock) < 0) {
-                        System.err.println("\nInvalid input. Stock cannot be negative");
+                        System.err.println("Invalid input. Total stock cannot be negative");
                         continue;
                     }
                 }
@@ -339,7 +339,9 @@ public class ProductManager {
     public static void updateStockToCsv(Product product) {
         ProductDatabaseManager.updateProductCsv(product, product);
         
-        UtilityHelper.displayReturnMessage("Stock updated");
+        if (LocalData.getCurrentUser().isAdmin()) {
+            UtilityHelper.displayReturnMessage("Stock updated");
+        }
     }
     
     public static void updateProductUI(Product originalProduct) {
@@ -365,7 +367,7 @@ public class ProductManager {
             if (list != null && !list.isEmpty()) {
                 for (Product product : list) {
                     if (validNewName.equalsIgnoreCase(product.getName())) {
-                        System.err.println("\nInvalid product name. Product name already exists");
+                        System.err.println("Invalid product name. Product name already exists");
                         nameExists = true;
                         break;
                     }
@@ -735,7 +737,7 @@ public class ProductManager {
                 updateProduct(originalProduct, new Printer(validNewName, validNewPrice, validNewStock, validNewDescription, validNewWireless, validNewPrintSpeed, validNewInkType));
             }
                     
-            default -> System.err.println("\nInvalid category");
+            default -> System.err.println("Invalid category");
         }
     }
     

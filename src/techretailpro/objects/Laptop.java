@@ -71,7 +71,7 @@ public class Laptop extends Product {
     
     @Override
     public String getCsvHeader() {
-        return "Category,Name,Price,Stock,Description,Processor,Memory,Storage\n";
+        return "Category,Name,Price,Stock,Description,Processor,Memory,Storage";
     }
     
     @Override

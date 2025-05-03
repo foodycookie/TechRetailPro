@@ -71,7 +71,7 @@ public class Headphone extends Product {
     
     @Override
     public String getCsvHeader() {
-        return "Category,Name,Price,Stock,Description,Wireless,NoiseCancellation,Microphone\n";
+        return "Category,Name,Price,Stock,Description,Wireless,NoiseCancellation,Microphone";
     }
     
     @Override

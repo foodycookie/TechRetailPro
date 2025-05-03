@@ -231,7 +231,7 @@ public class UtilityHelper {
     
     public static void displayReturnMessage(String message) {
         if (message == null || message.isBlank()) {
-            System.out.print("Type enter to exit");
+            System.out.print("\nType enter to exit");
         }
         
         else {
@@ -241,7 +241,6 @@ public class UtilityHelper {
         UtilityHelper.SCANNER.nextLine();
     }
     
-    //WILL OVERRIDE PRODUCT DB FILE, USE WITH CAUTION
     public static void productGenerator() {
         List<Product> list = new ArrayList<>();
         Keyboard keyboard;

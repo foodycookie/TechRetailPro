@@ -71,7 +71,7 @@ public class Keyboard extends Product {
     
     @Override
     public String getCsvHeader() {
-        return "Category,Name,Price,Stock,Description,Wireless,KeyType,RGB\n";
+        return "Category,Name,Price,Stock,Description,Wireless,KeyType,RGB";
     }
     
     @Override

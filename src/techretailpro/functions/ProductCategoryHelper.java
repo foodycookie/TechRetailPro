@@ -31,6 +31,7 @@ public class ProductCategoryHelper {
         
         int i = 1;
         
+        System.out.println();
         for (String category : categories) {
             System.out.println(i + ". " + category);
             i++;

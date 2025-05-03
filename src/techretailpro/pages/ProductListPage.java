@@ -6,22 +6,11 @@ import techretailpro.functions.CartManager;
 import techretailpro.functions.OrderManager;
 import techretailpro.functions.ProductListHelper;
 import techretailpro.functions.ProductManager;
-import techretailpro.objects.CartOrder;
 import techretailpro.objects.LocalData;
-import techretailpro.objects.Payment;
 import techretailpro.objects.Product;
-import techretailpro.objects.Transaction;
 import techretailpro.functions.UtilityHelper;
 
 public class ProductListPage {
-    static List<CartOrder> orderHistory = new ArrayList<>();
-    static Transaction trans = new Transaction();
-    static Payment[] payments = {
-        new Payment("Touch N Go"),
-        new Payment("Credit / Debit"),
-        new Payment("Online Banking")
-    };
-    
     public static void display(List<Product> list, int currentPage) {
         if (list == null) {
             display(LocalData.getPreviousList(), 1);
@@ -200,7 +189,7 @@ public class ProductListPage {
                             }
 
                             case "Checkout" -> {
-                                OrderManager.checkoutAndPay(orderHistory, payments, trans);
+                                OrderManager.checkoutAndPay();
                                 display(LocalData.getPreviousList(), 1);
                             }
 

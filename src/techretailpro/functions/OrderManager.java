@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import techretailpro.objects.CartItem;
@@ -47,7 +48,7 @@ public class OrderManager {
                 System.err.println("Could not initialize order history file: " + e.getMessage());
             }
         } else {
-            System.out.println("Order history file found.");
+//            System.out.println("Order history file found.");
         }
     }
 
@@ -62,7 +63,7 @@ public class OrderManager {
                         item.getSubtotal(),
                         LocalDateTime.now().format(formatter));
             }
-            pw.printf("TOTAL RM%.2f%n%n", order.getTotalAmount());
+            pw.printf("TOTAL RM%.2f%n", order.getTotalAmount());
         } catch (IOException e) {
             System.err.println("Error writing order history: " + e.getMessage());
         }
@@ -73,7 +74,7 @@ public class OrderManager {
             System.out.println("\n--- Order History ---");
             System.out.printf("%-10s %-20s %-10s %-10s %-20s\n", "Username", "ProductName", "Quantity", "Subtotal","Date/Time");
             br.lines().skip(1).forEach(System.out::println);
-            System.out.println("---------------------\n");
+            System.out.println("---------------------");
         } catch (IOException e) {
             System.err.println("Error reading order history: " + e.getMessage());
         }
@@ -81,17 +82,25 @@ public class OrderManager {
         UtilityHelper.displayReturnMessage("");
     }
 
-    public static void checkoutAndPay(List<CartOrder> orderHistory, Payment[] payments, Transaction trans) {
+    public static void checkoutAndPay() {
         if (LocalData.getCurrentUserCart().isEmpty()) {
-            System.out.println("Cart is empty. Add items first!\n");
+            UtilityHelper.displayReturnMessage("Cart is empty");
             return;
         }
+        
+        List<CartOrder> orderHistory = new ArrayList<>();
+        Transaction trans = new Transaction();
+        Payment[] payments = {
+            new Payment("Touch N Go"),
+            new Payment("Credit / Debit"),
+            new Payment("Online Banking")
+        };
 
         System.out.println("\n=== Checkout ===");
         System.out.println(LocalData.getCurrentUserCart());
 
         // Discount
-        System.out.print("Enter discount code (press Enter to skip, 0 to back)\ninput > ");
+        System.out.print("\nEnter discount code (press Enter to skip, 0 to back)\ninput > ");
         String code = UtilityHelper.SCANNER.nextLine();
         double discountAmount = 0;
         
@@ -251,6 +260,10 @@ public class OrderManager {
             orderHistory.add(newOrder);
             appendOrderToCsv(newOrder);
             
+            for (CartItem item : LocalData.getCurrentUserCart().getItems()) {
+                ProductManager.updateStockToCsv(item.getProduct());
+            }
+            
             System.out.println("\n---------------------------------------------------------");
             System.out.println("TECH RETAIL PRO");
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -263,10 +276,6 @@ public class OrderManager {
             System.out.print("\nPress Enter to Exit");
             UtilityHelper.SCANNER.nextLine();
  
-            for (CartItem item : LocalData.getCurrentUserCart().getItems()) {
-                ProductManager.updateStockToCsv(item.getProduct());
-            }
-
             LocalData.getCurrentUserCart().clear();
         }
     }

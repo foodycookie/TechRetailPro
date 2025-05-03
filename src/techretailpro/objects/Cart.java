@@ -65,7 +65,7 @@ public class Cart {
             sb.append(String.format("%-6d%s\n", i + 1, items.get(i)));
         }
 
-        sb.append(String.format("TOTAL: RM%.2f\n", calculateTotal()));
+        sb.append(String.format("TOTAL: RM%.2f", calculateTotal()));
         return sb.toString();
     }
 }

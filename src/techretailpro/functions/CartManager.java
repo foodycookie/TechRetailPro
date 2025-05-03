@@ -47,13 +47,6 @@ public class CartManager {
         
         ProductManager.updateStock(product, -validQuantity);
 
-//        for (Product p : LocalData.getCurrentProductsAvailable()) {
-//            if (p.getName().equalsIgnoreCase(product.getName())) {
-//                p.setStock(p.getStock() - validQuantity);
-//                break;
-//            }
-//        }
-
         System.out.println("\nItem added");
         
         viewCart();
@@ -103,14 +96,7 @@ public class CartManager {
 
         LocalData.getCurrentUserCart().removeItem(productToRemove.getName(), validQuantity);
         
-        productToRemove.setStock(productToRemove.getStock() + validQuantity);
-        
-//        for (Product p : LocalData.getCurrentProductsAvailable()) {
-//            if (p.getName().equalsIgnoreCase(removedProductName)) {
-//                p.setStock(p.getStock() + validQuantity);
-//                break;
-//            }
-//        }
+        ProductManager.updateStock(productToRemove, validQuantity);
 
         System.out.println("\nItem deleted");
         

@@ -71,7 +71,7 @@ public class Mouse extends Product {
     
     @Override
     public String getCsvHeader() {
-        return "Category,Name,Price,Stock,Description,Wireless,SensorType,DPI\n";
+        return "Category,Name,Price,Stock,Description,Wireless,SensorType,DPI";
     }
     
     @Override

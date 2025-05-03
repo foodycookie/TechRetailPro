@@ -6,11 +6,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import techretailpro.functions.ProductManager;
 import techretailpro.objects.Admin;
 import techretailpro.objects.CartItem;
 import techretailpro.objects.Customer;
@@ -124,11 +126,9 @@ public class LoginPage {
     }
 
     saveUser(user);
-    System.out.println("Registration successful.");
+    UtilityHelper.displayReturnMessage("Registration successful");
 }
 
-
-    
     public static void login(Scanner sc) {
     if (LocalData.getCurrentUser().isAdmin() || LocalData.getCurrentUser().isCustomer()) {
         System.out.println("Already logged in as " + LocalData.getCurrentUser().getUsername());
@@ -170,6 +170,7 @@ public class LoginPage {
 
 //                System.out.println("Login successful. Welcome, " + LocalData.getCurrentUser().getUsername());
 //                MainPage.display(); // Proceed to main page
+                UtilityHelper.displayReturnMessage("Login successful, welcome, " + LocalData.getCurrentUser().getUsername());
                 return;
             }
         }
@@ -177,26 +178,21 @@ public class LoginPage {
         System.err.println("Login failed: " + e.getMessage());
     }
 
-    System.err.println("Invalid username or password.");
+    UtilityHelper.displayReturnMessage("Login failed: Invalid username or password");
 }
     
     public static void logout() {
     if (LocalData.getCurrentUser().isAdmin() || LocalData.getCurrentUser().isCustomer()) {
-        System.out.println("Logged out: " + LocalData.getCurrentUser().getUsername());
+        UtilityHelper.displayReturnMessage("Logged out: " + LocalData.getCurrentUser().getUsername());
         LocalData.setCurrentUser(new User());
         
         for (CartItem item : LocalData.getCurrentUserCart().getItems()) {
-            String removedProductName = item.getProduct().getName();
-            int removedProductQuantity = item.getQuantity();
+            Product productToRemove = item.getProduct();
+            int productQuantityToRemove = item.getQuantity();
             
-            LocalData.getCurrentUserCart().removeItem(removedProductName, removedProductQuantity);
+            LocalData.getCurrentUserCart().removeItem(productToRemove.getName(), productQuantityToRemove);
             
-            for (Product p : LocalData.getCurrentProductsAvailable()) {
-                if (p.getName().equalsIgnoreCase(removedProductName)) {
-                    p.setStock(p.getStock() + removedProductQuantity);
-                    break;
-                }
-            }
+            ProductManager.updateStock(productToRemove, productQuantityToRemove);
         }
 
         LocalData.getCurrentUserCart().clear();
@@ -259,6 +255,16 @@ public class LoginPage {
     
     return false;
 }
+    
+    public static void initCsv() {
+        File file = new File(UtilityHelper.USERS_DATABASE);
+        if (!file.exists()) {
+            try (PrintWriter pw = new PrintWriter(new FileWriter(file))) {
+            } catch (IOException e) {
+                System.err.println("Could not initialize order history file: " + e.getMessage());
+            }
+        }
+    }
         
 
 }
